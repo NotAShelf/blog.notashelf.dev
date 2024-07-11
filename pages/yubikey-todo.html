@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="generator" content="pandoc" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, user-scalable=yes"
+		/>
+		   		<meta name="description" content="NotAShelf's notes on various topics" />
+				<title>yubikey-todo.md</title>
+		<style>
+			code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+/* The extra [class] is a hack that increases specificity enough to
+   override a similar rule in reveal.js */
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  font-size: inherit;
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+		</style>
+				<link rel="stylesheet" href="/home/runner/work/blog.notashelf.dev/blog.notashelf.dev/templates/style.css" />
+				<!-- Begin Lineicons import -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.lineicons.com/4.0/lineicons.css"
+		/>
+		<!-- End Lineicons import-->
+		<link rel="stylesheet" href="/style.css" />
+	</head>
+	<body>
+		<header>
+			<nav class="primary-buttons">
+				<ul>
+					<li><a class="nav-button" href="/">Index</a></li>
+				</ul>
+			</nav>
+			<nav class="secondary-buttons">
+				<ul>
+					<li>
+						<div class="dropdown">
+							<button class="nav-button">Posts</button>
+							<div
+								class="dropdown-content"
+								id="dropdown-content"
+							></div>
+						</div>
+						<a class="nav-button" href="/pages/about.html">
+							About
+						</a>
+						<a class="nav-button" href="/pages/privacy.html">
+							Privacy
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			 <h1 id="todo">TODO</h1>
+<!--- Yubikey gpg setup & disk encryption on Nixos -->
+
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a
+href="https://superuser.com/questions/1628782/gpg-signing-failed-no-pinentry">https://superuser.com/questions/1628782/gpg-signing-failed-no-pinentry</a></li>
+<li><a
+href="https://superuser.com/questions/397149/can-you-gpg-sign-old-commits">https://superuser.com/questions/397149/can-you-gpg-sign-old-commits</a></li>
+</ul> 
+		</main>
+		<footer>
+			<div class="footer-divider"></div>
+			<p>&copy; <span id="copyright"></span> NotAShelf</p>
+			<div class="footer-icons">
+				<a href="https://github.com/notashelf">
+					<i class="lni lni-github-original" title="GitHub"></i>
+				</a>
+			</div>
+		</footer>
+		<script>
+			// Update the copyright text
+			const currentYear = new Date().getFullYear();
+			const copyrightYear =
+				currentYear !== 2024 ? "2024 - " + currentYear : "2024";
+
+			document.getElementById("copyright").textContent = copyrightYear;
+
+			// Dropdown post listing
+			function fetchPosts() {
+				fetch("/posts/posts.json")
+					.then((response) => response.json())
+					.then((data) => {
+						const dropdownContent =
+							document.getElementById("dropdown-content");
+						data.posts.forEach((post) => {
+							const postLink = document.createElement("a");
+							postLink.textContent = post.title;
+							// we could use posts.url here, instead of posts.path
+							// but it messes with local serving, which prefers `/`
+							// to the actual URL, as it would point to the live site
+							// by path
+							postLink.href = post.path;
+							dropdownContent.appendChild(postLink);
+						});
+					})
+					.catch((error) =>
+						console.error("Error fetching posts:", error),
+					);
+			}
+
+			document.addEventListener("DOMContentLoaded", () => {
+				fetchPosts();
+			});
+		</script>
+	</body>
+</html>
