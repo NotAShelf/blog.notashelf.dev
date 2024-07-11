@@ -34,6 +34,17 @@ compile_stylesheet() {
 	sassc --style=compressed "$stylesheetpath"/main.scss "$outpath"/style.css
 }
 
+copy_assets() {
+	echo "Moving assets..."
+	cp -r "$templatedir"/assets "$outdir"
+}
+
+# Things like robots.txt, browserconfig and manifest.json
+copy_site_meta() {
+	echo "Moving site meta..."
+	cp "$templatedir"/meta/* "$outdir"
+}
+
 generate_posts_json() {
 	echo "Generating posts index..."
 	json='{"posts":['
@@ -185,6 +196,9 @@ create_directory "$pages_dir"
 
 # Compile stylesheet
 compile_stylesheet "$templatedir"/scss "$outdir"
+
+copy_assets
+copy_site_meta
 
 # Generate HTML pages from available markdown templates
 generate_index_page "$workingdir" "$outdir"
