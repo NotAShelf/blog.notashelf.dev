@@ -1,138 +1,200 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="generator" content="pandoc" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0, user-scalable=yes"
-		/>
-		   		<meta name="description" content="Notes on Nix, Linux and every other pie I put a finger in" />
-				<title>Posts - Impermanence</title>
-		<style>
-			code{white-space: pre-wrap;}
-span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
-div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-/* The extra [class] is a hack that increases specificity enough to
-   override a similar rule in reveal.js */
-ul.task-list[class]{list-style: none;}
-ul.task-list li input[type="checkbox"] {
-  font-size: inherit;
-  width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
-  vertical-align: middle;
-}
-.display.math{display: block; text-align: center; margin: 0.5rem auto;}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    background-color: #232629;
-    color: #7a7c7d;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
-div.sourceCode
-  { color: #cfcfc2;  }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span { color: #cfcfc2; } /* Normal */
-code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
-code span.an { color: #3f8058; } /* Annotation */
-code span.at { color: #2980b9; } /* Attribute */
-code span.bn { color: #f67400; } /* BaseN */
-code span.bu { color: #7f8c8d; } /* BuiltIn */
-code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #3daee9; } /* Char */
-code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
-code span.co { color: #7a7c7d; } /* Comment */
-code span.cv { color: #7f8c8d; } /* CommentVar */
-code span.do { color: #a43340; } /* Documentation */
-code span.dt { color: #2980b9; } /* DataType */
-code span.dv { color: #f67400; } /* DecVal */
-code span.er { color: #da4453; text-decoration: underline; } /* Error */
-code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
-code span.fl { color: #f67400; } /* Float */
-code span.fu { color: #8e44ad; } /* Function */
-code span.im { color: #27ae60; } /* Import */
-code span.in { color: #c45b00; } /* Information */
-code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
-code span.op { color: #cfcfc2; } /* Operator */
-code span.ot { color: #27ae60; } /* Other */
-code span.pp { color: #27ae60; } /* Preprocessor */
-code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
-code span.sc { color: #3daee9; } /* SpecialChar */
-code span.ss { color: #da4453; } /* SpecialString */
-code span.st { color: #f44f4f; } /* String */
-code span.va { color: #27aeae; } /* Variable */
-code span.vs { color: #da4453; } /* VerbatimString */
-code span.wa { color: #da4453; } /* Warning */
-		</style>
-				<link rel="stylesheet" href="/home/runner/work/blog.notashelf.dev/blog.notashelf.dev/templates/style.css" />
-				<!-- Begin Lineicons import -->
-		<link
-			rel="stylesheet"
-			href="https://cdn.lineicons.com/4.0/lineicons.css"
-		/>
-		<!-- End Lineicons import-->
-		<link rel="stylesheet" href="/style.css" />
-	</head>
-	<body>
-		<header>
-			<nav class="primary-buttons">
-				<ul>
-					<li><a class="nav-button" href="/">Index</a></li>
-				</ul>
-			</nav>
-			<nav class="secondary-buttons">
-				<ul>
-					<li>
-						<div class="dropdown">
-							<button class="nav-button">Posts</button>
-							<div
-								class="dropdown-content"
-								id="dropdown-content"
-							></div>
-						</div>
-						<a class="nav-button" href="/pages/about.html">
-							About
-						</a>
-						<a class="nav-button" href="/pages/privacy.html">
-							Privacy
-						</a>
-					</li>
-				</ul>
-			</nav>
-		</header>
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="/assets/apple-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="/assets/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="/assets/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/assets/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/assets/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/assets/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/assets/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/assets/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/assets/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+           <meta name="description" content="Notes on Nix, Linux and every other pie I put a finger in" />
+        <title>Posts - Impermanence</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      /* The extra [class] is a hack that increases specificity enough to
+         override a similar rule in reveal.js */
+      ul.task-list[class]{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        font-size: inherit;
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1.6em;
+        vertical-align: middle;
+      }
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+          background-color: #232629;
+          color: #7a7c7d;
+        }
+      pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+      div.sourceCode
+        { color: #cfcfc2;  }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span { color: #cfcfc2; } /* Normal */
+      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+      code span.an { color: #3f8058; } /* Annotation */
+      code span.at { color: #2980b9; } /* Attribute */
+      code span.bn { color: #f67400; } /* BaseN */
+      code span.bu { color: #7f8c8d; } /* BuiltIn */
+      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+      code span.ch { color: #3daee9; } /* Char */
+      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+      code span.co { color: #7a7c7d; } /* Comment */
+      code span.cv { color: #7f8c8d; } /* CommentVar */
+      code span.do { color: #a43340; } /* Documentation */
+      code span.dt { color: #2980b9; } /* DataType */
+      code span.dv { color: #f67400; } /* DecVal */
+      code span.er { color: #da4453; text-decoration: underline; } /* Error */
+      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+      code span.fl { color: #f67400; } /* Float */
+      code span.fu { color: #8e44ad; } /* Function */
+      code span.im { color: #27ae60; } /* Import */
+      code span.in { color: #c45b00; } /* Information */
+      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+      code span.op { color: #cfcfc2; } /* Operator */
+      code span.ot { color: #27ae60; } /* Other */
+      code span.pp { color: #27ae60; } /* Preprocessor */
+      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+      code span.sc { color: #3daee9; } /* SpecialChar */
+      code span.ss { color: #da4453; } /* SpecialString */
+      code span.st { color: #f44f4f; } /* String */
+      code span.va { color: #27aeae; } /* Variable */
+      code span.vs { color: #da4453; } /* VerbatimString */
+      code span.wa { color: #da4453; } /* Warning */
+    </style>
+        <link rel="stylesheet" href="/home/runner/work/blog.notashelf.dev/blog.notashelf.dev/templates/style.css" />
+        <!-- Begin Lineicons import -->
+    <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css" />
+    <!-- End Lineicons import-->
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="primary-buttons">
+        <ul>
+          <li><a class="nav-button" href="/">Index</a></li>
+        </ul>
+      </nav>
+      <nav class="secondary-buttons">
+        <ul>
+          <li>
+            <div class="dropdown">
+              <button class="nav-button">Posts</button>
+              <div class="dropdown-content" id="dropdown-content"></div>
+            </div>
+            <a class="nav-button" href="/pages/about.html"> About </a>
+            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-		<main>
-						<nav id="TOC" role="doc-toc">
-				 <ul>
+    <main>
+            <nav id="TOC" role="doc-toc">
+         <ul>
 <li><a href="#impermanence-on-nixos"
 id="toc-impermanence-on-nixos">Impermanence on NixOS</a>
 <ul>
@@ -149,8 +211,8 @@ Notes</a></li>
 <li><a href="#why" id="toc-why">Why?</a></li>
 </ul></li>
 </ul>
-			</nav>
-			 <h1 id="impermanence-on-nixos">Impermanence on NixOS</h1>
+      </nav>
+       <h1 id="impermanence-on-nixos">Impermanence on NixOS</h1>
 <p>Today was the day I finally got to setting up both "erase your
 darlings" and proper disk encryption. This general setup concept
 utilizes NixOS' ability to boot off of a disk that contains only
@@ -485,50 +547,47 @@ href="https://opensource.com/article/20/6/linux-noatime">https://opensource.com/
 href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section> 
-		</main>
-		<footer>
-			<div class="footer-divider"></div>
-			<p>&copy; <span id="copyright"></span> NotAShelf</p>
-			<div class="footer-icons">
-				<a href="https://github.com/notashelf">
-					<i class="lni lni-github-original" title="GitHub"></i>
-				</a>
-			</div>
-		</footer>
-		<script>
-			// Update the copyright text
-			const currentYear = new Date().getFullYear();
-			const copyrightYear =
-				currentYear !== 2024 ? "2024 - " + currentYear : "2024";
+    </main>
+    <footer>
+      <div class="footer-divider"></div>
+      <p>&copy; <span id="copyright"></span> NotAShelf</p>
+      <div class="footer-icons">
+        <a href="https://github.com/notashelf">
+          <i class="lni lni-github-original" title="GitHub"></i>
+        </a>
+      </div>
+    </footer>
+    <script>
+      // Update the copyright text
+      const currentYear = new Date().getFullYear();
+      const copyrightYear =
+        currentYear !== 2024 ? "2024 - " + currentYear : "2024";
 
-			document.getElementById("copyright").textContent = copyrightYear;
+      document.getElementById("copyright").textContent = copyrightYear;
 
-			// Dropdown post listing
-			function fetchPosts() {
-				fetch("/posts/posts.json")
-					.then((response) => response.json())
-					.then((data) => {
-						const dropdownContent =
-							document.getElementById("dropdown-content");
-						data.posts.forEach((post) => {
-							const postLink = document.createElement("a");
-							postLink.textContent = post.title;
-							// we could use posts.url here, instead of posts.path
-							// but it messes with local serving, which prefers `/`
-							// to the actual URL, as it would point to the live site
-							// by path
-							postLink.href = post.path;
-							dropdownContent.appendChild(postLink);
-						});
-					})
-					.catch((error) =>
-						console.error("Error fetching posts:", error),
-					);
-			}
+      // Dropdown post listing
+      function fetchPosts() {
+        fetch("/posts/posts.json")
+          .then((response) => response.json())
+          .then((data) => {
+            const dropdownContent = document.getElementById("dropdown-content");
+            data.posts.forEach((post) => {
+              const postLink = document.createElement("a");
+              postLink.textContent = post.title;
+              // we could use posts.url here, instead of posts.path
+              // but it messes with local serving, which prefers `/`
+              // to the actual URL, as it would point to the live site
+              // by path
+              postLink.href = post.path;
+              dropdownContent.appendChild(postLink);
+            });
+          })
+          .catch((error) => console.error("Error fetching posts:", error));
+      }
 
-			document.addEventListener("DOMContentLoaded", () => {
-				fetchPosts();
-			});
-		</script>
-	</body>
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchPosts();
+      });
+    </script>
+  </body>
 </html>
