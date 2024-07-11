@@ -6,16 +6,16 @@ boot off of a disk that contains only `/nix` and `/boot`, linking appropriate
 devices and blocks during the boot process and deleting all state that programs
 may have left over my system.
 
-The end result, for me, was a fully encrypted that uses btrfs snapshots to
+The end result, for me, was a fully encrypted that uses BTRFS snapshots to
 restore `/` to its original state on each boot.
 
 ## Resources
 
-- [This discourse post](https://discourse.nixos.org/t/impermanence-vs-systemd-initrd-w-tpm-unlocking/25167)
-- [This blog post](https://elis.nu/blog/2020/06/nixos-tmpfs-as-home)
+- [Impermanence repository](https://github.com/nix-community/impermanence)
+- [This discourse post on Impermanence](https://discourse.nixos.org/t/impermanence-vs-systemd-initrd-w-tpm-unlocking/25167)
+- [This blog post on setting up Impermanence](https://elis.nu/blog/2020/06/nixos-tmpfs-as-home)
 - [This other blog post](https://guekka.github.io/nixos-server-1/)
 - [And this post that the previous post is based on](https://mt-caret.github.io/blog/posts/2020-06-29-optin-state.html)
-- [Impermanence](https://github.com/nix-community/impermanence)
 
 ## The actual set-up (and reproduction steps)
 

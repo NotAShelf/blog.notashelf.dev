@@ -12,12 +12,12 @@ a friend's machine to help them set up GPG signing on their system. Today, after
 roughly 6 years of pushing GPG signed commits, I have learned about SSH
 signing[^1], and have decided to share my notes on setting it up.
 
+[Github Documentation]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+
 > A basic prerequisite is that you need your SSH key pair added to the Git
 > service you will be using e.g., Github or Forgejo, so that you are able to
-> push and pull via SSH. The
-> [Github Documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
-> shows you how to set that up, and I imagine other platforms are not that more
-> complicated.
+> push and pull via SSH. [Github Documentation] on SSH keys shows you how to set
+> that up, and I imagine other platforms are not that more complicated.
 
 ### Traditional Distros
 
@@ -67,7 +67,7 @@ First you would like to add `programs.git.signing` to your home.nix as follows:
 # home.nix
 programs.git = {
   signing = {
-    key = "${config.home.homeDirectory}/.ssh/my-key.pub";
+    key = "${config.home.homeDirectory}/.ssh/my-key.pub"
     signByDefault = true;
   };
 
@@ -123,7 +123,10 @@ make sure to adapt the example to your own setup.
 
 [^1]:
     To be fair, I have known about SSH signing for a while now, but the
-    sunk-cost fallacy has prevented me from ever looking into it. I am still not
-    convinced by it, but that is because I still use a Yubikey based GPG setup.
+    sunk-cost fallacy has prevented me from ever looking into it. As a matter of
+    fact, I am still not convinced by it, but that is because I still use a Yubikey
+    based GPG setup which partially obsoletes SSH signing and prevents me from
+    looking further into the matter. Regardless, this documents my experience with
+    SSH signing, so I may return anytime.
 
 [^2]: Please don't.

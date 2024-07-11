@@ -1,0 +1,35 @@
+name: Serve Static Notes
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "notes/**"
+      - ".github/workflows/deploy.yaml"
+      - "gen.sh"
+permissions:
+  contents: write
+jobs:
+  serve-notes:
+    if: github.repository == 'notashelf/blog.notashelf.dev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+      - name: "Install Nix"
+        uses: DeterminateSystems/nix-installer-action@main
+        with:
+          logger: pretty
+      - name: "Install dependencies"
+        run: |
+          nix profile install nixpkgs#pandoc nixpkgs#jq nixpkgs#sassc
+      - name: "Generate Static Webpage"
+        run: |
+          # Execute generation script
+          bash ./gen.sh
+      - name: "Deploy to GitHub Pages"
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: out
