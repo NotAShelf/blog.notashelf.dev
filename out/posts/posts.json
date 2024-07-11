@@ -1,0 +1,67 @@
+{
+  "posts": [
+    {
+      "name": "2023-01-22-system-backlight.md",
+      "url": "https://nyx.notashelf.dev/posts/2023-01-22-system-backlight.html",
+      "date": "2023-01-22",
+      "title": "System Backlight",
+      "path": "/posts/2023-01-22-system-backlight.html"
+    },
+    {
+      "name": "2023-03-14-impermanence.md",
+      "url": "https://nyx.notashelf.dev/posts/2023-03-14-impermanence.html",
+      "date": "2023-03-14",
+      "title": "Impermanence",
+      "path": "/posts/2023-03-14-impermanence.html"
+    },
+    {
+      "name": "2023-05-21-packaging-nextjs-webapps.md",
+      "url": "https://nyx.notashelf.dev/posts/2023-05-21-packaging-nextjs-webapps.html",
+      "date": "2023-05-21",
+      "title": "Packaging Nextjs Webapps",
+      "path": "/posts/2023-05-21-packaging-nextjs-webapps.html"
+    },
+    {
+      "name": "2023-06-07-extended-nixpkgs.md",
+      "url": "https://nyx.notashelf.dev/posts/2023-06-07-extended-nixpkgs.html",
+      "date": "2023-06-07",
+      "title": "Extended Nixpkgs",
+      "path": "/posts/2023-06-07-extended-nixpkgs.html"
+    },
+    {
+      "name": "2023-07-14-openssh-custom-port.md",
+      "url": "https://nyx.notashelf.dev/posts/2023-07-14-openssh-custom-port.html",
+      "date": "2023-07-14",
+      "title": "Openssh Custom Port",
+      "path": "/posts/2023-07-14-openssh-custom-port.html"
+    },
+    {
+      "name": "2023-11-11-using-headscale.md",
+      "url": "https://nyx.notashelf.dev/posts/2023-11-11-using-headscale.html",
+      "date": "2023-11-11",
+      "title": "Using Headscale",
+      "path": "/posts/2023-11-11-using-headscale.html"
+    },
+    {
+      "name": "2024-05-10-ssh-signing.md",
+      "url": "https://nyx.notashelf.dev/posts/2024-05-10-ssh-signing.html",
+      "date": "2024-05-10",
+      "title": "Ssh Signing",
+      "path": "/posts/2024-05-10-ssh-signing.html"
+    },
+    {
+      "name": "2024-05-11-on-sysrq.md",
+      "url": "https://nyx.notashelf.dev/posts/2024-05-11-on-sysrq.html",
+      "date": "2024-05-11",
+      "title": "On Sysrq",
+      "path": "/posts/2024-05-11-on-sysrq.html"
+    },
+    {
+      "name": "2024-06-28-just-stop.md",
+      "url": "https://nyx.notashelf.dev/posts/2024-06-28-just-stop.html",
+      "date": "2024-06-28",
+      "title": "Just Stop",
+      "path": "/posts/2024-06-28-just-stop.html"
+    }
+  ]
+}

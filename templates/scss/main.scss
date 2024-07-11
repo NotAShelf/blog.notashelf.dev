@@ -1,0 +1,14 @@
+@import "modern-normalize.css";
+@import "variables";
+@import "base";
+
+// components
+// e.g. table of contents
+@import "components/toc";
+@import "components/table";
+@import "components/code";
+@import "components/blockquote";
+@import "components/headers";
+@import "components/lists";
+@import "components/navigation.scss";
+@import "components/footer.scss";
