@@ -13,6 +13,15 @@ to the script.
 You may serve the built static pages via Python's `http` module, or spin up your
 own webserver through another means.
 
+### Hacking
+
+The builder script (`gen.sh`) depends on `jq`, `pandoc` and `sassc` to be in
+your path. Nix users may use `nix-shell` or `direnv allow` to use available
+tools for reproducible dev environments.
+
+Non-Nix users will have to get `jq`, `pandoc` and `sassc` from their package
+manager.
+
 ## Contributing
 
 Changes are welcome, feel free to make an issue if you wish to ask a question or
