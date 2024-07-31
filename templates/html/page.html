@@ -127,6 +127,10 @@
     </header>
 
     <main>
+      <!-- Keywords, if any. -->
+      $for(keywords)$ $keywords$ $endfor$
+
+      <!-- Table of Contents, if enabled -->
       $if(toc)$
       <nav id="$idprefix$TOC" role="doc-toc">
         $if(toc-title)$
