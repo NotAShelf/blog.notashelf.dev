@@ -129,7 +129,6 @@ generate_other_pages() {
 					--css "$templatedir"/style.css \
 					--metadata title="Posts - $sanitized_title" \
 					--metadata description="$site_description" \
-					--table-of-contents \
 					--highlight-style="$templatedir"/pandoc/custom.theme \
 					"$file" -o "$outdir"/posts/"$(basename "$file" .md)".html
 			else
