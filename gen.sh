@@ -20,6 +20,7 @@ pages_dir="$outdir/pages"
 json_file="$posts_dir/posts.json"
 
 # pandoc template
+echo "\$meta-json\$" > "$workingdir/metadata.pandoc-tpl"
 pd_template="$workingdir/metadata.pandoc-tpl"
 
 create_directory() {
