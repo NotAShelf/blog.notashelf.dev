@@ -151,14 +151,49 @@
           .then((data) => {
             const dropdownContent = document.getElementById("posts-content");
             data.posts.forEach((post) => {
+              const postItem = document.createElement("li");
+              postItem.classList.add("post-dropdown-item");
+
+              const postImage = document.createElement("img");
+              postImage.src =
+                post.imagePath ||
+                "https://avatars.githubusercontent.com/u/62766066?v=4"; // image path, or placeholder
+              postImage.alt = post.title;
+              postImage.classList.add("post-image"); // apply class
+
+              // content container
+              const postContent = document.createElement("div");
+              postContent.classList.add("post-content");
+
+              //  post link
               const postLink = document.createElement("a");
               postLink.textContent = post.title;
-              // we could use posts.url here, instead of posts.path
-              // but it messes with local serving, which prefers `/`
-              // to the actual URL, as it would point to the live site
-              // by path
               postLink.href = post.path;
-              dropdownContent.appendChild(postLink);
+              postLink.classList.add("dropdown-link");
+
+              // description element
+              const postDescription = document.createElement("p");
+              postDescription.textContent = post.description; // Use the description from the post data
+              postDescription.classList.add("post-description"); // Add a class for styling
+
+              // date of the post
+              const postDate = document.createElement("p");
+              postDate.textContent = post.date;
+              postDate.classList.add("post-date");
+
+              // append title and description
+              postContent.appendChild(postLink);
+              postContent.appendChild(postDescription);
+
+              //append elements to the post item
+              postItem.appendChild(postImage);
+              postItem.appendChild(postContent);
+
+              // append date to the post item
+              // postItem.appendChild(postDate);
+
+              // and append the post item to the dropdown content
+              dropdownContent.appendChild(postItem);
             });
           })
           .catch((error) => console.error("Error fetching posts:", error));
