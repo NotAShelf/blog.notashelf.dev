@@ -1,3 +1,9 @@
+---
+title: When, why and how to extend Nixpkgs' Standard Library
+date: 2023-06-07
+description: Reasons why and how you might create your own extended library
+---
+
 # When, why and how to extend nixpkgs standard library
 
 Those are my notes on extending nixpkgs with your own functions and

@@ -1,3 +1,9 @@
+---
+title: Headscale on NixOS, Tailscale anywhere
+date: 2023-11-11
+description: Brief introduction to running your own Tailscale coordination server, Headscale
+---
+
 # Headscale on NixOS, Tailscale anywhere
 
 Today's main attraction is the Headscale setup on my VPS running NixOS, which

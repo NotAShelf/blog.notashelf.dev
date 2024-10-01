@@ -1,3 +1,9 @@
+---
+title: Signing Git commits with SSH keys
+date: 2024-05-10
+description: Setting up SSH signing for your many, many Git commits
+---
+
 # Signing Git commits with SSH keys
 
 ## Resources
@@ -124,9 +130,9 @@ make sure to adapt the example to your own setup.
 [^1]:
     To be fair, I have known about SSH signing for a while now, but the
     sunk-cost fallacy has prevented me from ever looking into it. As a matter of
-    fact, I am still not convinced by it, but that is because I still use a Yubikey
-    based GPG setup which partially obsoletes SSH signing and prevents me from
-    looking further into the matter. Regardless, this documents my experience with
-    SSH signing, so I may return anytime.
+    fact, I am still not convinced by it, but that is because I still use a
+    Yubikey based GPG setup which partially obsoletes SSH signing and prevents
+    me from looking further into the matter. Regardless, this documents my
+    experience with SSH signing, so I may return anytime.
 
 [^2]: Please don't.

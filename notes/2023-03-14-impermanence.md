@@ -1,3 +1,9 @@
+---
+title: Impermanence on NixOS
+date: 2023-03-14
+description: Notes on setting up Impermanence with Full Disk Encryption on a NixOS system
+---
+
 # Impermanence on NixOS
 
 Today was the day I finally got to setting up both "erase your darlings" and
@@ -348,11 +354,10 @@ rollbacks.
 
 Honestly, why not?
 
-[^1]:
-    I could be using `tmpfs` for `/` at this point in time. Unfortunately,
+[^1]: I could be using `tmpfs` for `/` at this point in time. Unfortunately,
     since I share this setup on some of my low-end laptops, I've got no RAM to
     spare - which is exactly why I have opted out with BTRFS. It is a reliable
-    filesystem that I am used to, and it allows for us to use a script that we'll
-    see later on.
+    filesystem that I am used to, and it allows for us to use a script that
+    we'll see later on.
 
 [^2]: https://opensource.com/article/20/6/linux-noatime

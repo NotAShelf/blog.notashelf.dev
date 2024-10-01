@@ -1,3 +1,9 @@
+---
+title: System Backlight
+date: 2023-01-22
+description: A quick encounter with System Backlight on a random Linux Kernel update.
+---
+
 # System Backlight
 
 ## The Problem

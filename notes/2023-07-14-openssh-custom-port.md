@@ -1,3 +1,9 @@
+---
+title: Nix Remote Builders on non-standard OpenSSH ports
+date: 2023-07-14
+description: Setting up Nix remote builders on unique setups.
+---
+
 # Nix remote builders on non-standard OpenSSH ports
 
 My VPS, which hosts some of my infrastructure, has been running NixOS for a
