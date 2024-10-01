@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
+
 set -e
 set -u
 set -o pipefail
 
 # Site Meta
-title="NotAShelf's personal blog"
+json_title="NotAShelf's personal blog"
 site_url="https://blog.notashelf.dev"
 site_description="Notes on Nix, Linux and every other pie I put a finger in"
 
@@ -19,15 +20,17 @@ pages_dir="$outdir/pages"
 # A list of posts
 json_file="$posts_dir/posts.json"
 
-# pandoc template
-echo "\$meta-json\$" > "$workingdir/metadata.pandoc-tpl"
-pd_template="$workingdir/metadata.pandoc-tpl"
-
 create_directory() {
 	if [ ! -d "$1" ]; then
 		echo "Creating directory: $1"
 		mkdir -p "$1"
 	fi
+}
+
+generate_pandoc_metadata() {
+    # Pandoc template
+    echo "\$meta-json\$" > "$outdir/metadata.pandoc-tpl"
+    pd_template="$outdir/metadata.pandoc-tpl"
 }
 
 compile_stylesheet() {
@@ -54,16 +57,23 @@ generate_posts_json() {
 	json='{"posts":['
 	first=true
 	for file in "$1"/notes/*.md; do
+		filepath=$(realpath "$file")
 		filename=$(basename "$file")
+		echo "Processing $filename"
 		if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
-			# extract metadata from post using pandoc
-   			post_meta_json = $(pandoc --template=$pd_template $filename | jq '.title,.date')
-			
+			# Extract metadata from post using pandoc
+			post_meta_json=$(pandoc --template="$pd_template" "$filepath")
+			json_title=$(echo "$post_meta_json" | jq '.title')
+			json_date=$(echo "$post_meta_json" | jq '.date')
+			json_desc=$(echo "$post_meta_json" | jq '.description')
+
 			if [ "$first" = true ]; then
 				first=false
 			else
 				json="$json,"
 			fi
+
+    echo -en "Processing post in $filepath: \nTitle: $json_title \nDate: $json_date \nDescription: $json_desc"
 
 			# JSON object with data we may want to use like a json feed file
 			# this doesn't, however, actually follow jsonfeed spec
@@ -71,13 +81,19 @@ generate_posts_json() {
 			json_object=$(jq -n \
 				--arg name "$filename" \
 				--arg url "$site_url/posts/$(basename "$file" .md).html" \
-				--arg date "$date" \
 				--arg title "$sanitized_title" \
+				--arg description "$json_desc" \
+				--arg date "$json_date" \
 				--arg path "/posts/$(basename "$file" .md).html" \
-				'{name: $name, url: $url, date: $date, title: $title, path: $path}')
+				'{name: $name, url: $url, title: $title, description: $description, date: $date, path: $path}')
 
 			# Append JSON object to the array
 			json="$json$json_object"
+
+			# Unset used variables
+			unset json_title
+			unset json_date
+			unset json_desc
 		fi
 	done
 	json="$json]}"
@@ -97,7 +113,7 @@ generate_index_page() {
 		--template "$templatedir"/html/page.html \
 		--css "$templatedir"/style.css \
 		--variable="index:true" \
-		--metadata title="$title" \
+		--metadata title="$json_title" \
 		--metadata description="$site_description" \
 		"$workingdir"/templates/pages/index.md -o "$outdir"/index.html
 }
@@ -115,6 +131,7 @@ generate_other_pages() {
 			if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
 				# Sanitize post title by removing date from filename
 				sanitized_title=$(echo "$filename" | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//; s/\.md$//; s/-/ /g; s/\b\w/\u&/g')
+                echo "Sanitized title for $filename: $sanitized_title"
 
 				# Date in the file name implies that the page we are converting
 				# is a blog post. Thus, we want to convert it to HTML and place it
@@ -192,9 +209,13 @@ create_directory "$outdir"
 create_directory "$posts_dir"
 create_directory "$pages_dir"
 
+# Generate pandoc metadata
+generate_pandoc_metadata
+
 # Compile stylesheet
 compile_stylesheet "$templatedir"/scss "$outdir"
 
+# Copy required assets and site meta
 copy_assets
 copy_site_meta
 
@@ -209,3 +230,6 @@ generate_posts_json "$workingdir" "$json_file"
 cleanup
 
 echo "All tasks completed successfully."
+
+# tabs as spaces
+# vim: ft=bash ts=4 sw=4 et
