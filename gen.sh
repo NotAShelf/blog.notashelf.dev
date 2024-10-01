@@ -51,33 +51,31 @@ generate_posts_json() {
 	first=true
 	for file in "$1"/notes/*.md; do
 		filename=$(basename "$file")
-		if [[ $filename != "README.md" ]]; then
-			if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
-				# Extract date from filename
-				date=$(echo "$filename" | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}')
+		if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
+			# Extract date from filename
+			date=$(echo "$filename" | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
-				# Sanitize title
-				sanitized_title=$(echo "$filename" | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//; s/\.md$//; s/-/ /g; s/\b\w/\u&/g')
-				if [ "$first" = true ]; then
-					first=false
-				else
-					json="$json,"
-				fi
-
-				# JSON object with data we may want to use like a json feed file
-				# this doesn't, however, actually follow jsonfeed spec
-				# that is done so by the generate_jsonfeed_spec function
-				json_object=$(jq -n \
-					--arg name "$filename" \
-					--arg url "$site_url/posts/$(basename "$file" .md).html" \
-					--arg date "$date" \
-					--arg title "$sanitized_title" \
-					--arg path "/posts/$(basename "$file" .md).html" \
-					'{name: $name, url: $url, date: $date, title: $title, path: $path}')
-
-				# Append JSON object to the array
-				json="$json$json_object"
+			# Sanitize title
+			sanitized_title=$(echo "$filename" | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//; s/\.md$//; s/-/ /g; s/\b\w/\u&/g')
+			if [ "$first" = true ]; then
+				first=false
+			else
+				json="$json,"
 			fi
+
+			# JSON object with data we may want to use like a json feed file
+			# this doesn't, however, actually follow jsonfeed spec
+			# that is done so by the generate_jsonfeed_spec function
+			json_object=$(jq -n \
+				--arg name "$filename" \
+				--arg url "$site_url/posts/$(basename "$file" .md).html" \
+				--arg date "$date" \
+				--arg title "$sanitized_title" \
+				--arg path "/posts/$(basename "$file" .md).html" \
+				'{name: $name, url: $url, date: $date, title: $title, path: $path}')
+
+			# Append JSON object to the array
+			json="$json$json_object"
 		fi
 	done
 	json="$json]}"
@@ -87,7 +85,6 @@ generate_posts_json() {
 }
 
 # Index page refers to the "main" page generated
-# from the README.md, which I would like to see on the front
 generate_index_page() {
 	local workingdir="$1"
 	local outdir="$2"
@@ -100,7 +97,7 @@ generate_index_page() {
 		--variable="index:true" \
 		--metadata title="$title" \
 		--metadata description="$site_description" \
-		"$workingdir"/notes/README.md -o "$outdir"/index.html
+		"$workingdir"/templates/pages/index.md -o "$outdir"/index.html
 }
 
 generate_other_pages() {
