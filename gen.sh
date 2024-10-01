@@ -19,6 +19,9 @@ pages_dir="$outdir/pages"
 # A list of posts
 json_file="$posts_dir/posts.json"
 
+# pandoc template
+pd_template="$workingdir/metadata.pandoc-tpl"
+
 create_directory() {
 	if [ ! -d "$1" ]; then
 		echo "Creating directory: $1"
@@ -52,11 +55,9 @@ generate_posts_json() {
 	for file in "$1"/notes/*.md; do
 		filename=$(basename "$file")
 		if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
-			# Extract date from filename
-			date=$(echo "$filename" | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}')
-
-			# Sanitize title
-			sanitized_title=$(echo "$filename" | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//; s/\.md$//; s/-/ /g; s/\b\w/\u&/g')
+			# extract metadata from post using pandoc
+   			post_meta_json = $(pandoc --template=$pd_template $filename | jq '.title,.date')
+			
 			if [ "$first" = true ]; then
 				first=false
 			else
