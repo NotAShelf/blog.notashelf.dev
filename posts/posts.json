@@ -3,7 +3,7 @@
     {
       "name": "2023-01-22-system-backlight.md",
       "url": "https://blog.notashelf.dev/posts/2023-01-22-system-backlight.html",
-      "title": "System Backlight",
+      "title": "\"System Backlight\"",
       "description": "\"A quick encounter with System Backlight on a random Linux Kernel update.\"",
       "date": "\"2023-01-22\"",
       "path": "/posts/2023-01-22-system-backlight.html"
@@ -11,7 +11,7 @@
     {
       "name": "2023-03-14-impermanence.md",
       "url": "https://blog.notashelf.dev/posts/2023-03-14-impermanence.html",
-      "title": "Impermanence",
+      "title": "\"Impermanence on NixOS\"",
       "description": "\"Notes on setting up Impermanence with Full Disk Encryption on a NixOS system\"",
       "date": "\"2023-03-14\"",
       "path": "/posts/2023-03-14-impermanence.html"
@@ -19,7 +19,7 @@
     {
       "name": "2023-05-21-packaging-nextjs-webapps.md",
       "url": "https://blog.notashelf.dev/posts/2023-05-21-packaging-nextjs-webapps.html",
-      "title": "Packaging Nextjs Webapps",
+      "title": "\"Packaging NextJS Webapps with Nix\"",
       "description": "\"Quick tutorial/journal on packaging NextJS projects with Nix\"",
       "date": "\"2023-05-21\"",
       "path": "/posts/2023-05-21-packaging-nextjs-webapps.html"
@@ -27,7 +27,7 @@
     {
       "name": "2023-06-07-extended-nixpkgs.md",
       "url": "https://blog.notashelf.dev/posts/2023-06-07-extended-nixpkgs.html",
-      "title": "Extended Nixpkgs",
+      "title": "\"When, why and how to extend Nixpkgs’ Standard Library\"",
       "description": "\"Reasons why and how you might create your own extended library\"",
       "date": "\"2023-06-07\"",
       "path": "/posts/2023-06-07-extended-nixpkgs.html"
@@ -35,7 +35,7 @@
     {
       "name": "2023-07-14-openssh-custom-port.md",
       "url": "https://blog.notashelf.dev/posts/2023-07-14-openssh-custom-port.html",
-      "title": "Openssh Custom Port",
+      "title": "\"Nix Remote Builders on non-standard OpenSSH ports\"",
       "description": "\"Setting up Nix remote builders on unique setups.\"",
       "date": "\"2023-07-14\"",
       "path": "/posts/2023-07-14-openssh-custom-port.html"
@@ -43,7 +43,7 @@
     {
       "name": "2023-11-11-using-headscale.md",
       "url": "https://blog.notashelf.dev/posts/2023-11-11-using-headscale.html",
-      "title": "Using Headscale",
+      "title": "\"Headscale on NixOS, Tailscale anywhere\"",
       "description": "\"Brief introduction to running your own Tailscale coordination server, Headscale\"",
       "date": "\"2023-11-11\"",
       "path": "/posts/2023-11-11-using-headscale.html"
@@ -51,7 +51,7 @@
     {
       "name": "2024-05-10-ssh-signing-commits.md",
       "url": "https://blog.notashelf.dev/posts/2024-05-10-ssh-signing-commits.html",
-      "title": "Ssh Signing Commits",
+      "title": "\"Signing Git commits with SSH keys\"",
       "description": "\"Setting up SSH signing for your many, many Git commits\"",
       "date": "\"2024-05-10\"",
       "path": "/posts/2024-05-10-ssh-signing-commits.html"
@@ -59,7 +59,7 @@
     {
       "name": "2024-05-11-on-sysrq.md",
       "url": "https://blog.notashelf.dev/posts/2024-05-11-on-sysrq.html",
-      "title": "On Sysrq",
+      "title": "\"On SysRq\"",
       "description": "\"Understanding, using or disabling SysRq as per your needs\"",
       "date": "\"2024-05-11\"",
       "path": "/posts/2024-05-11-on-sysrq.html"
@@ -67,7 +67,7 @@
     {
       "name": "2024-06-28-just-stop.md",
       "url": "https://blog.notashelf.dev/posts/2024-06-28-just-stop.html",
-      "title": "Just Stop",
+      "title": "\"Please Just Stop!\"",
       "description": "\"Picking the right tool for the job, Nix\"",
       "date": "\"2024-06-28\"",
       "path": "/posts/2024-06-28-just-stop.html"
