@@ -60,6 +60,14 @@ generate_posts_json() {
 		filepath=$(realpath "$file")
 		filename=$(basename "$file")
 		echo "Processing $filename"
+		if [[ $filename != "README.md" ]]; then
+			if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
+				# Sanitize post title by removing date from filename
+				sanitized_title=$(echo "$filename" | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//; s/\.md$//; s/-/ /g; s/\b\w/\u&/g')
+                echo "Sanitized title for $filename: $sanitized_title"
+            fi
+        fi
+
 		if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
 			# Extract metadata from post using pandoc
 			post_meta_json=$(pandoc --template="$pd_template" "$filepath")
