@@ -52,61 +52,6 @@ copy_site_meta() {
     cp "$templatedir"/meta/* "$outdir"
 }
 
-generate_posts_json() {
-    echo "Generating posts index..."
-    json='{"posts":['
-    first=true
-    for file in "$1"/notes/*.md; do
-        filepath=$(realpath "$file")
-        filename=$(basename "$file")
-
-        echo "Processing $filename"
-        if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
-            # Extract metadata from post using pandoc
-            post_meta_json=$(pandoc --template="$pd_template" "$filepath")
-            json_title=$(echo "$post_meta_json" | jq '.title')
-            json_date=$(echo "$post_meta_json" | jq '.date')
-            json_desc=$(echo "$post_meta_json" | jq '.description')
-
-
-            if [ "$first" = true ]; then
-                first=false
-            else
-                json="$json,"
-            fi
-
-            echo -en "Processing post in $filepath: \nTitle: $json_title \nDate: $json_date \nDescription: $json_desc"
-
-            # JSON object with data we may want to use like a json feed file
-            # this doesn't, however, actually follow jsonfeed spec
-            # that is done so by the generate_jsonfeed_spec function
-            json_object=$(jq -n \
-                --arg name "$filename" \
-                --arg url "$site_url/posts/$(basename "$file" .md).html" \
-                --arg title "$json_title" \
-                --arg description "$json_desc" \
-                --arg date "$json_date" \
-                --arg path "/posts/$(basename "$file" .md).html" \
-                '{name: $name, url: $url, title: $title, description: $description, date: $date, path: $path}')
-
-            # Append JSON object to the array
-            json="$json$json_object"
-
-            # Unset used variables
-            unset json_title
-            unset json_date
-            unset json_desc
-        fi
-    done
-
-    # Complete JSON array.
-    json="$json]}"
-
-    # Format JSON with jq
-    formatted_json=$(echo "$json" | jq .)
-    echo "$formatted_json" >"$2"
-}
-
 # Index page refers to the "main" page generated
 generate_index_page() {
     local workingdir="$1"
@@ -202,9 +147,64 @@ generate_other_pages() {
         "$templatedir"/pages/pages.md -o "$outdir"/pages.html
 }
 
+generate_posts_json() {
+    echo "Generating posts index..."
+    json='{"posts":['
+    first=true
+    for file in "$1"/notes/*.md; do
+        filepath=$(realpath "$file")
+        filename=$(basename "$file")
+        if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
+            # Extract metadata from post using pandoc
+            post_meta_json=$(pandoc --template="$pd_template" "$filepath")
+            json_title=$(echo "$post_meta_json" | jq '.title')
+            json_date=$(echo "$post_meta_json" | jq '.date')
+            json_desc=$(echo "$post_meta_json" | jq '.description')
+
+
+            if [ "$first" = true ]; then
+                first=false
+            else
+                json="$json,"
+            fi
+
+            # Print post metadata for debugging.
+            echo -en "\nProcessing post in $filepath: \nTitle: $json_title \nDate: $json_date \nDescription: $json_desc\n"
+
+            # JSON object with data we may want to use like a jsonfeed file
+            # this doesn't, however, actually follow jsonfeed spec
+            # that is done so by the generate_jsonfeed_spec function
+            json_object=$(jq -n \
+                --arg name "$filename" \
+                --arg url "$site_url/posts/$(basename "$file" .md).html" \
+                --arg title "$json_title" \
+                --arg description "$json_desc" \
+                --arg date "$json_date" \
+                --arg path "/posts/$(basename "$file" .md).html" \
+                '{name: $name, url: $url, title: $title, description: $description, date: $date, path: $path}')
+
+            # Append JSON object to the array
+            json="$json$json_object"
+
+            # Unset used variables
+            unset json_title
+            unset json_date
+            unset json_desc
+        fi
+    done
+
+    # Complete JSON array.
+    json="$json]}"
+
+    # Format JSON with jq
+    formatted_json=$(echo "$json" | jq .)
+    echo "$formatted_json" >"$2"
+}
+
 cleanup() {
-    echo "Cleaning up..."
-    rm -rf "$tmpdir"
+    echo -e "\nCleaning up..."
+    rm -rf "$tmpdir" || exit 1
+    echo -e "All tasks completed successfully."
 }
 
 trap cleanup EXIT
@@ -230,11 +230,6 @@ generate_other_pages "$workingdir" "$tmpdir" "$outdir" "$templatedir"
 
 # Post data
 generate_posts_json "$workingdir" "$json_file"
-
-# Cleanup
-cleanup
-
-echo "All tasks completed successfully."
 
 # tabs as spaces
 # vim: ft=bash ts=4 sw=4 et
