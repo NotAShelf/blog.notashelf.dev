@@ -50,6 +50,14 @@
   margin-top: 5px;
 }
 
+.posts .nav-button {
+  color: #fff;
+}
+
+.posts .nav-button:hover {
+  color: #fff;
+}
+
 .post-dropdown-item:hover {
   background-color: lighten($primary, 4%);
   cursor: pointer;
