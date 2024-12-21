@@ -46,6 +46,11 @@ copy_assets() {
     cp -r "$templatedir"/assets "$outdir"
 }
 
+copy_scripts() {
+    echo "Moving scripts..."
+    cp -r "$templatedir"/scripts "$outdir/static"
+}
+
 # Things like robots.txt, browserconfig and manifest.json
 copy_site_meta() {
     echo "Moving site meta..."
@@ -53,21 +58,20 @@ copy_site_meta() {
 }
 
 generate_posts_json() {
-    echo "Generating posts index..."
+    echo -en "Generating posts index...\n"
     json='{"posts":['
     first=true
     for file in "$1"/notes/*.md; do
         filepath=$(realpath "$file")
         filename=$(basename "$file")
-
-        echo "Processing $filename"
+        echo -en "Processing file: $filename\n"
         if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
             # Extract metadata from post using pandoc
             post_meta_json=$(pandoc --template="$pd_template" "$filepath")
-            json_title=$(echo "$post_meta_json" | jq '.title')
-            json_date=$(echo "$post_meta_json" | jq '.date')
-            json_desc=$(echo "$post_meta_json" | jq '.description')
 
+            json_title=$(echo "$post_meta_json" | jq -r '.title')
+            json_date=$(echo "$post_meta_json" | jq -r '.date')
+            json_desc=$(echo "$post_meta_json" | jq -r '.description')
 
             if [ "$first" = true ]; then
                 first=false
@@ -75,11 +79,9 @@ generate_posts_json() {
                 json="$json,"
             fi
 
-            echo -en "Processing post in $filepath: \nTitle: $json_title \nDate: $json_date \nDescription: $json_desc"
+            echo -en "\nProcessing post in $filepath: \nTitle: $json_title \nDate: $json_date \nDescription: $json_desc\n"
 
-            # JSON object with data we may want to use like a json feed file
-            # this doesn't, however, actually follow jsonfeed spec
-            # that is done so by the generate_jsonfeed_spec function
+            # Create JSON object without extra quotes
             json_object=$(jq -n \
                 --arg name "$filename" \
                 --arg url "$site_url/posts/$(basename "$file" .md).html" \
@@ -99,9 +101,8 @@ generate_posts_json() {
         fi
     done
 
-    # Complete JSON array.
+    # Complete JSON array
     json="$json]}"
-
     # Format JSON with jq
     formatted_json=$(echo "$json" | jq .)
     echo "$formatted_json" >"$2"
@@ -112,7 +113,7 @@ generate_index_page() {
     local workingdir="$1"
     local outdir="$2"
 
-    echo "Generating index page..."
+    echo -en "Generating index page..."
     pandoc --from gfm --to html \
         --standalone \
         --template "$templatedir"/html/page.html \
@@ -129,7 +130,7 @@ generate_other_pages() {
     local outdir="$3"
     local templatedir="$4"
 
-    echo "Generating other pages..."
+    echo -en "Generating other pages..."
     for file in "$workingdir"/notes/*.md; do
         filename=$(basename "$file")
         if [[ $filename != "README.md" ]]; then
@@ -199,7 +200,7 @@ generate_other_pages() {
         --css "$templatedir"/style.css \
         --metadata title="Nyx | Available Posts" \
         --metadata description="$site_description" \
-        "$templatedir"/pages/pages.md -o "$outdir"/pages.html
+        "$templatedir"/pages/posts.md -o "$outdir"/pages/posts.html
 }
 
 cleanup() {
@@ -222,6 +223,7 @@ compile_stylesheet "$templatedir"/scss "$outdir"
 
 # Copy required assets and site meta
 copy_assets
+copy_scripts
 copy_site_meta
 
 # Generate HTML pages from available markdown templates
