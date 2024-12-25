@@ -47,6 +47,11 @@
   flex-direction: column;
   justify-content: flex-start;
   max-height: 96px;
+
+  a.dropdown-link,
+  a.dropdown-link:visited {
+    color: $secondary;
+  }
 }
 
 .post-link {
