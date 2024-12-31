@@ -1,3 +1,7 @@
+.postss-section {
+  min-width: 80%;
+}
+
 .dropdown-link {
   text-decoration: none;
   font-weight: bold;
@@ -17,7 +21,6 @@
   border-radius: 8px;
   display: flex;
   align-items: flex-start;
-  align-items: center;
   margin: 20px 5px;
 }
 
@@ -75,4 +78,9 @@
   white-space: nowrap;
   overflow: auto;
   text-overflow: "...";
+}
+
+.reading-time {
+  font-style: italic;
+  color: #666;
 }

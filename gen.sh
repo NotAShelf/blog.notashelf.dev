@@ -145,7 +145,7 @@ generate_other_pages() {
                 # Since it's supposed to have lots of content, it should be added
                 # a table of contents section as well.
                 echo "Converting $filename..."
-                pandoc --from gfm --to html \
+                pandoc --from gfm --to html -L filters/wordcount.lua -M wordcount=process \
                     --standalone \
                     --template "$templatedir"/html/page.html \
                     --css "$templatedir"/style.css \
