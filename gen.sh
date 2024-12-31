@@ -134,18 +134,23 @@ generate_other_pages() {
     for file in "$workingdir"/notes/*.md; do
         filename=$(basename "$file")
         if [[ $filename != "README.md" ]]; then
+            # Date in the file name implies that the page we are converting
+            # is a blog post. Thus, we want to convert it to HTML and place it
+            # in the posts directory where "blog" posts are expected to be.
+            # Since it's supposed to have lots of content, it should be added
+            # a table of contents section as well.
             if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
                 # Sanitize post title by removing date from filename
                 sanitized_title=$(echo "$filename" | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//; s/\.md$//; s/-/ /g; s/\b\w/\u&/g')
                 echo "Sanitized title for $filename: $sanitized_title"
-
-                # Date in the file name implies that the page we are converting
-                # is a blog post. Thus, we want to convert it to HTML and place it
-                # in the posts directory where "blog" posts are expected to be.
-                # Since it's supposed to have lots of content, it should be added
-                # a table of contents section as well.
                 echo "Converting $filename..."
-                pandoc --from gfm --to html -L filters/wordcount.lua -M wordcount=process \
+
+                # We are converting a post, so apply the appropriate title for the page
+                # and Pandoc Lua filters to 1. calculate word count and 2. apply anchors
+                # to headings for easier navigation.
+                pandoc --from gfm --to html \
+                    -L filters/wordcount.lua -M wordcount=process \
+                    -L filters/anchor.lua \
                     --standalone \
                     --template "$templatedir"/html/page.html \
                     --css "$templatedir"/style.css \
@@ -154,10 +159,10 @@ generate_other_pages() {
                     --highlight-style="$templatedir"/pandoc/custom.theme \
                     "$file" -o "$outdir"/posts/"$(basename "$file" .md)".html
             else
+                # No date in filename, means this is a standalone page
+                # convert it to html and place it in the pages directory
                 if [[ $filename != "*-md" ]]; then
                     echo "Converting $filename..."
-                    # No date in filename, means this is a standalone page
-                    # convert it to html and place it in the pages directory
                     pandoc --from gfm --to html \
                         --standalone \
                         --template "$templatedir"/html/page.html \
