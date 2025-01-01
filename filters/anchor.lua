@@ -7,16 +7,19 @@
 --]]
 function Header(el)
     if el.level ~= 1 then
-        local id = el.content[1].text:match("^%s*(.-)%s*$"):lower():gsub("%s+", "-")
+        -- Sanitize special characters to avoid weird cutoffs
+        local id = pandoc.utils.stringify(el.content)
+            :gsub("^%s*(.-)%s*$", "%1")
+            :lower()
+            :gsub("%s+", "-")
+            :gsub("[^%w%-]", "")
 
-        el.attributes = el.attributes or {} -- Ensure that 'attributes' is initialized
+        el.attributes = el.attributes or {}
         el.attributes.id = id
 
         local anchor = pandoc.RawInline('html',
-            ' <a href="#' .. id .. '" style="margin-left: 8px; font-size: 0.9em">🔗</a>')
-
+            ' <a href="#' .. id .. '" style="margin-left: 8px; font-size: 0.8em">🔗</a>')
         table.insert(el.content, anchor)
     end
-
     return el
 end
