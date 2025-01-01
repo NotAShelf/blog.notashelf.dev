@@ -17,13 +17,14 @@
   border-radius: 8px;
   display: flex;
   align-items: flex-start;
-  align-items: center;
   margin: 20px 5px;
 }
 
 .post-dropdown-item:hover {
-  background-color: lighten($primary, 4%);
   cursor: pointer;
+  color: darken($secondary, 4%);
+  background-color: lighten($primary, 9%);
+  transition: background-color ease-out 0.1s;
 }
 
 .posts .nav-button {
@@ -72,7 +73,14 @@
   font-size: 0.9em;
   color: darken($secondary, 2%);
   margin: 4px 2px;
-  white-space: nowrap;
-  overflow: auto;
-  text-overflow: "...";
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.reading-time {
+  font-style: italic;
+  color: #666;
 }
