@@ -7,7 +7,9 @@ on:
     paths:
       - "notes/**"
       - ".github/workflows/deploy.yaml"
-      - "gen.sh"
+      - "tools"
+      - "templates"
+      - "filters"
 permissions:
   contents: write
 jobs:
@@ -17,17 +19,22 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
+
       - name: "Install Nix"
         uses: DeterminateSystems/nix-installer-action@main
         with:
           logger: pretty
-      - name: "Install dependencies"
-        run: |
-          nix profile install nixpkgs#pandoc nixpkgs#jq nixpkgs#sassc
+
       - name: "Generate Static Webpage"
         run: |
           # Execute generation script
-          bash ./gen.sh
+          # If the script fails, we should abort here.
+          nix run .#build-site || exit 1
+
+          # Generate feed
+          nix run .#json2rss -- \
+            --metadata tools/meta.json --posts_path out/posts/posts.json --feed_path out/feed.xml
+
       - name: "Deploy to GitHub Pages"
         uses: JamesIves/github-pages-deploy-action@v4
         with:

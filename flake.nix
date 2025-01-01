@@ -9,15 +9,20 @@
     pkgs = nixpkgs.legacyPackages.${system};
   in {
     devShells.${system}.default = pkgs.mkShellNoCC {
-      name = "blog";
+      name = "blog-dev";
       packages = with pkgs; [
+        # Utilities required by the build tooling
         jq
         sassc
         pandoc
 
-        # For eslint
+        # Eslint_d
         nodejs-slim
       ];
+    };
+
+    packages.${system} = import ./tools/all-tools.nix {
+      inherit pkgs;
     };
   };
 }

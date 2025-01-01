@@ -4,12 +4,24 @@ set -e
 set -u
 set -o pipefail
 
-# Site Meta
-json_title="NotAShelf's personal blog"
-site_url="https://blog.notashelf.dev"
-site_description="Notes on Nix, Linux and every other pie I put a finger in"
+# Site Metadata
+default_title="NotAShelf's personal blog"
+default_site_url="https://blog.notashelf.dev"
+default_site_description="Notes on Nix, Linux and every other pie I put a finger in"
+metadata_file="${METADATA_FILE:-meta.json}"
 
-# Directories
+if [[ -f "$metadata_file" ]]; then
+    echo "Metadata file exists, extracting site metadata."
+    json_title=$(jq -r '.json_title // empty' "$metadata_file")
+    site_url=$(jq -r '.site_url // empty' "$metadata_file")
+    site_description=$(jq -r '.site_description // empty' "$metadata_file")
+fi
+
+json_title=${json_title:-$default_title}
+site_url=${site_url:-$default_site_url}
+site_description=${site_description:-$default_site_description}
+
+# Work Directories
 tmpdir="$(mktemp -d)"
 workingdir="$(pwd)"
 templatedir="$workingdir/templates"
@@ -113,7 +125,7 @@ generate_index_page() {
     local workingdir="$1"
     local outdir="$2"
 
-    echo -en "Generating index page..."
+    echo -en "Generating index page...\n"
     pandoc --from gfm --to html \
         --standalone \
         --template "$templatedir"/html/page.html \
@@ -130,7 +142,7 @@ generate_other_pages() {
     local outdir="$3"
     local templatedir="$4"
 
-    echo -en "Generating other pages..."
+    echo -en "Generating other pages...\n"
     for file in "$workingdir"/notes/*.md; do
         filename=$(basename "$file")
         if [[ $filename != "README.md" ]]; then
@@ -142,7 +154,7 @@ generate_other_pages() {
             if [[ $filename =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
                 # Sanitize post title by removing date from filename
                 sanitized_title=$(echo "$filename" | sed -E 's/^[0-9]{4}-[0-9]{2}-[0-9]{2}-//; s/\.md$//; s/-/ /g; s/\b\w/\u&/g')
-                echo "Sanitized title for $filename: $sanitized_title"
+                echo -en "Sanitized title for $filename: $sanitized_title\n"
                 echo "Converting $filename..."
 
                 # We are converting a post, so apply the appropriate title for the page
