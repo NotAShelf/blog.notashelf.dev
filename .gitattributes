@@ -1,0 +1,22 @@
+# Always use LF line endings so that if a repo is accessed
+# in Unix via a file share from Windows, the scripts will
+# work as expected.
+*.sh text eol=lf
+
+# Don't diff churn.
+*.lock -diff
+
+# Try to get markdown files to be treated as markdown
+# by linguist - ** prefix is for all subdirectories.
+notes/**/*.md linguist-detectable
+notes/**/*.md linguist-language=Markdown
+
+# Git Configuration files
+*.gitattributes linguist-detectable=false
+*.gitattributes linguist-documentation=false
+*.gitignore linguist-detectable=false
+*.gitignore linguist-documentation=false
+*.editorconfig linguist-detectable=false
+*.editorconfig linguist-documentation=false
+
+
