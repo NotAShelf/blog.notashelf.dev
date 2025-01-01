@@ -26,6 +26,7 @@ jobs:
           logger: pretty
 
       - name: "Generate Static Webpage"
+        shell: bash
         run: |
           # Execute generation script
           # If the script fails, we should abort here.
@@ -33,7 +34,17 @@ jobs:
 
           # Generate feed
           nix run .#json2rss -- \
-            --metadata tools/meta.json --posts_path out/posts/posts.json --feed_path out/feed.xml
+            --metadata tools/meta.json --posts_path out/posts/posts.json --feed_path out/feed.xml || exit 1
+
+
+          # Check if the feed has been generated successfully
+          file="out/feed.xml"
+          if [ ! -f "$file" ]; then
+            echo "Error: The file $file is missing!"
+            exit 1
+          else
+            echo "The file $file exists."
+          fi
 
       - name: "Deploy to GitHub Pages"
         uses: JamesIves/github-pages-deploy-action@v4
