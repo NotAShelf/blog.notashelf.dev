@@ -8,6 +8,10 @@ pre {
   font-family: $font-family-pre;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 // Base styles
 body {
   font-size: 20px;
