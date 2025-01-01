@@ -244,4 +244,4 @@ cleanup
 echo "All tasks completed successfully."
 
 # tabs as spaces
-# vim: ft=bash ts=4 sw=4 et
+# vim: ft=bash ts=2 sw=2 et
