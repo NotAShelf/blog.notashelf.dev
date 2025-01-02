@@ -260,7 +260,8 @@ expecting the user to know exactly what they’re looking at (minus points
 for the infamous <code>--show-trace</code>), but you’re also presenting
 them with an intimidating wall of text that they’ll naturally avoid.
 It’s almost as if you don’t want the error to be resolved...</p>
-<p>Nix 2.20 has made... some attempts to improve this situation, but the
+<p><a href="https://nix.dev/manual/nix/2.25/release-notes/rl-2.20">Nix
+2.20</a> has made... some attempts to improve this situation, but the
 language remains fundamentally flawed, and such errors are,
 unfortunately, still unavoidable.</p>
 <h3 id="all-your-error-are-belong-to-us"
@@ -337,7 +338,7 @@ aviation... <a href="#404-according-to-all-known-laws-of-aviation" style="margin
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PORT <span class="op">=</span> <span class="dv">3000</span><span class="op">;</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>app<span class="op">.</span><span class="fu">get</span>(<span class="st">&quot;/error&quot;</span><span class="op">,</span> (req<span class="op">,</span> res) <span class="kw">=&gt;</span> {</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Do you want my credit card details as well? Because I&#39;m willing :)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Do you want my credit card details as well? Because I&#39;m willing to provide :)</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  res<span class="op">.</span><span class="fu">status</span>(<span class="dv">500</span>)<span class="op">.</span><span class="fu">send</span>(<span class="vs">`</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;h1&gt;Error&lt;/h1&gt;</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;p&gt;Something  wrong!&lt;/p&gt;</span></span>
@@ -417,14 +418,14 @@ role="doc-endnotes">
 <ol>
 <li id="fn1"><p>Now you know where I got the error message.<a
 href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>There are cases I am both the developer and the end
-user. Assume, for a moment, that I am working on <em>your</em> codebase
-with minimal exposure. Most of your codebase is completely foreign to
-me. When you throw me a stack trace that is all over the place, I am
-immediately less inclined to contribute to your software. <strong><a
-href="https://pterodactyl.io/">Pterodactyl</a></strong> (the game server
-management panel) has a very special way of handling errors. It spews
-everything, but <a
+<li id="fn2"><p>There are cases where I am both the developer and the
+end user. Assume, for a moment, that I am working on <em>your</em>
+codebase with minimal exposure. Most of your codebase is completely
+foreign to me. When you throw me a stack trace that is all over the
+place, I am immediately less inclined to contribute to your software.
+<strong><a href="https://pterodactyl.io/">Pterodactyl</a></strong> (the
+game server management panel) has a very special way of handling errors.
+It spews everything, but <a
 href="https://pterodactyl.io/panel/1.0/troubleshooting.html#reading-error-logs">provides
 helpful steps</a> for the user. This is a good alternative to separating
 layers.<a href="#fnref2" class="footnote-back"
