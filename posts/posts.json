@@ -7,6 +7,14 @@
       "description": "New year, new blog and new obsessions",
       "date": "2025-01-01",
       "path": "/posts/2025-01-01-hello-world.html"
+    },
+    {
+      "name": "2025-01-02-well-done-verbosity.md",
+      "url": "https://blog.notashelf.dev/posts/2025-01-02-well-done-verbosity.html",
+      "title": "Verbosity done well",
+      "description": "A beginner’s guide to writing error messages",
+      "date": "2025-01-02",
+      "path": "/posts/2025-01-02-well-done-verbosity.html"
     }
   ]
 }
