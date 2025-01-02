@@ -205,7 +205,7 @@
 <div class="reading-time">
 <p>6 minute read</p>
 </div>
-<p>Programs fail, even the best-written ones. You know this; you’ve
+<p>Programs fail, even the best-written ones. You know it; you’ve
 experienced it. You wish you could avoid it, but you can’t. Computers
 are far from perfect. As a beginner programmer, you quickly learn that
 you must account for both expected and unexpected errors. Handling these
@@ -252,14 +252,16 @@ of the module system, or with an extensive conditional), then you’re
 likely to receive a <em>very</em> informative explanation of what went
 wrong and how to fix it. The module system is excellent at this.</p>
 <p>If the error is <em>not</em> handled, however, you’re left with an
-obscure message pointing to where the error originates. In a NixOS
-system, this often traces back to the entry point of the module system
-or something generic like <code>config</code> in
-<code>specialArgs</code>. This, folks, is bad design. Not only are you
-expecting the user to know exactly what they’re looking at (minus points
-for the infamous <code>--show-trace</code>), but you’re also presenting
-them with an intimidating wall of text that they’ll naturally avoid.
-It’s almost as if you don’t want the error to be resolved...</p>
+obscure message pointing to where the error originates.
+<em>Hundreds</em> of lines at the very least. In the context of a NixOS
+system (i.e. the Nixpkgs module system), errors often trace back to the
+entry point of the module system or something generic like
+<code>config</code> in <code>specialArgs</code>. This, folks, is bad
+design. Not only are you expecting the user to know exactly what they’re
+looking at (minus points for the infamous <code>--show-trace</code>),
+but you’re also presenting them with an intimidating wall of text that
+they’ll naturally avoid. It’s almost as if you don’t want the error to
+be resolved...</p>
 <p><a href="https://nix.dev/manual/nix/2.25/release-notes/rl-2.20">Nix
 2.20</a> has made... some attempts to improve this situation, but the
 language remains fundamentally flawed, and such errors are,
@@ -386,9 +388,10 @@ Burden <a href="#final-thoughts-verbosity-as-a-tool-not-a-burden" style="margin-
 <p>This has been translated from a far less technical rant I've dropped
 earlier today on some painful case of error handling<a href="#fn1"
 class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.
-Looking back, it as not the first time I've faced bad error handling.
-Lots of software I use on a daily basis simply print everything.
-Thinking of it, this is a horrible status quo.</p>
+Looking back, it was not the first time I've faced bad error handling.
+Lots of software I use on a daily basis simply print everything. In
+hindsight, this status quo is terrible and yet we continue to
+endure.</p>
 <p>Error handling should not just about fixing problems. It must be
 moreso about how you communicate them. I'm sure the programmer who wrote
 that piece of code wants to know what went wrong, and where, but I
