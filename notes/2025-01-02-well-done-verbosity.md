@@ -7,7 +7,7 @@ wordcount: process-anyway
 
 # Verbosity Done Well
 
-Programs fail, even the best-written ones. You know this; you’ve experienced it.
+Programs fail, even the best-written ones. You know it; you’ve experienced it.
 You wish you could avoid it, but you can’t. Computers are far from perfect. As a
 beginner programmer, you quickly learn that you must account for both expected
 and unexpected errors. Handling these errors isn’t too difficult, and at this
@@ -52,13 +52,14 @@ conditional), then you’re likely to receive a _very_ informative explanation o
 what went wrong and how to fix it. The module system is excellent at this.
 
 If the error is _not_ handled, however, you’re left with an obscure message
-pointing to where the error originates. In a NixOS system, this often traces
-back to the entry point of the module system or something generic like `config`
-in `specialArgs`. This, folks, is bad design. Not only are you expecting the
-user to know exactly what they’re looking at (minus points for the infamous
-`--show-trace`), but you’re also presenting them with an intimidating wall of
-text that they’ll naturally avoid. It’s almost as if you don’t want the error to
-be resolved...
+pointing to where the error originates. _Hundreds_ of lines at the very least.
+In the context of a NixOS system (i.e. the Nixpkgs module system), errors often
+trace back to the entry point of the module system or something generic like
+`config` in `specialArgs`. This, folks, is bad design. Not only are you
+expecting the user to know exactly what they’re looking at (minus points for the
+infamous `--show-trace`), but you’re also presenting them with an intimidating
+wall of text that they’ll naturally avoid. It’s almost as if you don’t want the
+error to be resolved...
 
 [Nix 2.20](https://nix.dev/manual/nix/2.25/release-notes/rl-2.20) has made...
 some attempts to improve this situation, but the language remains fundamentally
@@ -188,9 +189,10 @@ prioritize clarity, security and proper compartmentalization.
 ### Final Thoughts: Verbosity as a Tool, Not a Burden
 
 This has been translated from a far less technical rant I've dropped earlier
-today on some painful case of error handling[^1]. Looking back, it as not the
+today on some painful case of error handling[^1]. Looking back, it was not the
 first time I've faced bad error handling. Lots of software I use on a daily
-basis simply print everything. Thinking of it, this is a horrible status quo.
+basis simply print everything. In hindsight, this status quo is terrible and yet
+we continue to endure.
 
 Error handling should not just about fixing problems. It must be moreso about
 how you communicate them. I'm sure the programmer who wrote that piece of code
