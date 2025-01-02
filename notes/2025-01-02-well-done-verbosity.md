@@ -60,9 +60,9 @@ user to know exactly what they’re looking at (minus points for the infamous
 text that they’ll naturally avoid. It’s almost as if you don’t want the error to
 be resolved...
 
-Nix 2.20 has made... some attempts to improve this situation, but the language
-remains fundamentally flawed, and such errors are, unfortunately, still
-unavoidable.
+[Nix 2.20](https://nix.dev/manual/nix/2.25/release-notes/rl-2.20) has made...
+some attempts to improve this situation, but the language remains fundamentally
+flawed, and such errors are, unfortunately, still unavoidable.
 
 ### All your error are belong to us
 
@@ -141,7 +141,7 @@ const app = express();
 const PORT = 3000;
 
 app.get("/error", (req, res) => {
-  // Do you want my credit card details as well? Because I'm willing :)
+  // Do you want my credit card details as well? Because I'm willing to provide :)
   res.status(500).send(`
         <h1>Error</h1>
         <p>Something  wrong!</p>
@@ -219,11 +219,11 @@ that you might've ran into. Cheers!
 [Pterodactyl]: https://pterodactyl.io/
 [provides helpful steps]: https://pterodactyl.io/panel/1.0/troubleshooting.html#reading-error-logs
 
-[^2]: There are cases I am both the developer and the end user. Assume, for a
-    moment, that I am working on _your_ codebase with minimal exposure. Most of
-    your codebase is completely foreign to me. When you throw me a stack trace
-    that is all over the place, I am immediately less inclined to contribute to
-    your software. **[Pterodactyl]** (the game server management panel) has a
-    very special way of handling errors. It spews everything, but
+[^2]: There are cases where I am both the developer and the end user. Assume,
+    for a moment, that I am working on _your_ codebase with minimal exposure.
+    Most of your codebase is completely foreign to me. When you throw me a stack
+    trace that is all over the place, I am immediately less inclined to
+    contribute to your software. **[Pterodactyl]** (the game server management
+    panel) has a very special way of handling errors. It spews everything, but
     [provides helpful steps] for the user. This is a good alternative to
     separating layers.
