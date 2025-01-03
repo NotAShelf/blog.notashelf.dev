@@ -18,7 +18,7 @@ function Header(el)
         el.attributes.id = id
 
         local anchor = pandoc.RawInline('html',
-            ' <a href="#' .. id .. '" style="margin-left: 8px; font-size: 0.8em">🔗</a>')
+            ' <a href="#' .. id .. '" class="anchor-link">🔗</a>')
         table.insert(el.content, anchor)
     end
     return el
