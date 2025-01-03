@@ -2,7 +2,16 @@
 $primary: #000000;
 $secondary: #e6e6e8;
 $hover-color: #42b5ff;
-$font-family-primary: "Roboto Slab", Roboto, Arial, sans-serif;
-$font-family-secondary: "Courier Prime", Roboto, Arial, serif;
-$font-family-pre: "source code pro", "lucida console", monospace;
+
+$font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Roboto Slab", Roboto, Arial, sans-serif, "Oxygen-Sans", Ubuntu, Cantarell,
+  "Helvetica Neue", Helvetica, "游ゴシック", "PingFang SC", STXihei, "华文细黑",
+  "Microsoft Yahei", 微软雅黑, SimSun, 宋体, Heiti, 黑体, sans-serif, serif;
+$font-family-secondary: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Courier Prime", Roboto, Arial, sans-serif, "Oxygen-Sans", Ubuntu, Cantarell,
+  "Helvetica Neue", Helvetica, "游ゴシック", "PingFang SC", STXihei, "华文细黑",
+  "Microsoft Yahei", 微软雅黑, SimSun, 宋体, Heiti, 黑体, sans-serif, serif;
+$font-family-pre: "Source Code Pro", "Lucida Console", monospace;
+
+// Ensure correct unit for media queries
 $screen-tablet: 768px;

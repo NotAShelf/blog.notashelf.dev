@@ -10,6 +10,9 @@ pre {
 
 html {
   scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
 }
 
 // Base styles
@@ -24,7 +27,6 @@ body {
   min-height: 100vh;
   line-height: 1.5;
   scroll-behavior: smooth;
-  text-rendering: optimizeLegibility;
 
   @media (max-width: $screen-tablet) {
     font-size: 18px;
@@ -71,6 +73,7 @@ main {
   flex: 1;
   margin: 0 auto;
   max-width: Min(80ch, 100%);
+  font-family: $font-family-primary;
 
   a {
     &:hover,
