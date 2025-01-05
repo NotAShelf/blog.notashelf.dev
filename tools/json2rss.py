@@ -3,6 +3,7 @@
 import os
 import argparse
 import json
+import hashlib
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 
@@ -10,8 +11,6 @@ from datetime import datetime, timezone
 def generate_rss(posts_json_path, output_rss_path, metadata_json_path=None):
     with open(posts_json_path, "r") as file:
         data = json.load(file)
-
-    posts = data.get("posts", [])
 
     # Load metadata from JSON if it's available
     metadata = {
@@ -44,16 +43,25 @@ def generate_rss(posts_json_path, output_rss_path, metadata_json_path=None):
         "%a, %d %b %Y %H:%M:%S +0000"
     )
 
-    # Add each post as an item
+    # Add each post to the feed as an item
+    posts = data.get("posts", [])
     for post in posts:
         item = ET.SubElement(channel, "item")
         ET.SubElement(item, "title").text = post.get("title", "")
         ET.SubElement(item, "link").text = post.get("url", "")
         ET.SubElement(item, "description").text = post.get("description", "")
-        ET.SubElement(item, "pubDate").text = datetime.strptime(
+
+        pub_date = datetime.strptime(
             post.get("date", "1970-01-01"), "%Y-%m-%d"
         ).strftime("%a, %d %b %Y %H:%M:%S +0000")
-        ET.SubElement(item, "guid").text = post.get("url", "")
+        ET.SubElement(item, "pubDate").text = pub_date
+
+        # This should be deterministic enough for our case.
+        unique_string = (
+            f"{post.get('title', '')}{post.get('date', '')}{post.get('url', '')}"
+        )
+        guid_hash = hashlib.sha256(unique_string.encode("utf-8")).hexdigest()
+        ET.SubElement(item, "guid").text = guid_hash
 
     # ElementTree -> string
     rss_tree = ET.ElementTree(rss)
