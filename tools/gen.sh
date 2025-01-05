@@ -160,7 +160,7 @@ generate_other_pages() {
                 # We are converting a post, so apply the appropriate title for the page
                 # and Pandoc Lua filters to 1. calculate word count and 2. apply anchors
                 # to headings for easier navigation.
-                pandoc --from gfm --to html \
+                pandoc --from gfm+smart --to html \
                     -L filters/wordcount.lua -M wordcount=process \
                     -L filters/anchor.lua \
                     --standalone \

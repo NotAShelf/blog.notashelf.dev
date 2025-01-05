@@ -1,16 +1,16 @@
 ---
-title: Verbosity done well
+title: Enter: Beginner's guide to Writing Error Messages
 date: 2025-01-02
-description: A beginner's guide to writing error messages
+description: Thoughts and rants on key principles of writing polite, effective and user-friendly error messages
 wordcount: process-anyway
 ---
 
-# Verbosity Done Well
+# Enter: Beginner's guide to Writing Error Messages
 
-Programs fail, even the best-written ones. You know it; you’ve experienced it.
-You wish you could avoid it, but you can’t. Computers are far from perfect. As a
+Programs fail, even the best-written ones. You know it; you've experienced it.
+You wish you could avoid it, but you can't. Computers are far from perfect. As a
 beginner programmer, you quickly learn that you must account for both expected
-and unexpected errors. Handling these errors isn’t too difficult, and at this
+and unexpected errors. Handling these errors isn't too difficult, and at this
 point, you have two options:
 
 1. Throw a stack trace that gives insight into _where_ the error occurred.
@@ -18,47 +18,47 @@ point, you have two options:
    and offering debugging steps, if applicable.
 
 While you might feel inclined to favor only one of these approaches, the correct
-solution is to provide _both_—but under different circumstances. This is where
+solution is to provide _both_---rut under different circumstances. This is where
 verbosity comes into play. Too much information can be overwhelming; too little
-can be useless. So, what’s the perfect middle ground?
+can be useless. So, what's the perfect middle ground?
 
 ## Who asked?
 
 When I visit your website and your backend is down (unbeknownst to me), I
-_really_ don’t care to see your unhandled error message in full detail. The end
+_really_ don't care to see your unhandled error message in full detail. The end
 user, who _likely_ has no idea what the error message means, should never
-encounter it. It’s _you_—the one responsible for fixing the issue—who needs that
-detailed information.
+encounter it. It's _you_---the one responsible for fixing the issue---who needs
+that detailed information.
 
 The end user should instead see a simple, _polite_ message explaining that
 something went wrong and reassuring them that steps are being taken to resolve
-it. Offer them hope, not despair. Lie if you must, but don’t scare them away.
-Keep verbose error messages hidden—where they belong—in your backend.
+it. Offer them hope, not despair. Lie if you must, but don't scare them away.
+Keep verbose error messages hidden—where they belong---in your backend.
 
 On the other hand, you _do_ need verbose stack traces or whatever form your
-program's detailed crash information takes. You can’t omit these, and you
-shouldn’t. Instead, tuck them behind a flag or log them in a way that’s
+program's detailed crash information takes. You can't omit these, and you
+shouldn't. Instead, tuck them behind a flag or log them in a way that's
 accessible only to those who need them. Ensure that anyone actively
-troubleshooting can easily find this detailed information, while those who don’t
+troubleshooting can easily find this detailed information, while those who don't
 need it remain blissfully unaware.
 
 ## The Good, The Bad, and Nix
 
-This is a Nix blog, so of course, I’m going to complain about it. Nix has a very
+This is a Nix blog, so of course, I'm going to complain about it. Nix has a very
 _unique_ (for the lack of a better word) way of reporting errors. If the author
 of whatever project you are consuming is thoughtful enough to handle each case
 (be it via an assertion, as part of the module system, or with an extensive
-conditional), then you’re likely to receive a _very_ informative explanation of
+conditional), then you're likely to receive a _very_ informative explanation of
 what went wrong and how to fix it. The module system is excellent at this.
 
-If the error is _not_ handled, however, you’re left with an obscure message
+If the error is _not_ handled, however, you're left with an obscure message
 pointing to where the error originates. _Hundreds_ of lines at the very least.
 In the context of a NixOS system (i.e. the Nixpkgs module system), errors often
 trace back to the entry point of the module system or something generic like
 `config` in `specialArgs`. This, folks, is bad design. Not only are you
-expecting the user to know exactly what they’re looking at (minus points for the
-infamous `--show-trace`), but you’re also presenting them with an intimidating
-wall of text that they’ll naturally avoid. It’s almost as if you don’t want the
+expecting the user to know exactly what they're looking at (minus points for the
+infamous `--show-trace`), but you're also presenting them with an intimidating
+wall of text that they'll naturally avoid. It's almost as if you don't want the
 error to be resolved...
 
 [Nix 2.20](https://nix.dev/manual/nix/2.25/release-notes/rl-2.20) has made...
@@ -142,7 +142,7 @@ const app = express();
 const PORT = 3000;
 
 app.get("/error", (req, res) => {
-  // Do you want my credit card details as well? Because I'm willing to provide :)
+  // Do you want my credit card details as well?
   res.status(500).send(`
         <h1>Error</h1>
         <p>Something  wrong!</p>
@@ -157,7 +157,6 @@ app.get("/error", (req, res) => {
         </pre>
         <pre>
             Environment: ${JSON.stringify(process.env, null, 2)}
-            ...
         </pre>
     `);
 });
@@ -174,7 +173,7 @@ In this godawful example, the end-user is bombarded with irrelevant technical
 details like stack traces and environment variables. This is not only
 overwhelming and confusing, but it also exposes sensitive information that
 should never be seen by the user. The error message is not actionable and serves
-only to frustrate the user. More importantly, it’s a security risk—exposing
+only to frustrate the user. More importantly, it's a security risk—exposing
 environment variables could allow a malicious party to take advantage of what
 you might consider technical mumbo-jumbo (and therefore safe to spew.)
 
