@@ -1,18 +1,18 @@
 {
   "posts": [
     {
-      "name": "2025-01-01-hello-world.md",
-      "url": "https://blog.notashelf.dev/posts/2025-01-01-hello-world.html",
-      "title": "Hello world!",
-      "description": "New year, new blog and new obsessions",
+      "name": "2025-01-01-guide-to-error-messages.md",
+      "url": "https://blog.notashelf.dev/posts/2025-01-01-guide-to-error-messages.html",
+      "title": "Hello World!",
+      "description": "New year, new blog and new obsessions; all in one place.",
       "date": "2025-01-01",
-      "path": "/posts/2025-01-01-hello-world.html"
+      "path": "/posts/2025-01-01-guide-to-error-messages.html"
     },
     {
       "name": "2025-01-02-well-done-verbosity.md",
       "url": "https://blog.notashelf.dev/posts/2025-01-02-well-done-verbosity.html",
-      "title": "Verbosity done well",
-      "description": "A beginner’s guide to writing error messages",
+      "title": "Enter: Beginner’s guide to Writing Error Messages",
+      "description": "Thoughts and rants on key principles of writing polite, effective and user-friendly error messages",
       "date": "2025-01-02",
       "path": "/posts/2025-01-02-well-done-verbosity.html"
     }

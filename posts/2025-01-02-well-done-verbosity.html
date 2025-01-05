@@ -201,7 +201,8 @@
       
 
       <!-- Table of Contents, if enabled -->
-       <h1 id="verbosity-done-well">Verbosity Done Well</h1>
+       <h1 id="enter-beginners-guide-to-writing-error-messages">Enter:
+Beginner’s guide to Writing Error Messages</h1>
 <div class="reading-time">
 <p>6 minute read</p>
 </div>
@@ -217,12 +218,12 @@ occurred.</li>
 absence) and offering debugging steps, if applicable.</li>
 </ol>
 <p>While you might feel inclined to favor only one of these approaches,
-the correct solution is to provide <em>both</em>—but under different
+the correct solution is to provide <em>both</em>—rut under different
 circumstances. This is where verbosity comes into play. Too much
 information can be overwhelming; too little can be useless. So, what’s
 the perfect middle ground?</p>
 <h2 id="who-asked" id="who-asked">Who
-asked? <a href="#who-asked" style="margin-left: 8px; font-size: 0.8em">🔗</a></h2>
+asked? <a href="#who-asked" class="anchor-link">🔗</a></h2>
 <p>When I visit your website and your backend is down (unbeknownst to
 me), I <em>really</em> don’t care to see your unhandled error message in
 full detail. The end user, who <em>likely</em> has no idea what the
@@ -235,7 +236,7 @@ being taken to resolve it. Offer them hope, not despair. Lie if you
 must, but don’t scare them away. Keep verbose error messages
 hidden—where they belong—in your backend.</p>
 <p>On the other hand, you <em>do</em> need verbose stack traces or
-whatever form your program's detailed crash information takes. You can’t
+whatever form your program’s detailed crash information takes. You can’t
 omit these, and you shouldn’t. Instead, tuck them behind a flag or log
 them in a way that’s accessible only to those who need them. Ensure that
 anyone actively troubleshooting can easily find this detailed
@@ -243,7 +244,7 @@ information, while those who don’t need it remain blissfully
 unaware.</p>
 <h2 id="the-good-the-bad-and-nix" id="the-good-the-bad-and-nix">The
 Good, The Bad, and
-Nix <a href="#the-good-the-bad-and-nix" style="margin-left: 8px; font-size: 0.8em">🔗</a></h2>
+Nix <a href="#the-good-the-bad-and-nix" class="anchor-link">🔗</a></h2>
 <p>This is a Nix blog, so of course, I’m going to complain about it. Nix
 has a very <em>unique</em> (for the lack of a better word) way of
 reporting errors. If the author of whatever project you are consuming is
@@ -261,14 +262,14 @@ design. Not only are you expecting the user to know exactly what they’re
 looking at (minus points for the infamous <code>--show-trace</code>),
 but you’re also presenting them with an intimidating wall of text that
 they’ll naturally avoid. It’s almost as if you don’t want the error to
-be resolved...</p>
+be resolved…</p>
 <p><a href="https://nix.dev/manual/nix/2.25/release-notes/rl-2.20">Nix
-2.20</a> has made... some attempts to improve this situation, but the
+2.20</a> has made… some attempts to improve this situation, but the
 language remains fundamentally flawed, and such errors are,
 unfortunately, still unavoidable.</p>
 <h3 id="all-your-error-are-belong-to-us"
 id="all-your-error-are-belong-to-us">All your error are belong to
-us <a href="#all-your-error-are-belong-to-us" style="margin-left: 8px; font-size: 0.8em">🔗</a></h3>
+us <a href="#all-your-error-are-belong-to-us" class="anchor-link">🔗</a></h3>
 <p>Here is an example of how I would like to approach errors.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> express <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;express&quot;</span>)<span class="op">;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;fs&quot;</span>)<span class="op">;</span></span>
@@ -324,8 +325,8 @@ us <a href="#all-your-error-are-belong-to-us" style="margin-left: 8px; font-size
 <p>In the example above, error-logging and user-response
 responsibilities are clearly separated. The <code>errorHandler</code>
 middleware returns a clean and polite JSON response to the client:
-<em>"Something went wrong. We are working to resolve the issue."</em>
-The user doesn't need to know anything technical, so they don't. Letting
+<em>“Something went wrong. We are working to resolve the issue.”</em>
+The user doesn’t need to know anything technical, so they don’t. Letting
 technical information to the frontend is simply poor design.</p>
 <p>This, I think, is the golden spot. Easy to maintain, not awful and
 more importantly <em>not</em> a thousand lines of meaningless,
@@ -333,14 +334,14 @@ unintelligible text.</p>
 <h3 id="404-according-to-all-known-laws-of-aviation"
 id="404-according-to-all-known-laws-of-aviation">404: According to all
 known laws of
-aviation... <a href="#404-according-to-all-known-laws-of-aviation" style="margin-left: 8px; font-size: 0.8em">🔗</a></h3>
+aviation… <a href="#404-according-to-all-known-laws-of-aviation" class="anchor-link">🔗</a></h3>
 <p>Now lets consider a bad example. No, a <em>horrible</em> example.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> express <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;express&quot;</span>)<span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> app <span class="op">=</span> <span class="fu">express</span>()<span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PORT <span class="op">=</span> <span class="dv">3000</span><span class="op">;</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>app<span class="op">.</span><span class="fu">get</span>(<span class="st">&quot;/error&quot;</span><span class="op">,</span> (req<span class="op">,</span> res) <span class="kw">=&gt;</span> {</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Do you want my credit card details as well? Because I&#39;m willing to provide :)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Do you want my credit card details as well?</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  res<span class="op">.</span><span class="fu">status</span>(<span class="dv">500</span>)<span class="op">.</span><span class="fu">send</span>(<span class="vs">`</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;h1&gt;Error&lt;/h1&gt;</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;p&gt;Something  wrong!&lt;/p&gt;</span></span>
@@ -355,16 +356,15 @@ aviation... <a href="#404-according-to-all-known-laws-of-aviation" style="margin
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/pre&gt;</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;pre&gt;</span></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="vs">            Environment: </span><span class="sc">${</span><span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="dv">2</span>)<span class="sc">}</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="vs">            ...</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/pre&gt;</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span>)<span class="op">;</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">// No error handling middleware or logging mechanisms. Vomit everything as is.</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>app<span class="op">.</span><span class="fu">listen</span>(PORT<span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Server running at http://localhost:</span><span class="sc">${</span>PORT<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
-<p><em>Don't ask me where I got that error message.</em></p>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/pre&gt;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span>)<span class="op">;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">// No error handling middleware or logging mechanisms. Vomit everything as is.</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>app<span class="op">.</span><span class="fu">listen</span>(PORT<span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Server running at http://localhost:</span><span class="sc">${</span>PORT<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p><em>Don’t ask me where I got that error message.</em></p>
 <p>In this godawful example, the end-user is bombarded with irrelevant
 technical details like stack traces and environment variables. This is
 not only overwhelming and confusing, but it also exposes sensitive
@@ -384,25 +384,25 @@ compartmentalization.</p>
 <h3 id="final-thoughts-verbosity-as-a-tool-not-a-burden"
 id="final-thoughts-verbosity-as-a-tool-not-a-burden">Final Thoughts:
 Verbosity as a Tool, Not a
-Burden <a href="#final-thoughts-verbosity-as-a-tool-not-a-burden" style="margin-left: 8px; font-size: 0.8em">🔗</a></h3>
-<p>This has been translated from a far less technical rant I've dropped
+Burden <a href="#final-thoughts-verbosity-as-a-tool-not-a-burden" class="anchor-link">🔗</a></h3>
+<p>This has been translated from a far less technical rant I’ve dropped
 earlier today on some painful case of error handling<a href="#fn1"
 class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.
-Looking back, it was not the first time I've faced bad error handling.
+Looking back, it was not the first time I’ve faced bad error handling.
 Lots of software I use on a daily basis simply print everything. In
 hindsight, this status quo is terrible and yet we continue to
 endure.</p>
 <p>Error handling should not just about fixing problems. It must be
-moreso about how you communicate them. I'm sure the programmer who wrote
+moreso about how you communicate them. I’m sure the programmer who wrote
 that piece of code wants to know what went wrong, and where, but I
-don't. Unnecessary verbosity is just as harmful as a complete lack of
+don’t. Unnecessary verbosity is just as harmful as a complete lack of
 information. So, for the sake of establishing a standard let me provide
 the following as a baseline:</p>
 <ol type="1">
 <li><p>Tailor to Your Audience: End-users want, nay, <em>need</em>
 reassurance and simplicity. Developers need depth and precision.
 Separate these layers effectively. Verbosity should be <em>opt-in</em>.
-Flags, environment variables, configuration options and so on. Don't
+Flags, environment variables, configuration options and so on. Don’t
 just vomit information.</p></li>
 <li><p>Respect Security: Never expose sensitive or otherwise unnecessary
 details to the frontend. Verbose logs belong in the backend, under
@@ -414,7 +414,7 @@ but informative.</p></li>
 </ol>
 <p>This was all from me. If you have anything you want to add, do feel
 free to contact me. Let me also know of any unique cases of good and bad
-error handling that you might've ran into. Cheers!</p>
+error handling that you might’ve ran into. Cheers!</p>
 <section id="footnotes" class="footnotes footnotes-end-of-document"
 role="doc-endnotes">
 <hr />
