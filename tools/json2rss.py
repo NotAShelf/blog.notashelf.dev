@@ -56,6 +56,14 @@ def generate_rss(posts_json_path, output_rss_path, metadata_json_path=None):
         ).strftime("%a, %d %b %Y %H:%M:%S +0000")
         ET.SubElement(item, "pubDate").text = pub_date
 
+        feed_url = metadata.get("link", "https://blog.notashelf.dev/") + "feed.xml"
+        ET.SubElement(
+            channel,
+            "{http://www.w3.org/2005/Atom}link",
+            rel="self",
+            href=feed_url,
+        )
+
         # This should be deterministic enough for our case.
         unique_string = (
             f"{post.get('title', '')}{post.get('date', '')}{post.get('url', '')}"
