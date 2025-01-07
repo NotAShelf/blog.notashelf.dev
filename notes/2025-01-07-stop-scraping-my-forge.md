@@ -22,9 +22,9 @@ with. You understand my surprise when I looked at my Nginx webserver log and
 found _thousands_ of requests coming my way; all with the user agent
 `facebookexternalhit`. More specifically, they were sending `GET` requests to
 _my personal Git forge_---a service where I store _personal_ projects that I
-prefer not to entrust platforms Microsoft Github. Over **30,000** lines were
-reserved to nothing but unsolicited `GET` requests in my access log. **What the
-hell**?
+prefer not to entrust platforms such as Microsoft Github. Over **30,000** lines
+were reserved to nothing but unsolicited `GET` requests in my access log. **What
+the hell**?
 
 Instinctively, I put together a quick Python script that follows the service
 logs for Forgejo, which at the time also logged router events, and logs _unique_
@@ -88,8 +88,8 @@ several different subnets. This means
 1. Meta is using several different providers (as evident from IP queries) to
    simply send bogus requests to people's webservers.
 2. Meta is, in fact, _not_ respecting `robots.txt`.[^1]
-3. They feel not at all inclined to maybe stop and think sending thousands of to
-   people's servers is malicious.
+3. They feel not at all inclined to maybe stop and think sending thousands of
+   requests to people's servers _is malicious_.
 4. To my demise, banning each and every single one of those subnets would take
    too long, and block possibly legitimate traffic.
 
@@ -146,9 +146,9 @@ My Forgejo instance is now inaccessible to those who have not logged in---even
 for public repositories--- and my Nginx configuration responds with 403 to any
 requests coming from Meta's known crawlers. I have also tried sending an-email
 to their webmaster as listed from the documentation URL attached to their
-crawlers, but I am yet to receive a response, or to see an indication of those
-crawlers stopping soon. Meanwhile, I am left to deal with their recklessness on
-my own accord.
+crawlers. It has now been 4 months since, but I am yet to receive a response, or
+to see an indication of those crawlers stopping soon. Meanwhile, I am left to
+deal with their recklessness on my own accord.
 
 Instead, I will resort to banning ALL of them with nftables using IP ranges. It
 is going to be annoying, but not fruitless, to write another Python script to
