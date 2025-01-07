@@ -222,9 +222,9 @@ webserver log and found <em>thousands</em> of requests coming my way;
 all with the user agent <code>facebookexternalhit</code>. More
 specifically, they were sending <code>GET</code> requests to <em>my
 personal Git forge</em>—a service where I store <em>personal</em>
-projects that I prefer not to entrust platforms Microsoft Github. Over
-<strong>30,000</strong> lines were reserved to nothing but unsolicited
-<code>GET</code> requests in my access log. <strong>What the
+projects that I prefer not to entrust platforms such as Microsoft
+Github. Over <strong>30,000</strong> lines were reserved to nothing but
+unsolicited <code>GET</code> requests in my access log. <strong>What the
 hell</strong>?</p>
 <p>Instinctively, I put together a quick Python script that follows the
 service logs for Forgejo, which at the time also logged router events,
@@ -289,7 +289,7 @@ queries) to simply send bogus requests to people’s webservers.</li>
 href="#fn1" class="footnote-ref" id="fnref1"
 role="doc-noteref"><sup>1</sup></a></li>
 <li>They feel not at all inclined to maybe stop and think sending
-thousands of to people’s servers is malicious.</li>
+thousands of requests to people’s servers <em>is malicious</em>.</li>
 <li>To my demise, banning each and every single one of those subnets
 would take too long, and block possibly legitimate traffic.</li>
 </ol>
@@ -336,10 +336,10 @@ online.</p>
 in—even for public repositories— and my Nginx configuration responds
 with 403 to any requests coming from Meta’s known crawlers. I have also
 tried sending an-email to their webmaster as listed from the
-documentation URL attached to their crawlers, but I am yet to receive a
-response, or to see an indication of those crawlers stopping soon.
-Meanwhile, I am left to deal with their recklessness on my own
-accord.</p>
+documentation URL attached to their crawlers. It has now been 4 months
+since, but I am yet to receive a response, or to see an indication of
+those crawlers stopping soon. Meanwhile, I am left to deal with their
+recklessness on my own accord.</p>
 <p>Instead, I will resort to banning ALL of them with nftables using IP
 ranges. It is going to be annoying, but not fruitless, to write another
 Python script to identify <em>each and every single subnet</em> those
