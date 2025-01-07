@@ -15,6 +15,14 @@
       "description": "Thoughts and rants on key principles of writing polite, effective and user-friendly error messages",
       "date": "2025-01-02",
       "path": "/posts/2025-01-02-well-done-verbosity.html"
+    },
+    {
+      "name": "2025-01-07-stop-scraping-my-forge.md",
+      "url": "https://blog.notashelf.dev/posts/2025-01-07-stop-scraping-my-forge.html",
+      "title": "Stop Scraping my Git Forge!",
+      "description": "Just one of those that should be illegal, but is not.",
+      "date": "2025-01-01",
+      "path": "/posts/2025-01-07-stop-scraping-my-forge.html"
     }
   ]
 }
