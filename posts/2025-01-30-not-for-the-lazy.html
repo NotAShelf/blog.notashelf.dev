@@ -265,9 +265,9 @@ evaluated.</strong></li>
 <li><strong>Function arguments are not evaluated unless explicitly
 used.</strong><a href="#fn1" class="footnote-ref" id="fnref1"
 role="doc-noteref"><sup>1</sup></a></li>
-<li><strong>Attribute sets can contain self-referential definitions
-without infinite recursion (if structured properly).</strong><a
-href="#fn2" class="footnote-ref" id="fnref2"
+<li>**Attribute sets can include self-referential definitions, leading
+to infinite recursion errors only when an attribute directly refers to
+itself. ** <a href="#fn2" class="footnote-ref" id="fnref2"
 role="doc-noteref"><sup>2</sup></a></li>
 </ul>
 <h2 id="the-death-of-conditionals-or-at-least-their-diminished-role"
@@ -408,8 +408,9 @@ when the function argument is unused. For example in the
 Statix would’ve warned you about the unused argument <code>x</code>.<a
 href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>This is possible due to lazy evaluation resolving
-circular dependencies without causing crashes.<a href="#fnref2"
-class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+circular dependencies without causing crashes. However, an infinitely
+recursing attribute can exist as long as it’s not evaluated.<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>I’m very well aware that there is a <code>fix</code>
 function in nixpkgs lib. I mainly want to focus on core Nix language, so
 applications of <code>lib.fix</code> are omitted this time around. I’d
