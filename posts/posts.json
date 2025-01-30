@@ -23,6 +23,14 @@
       "description": "Just one of those that should be illegal, but is not.",
       "date": "2025-01-07",
       "path": "/posts/2025-01-07-stop-scraping-my-forge.html"
+    },
+    {
+      "name": "2025-01-30-not-for-the-lazy.md",
+      "url": "https://blog.notashelf.dev/posts/2025-01-30-not-for-the-lazy.html",
+      "title": "Lazy Evaluation in Nix: Where Your Conditionals Go to Die",
+      "description": "Exploring lazy evaluation in relative depth",
+      "date": "2025-01-30",
+      "path": "/posts/2025-01-30-not-for-the-lazy.html"
     }
   ]
 }

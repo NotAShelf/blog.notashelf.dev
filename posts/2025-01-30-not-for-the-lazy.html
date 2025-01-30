@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="/assets/apple-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="/assets/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="/assets/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/assets/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/assets/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/assets/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/assets/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/assets/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/assets/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+         <meta name="dcterms.date" content="2025-01-30" />
+          <meta name="description" content="Notes on Nix, Linux and every other pie I put a finger in" />
+        <title>Posts - Not For The Lazy</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      /* The extra [class] is a hack that increases specificity enough to
+         override a similar rule in reveal.js */
+      ul.task-list[class]{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        font-size: inherit;
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1.6em;
+        vertical-align: middle;
+      }
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+          background-color: #232629;
+          color: #7a7c7d;
+        }
+      pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+      div.sourceCode
+        { color: #cfcfc2;  }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span { color: #cfcfc2; } /* Normal */
+      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+      code span.an { color: #3f8058; } /* Annotation */
+      code span.at { color: #2980b9; } /* Attribute */
+      code span.bn { color: #f67400; } /* BaseN */
+      code span.bu { color: #7f8c8d; } /* BuiltIn */
+      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+      code span.ch { color: #3daee9; } /* Char */
+      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+      code span.co { color: #7a7c7d; } /* Comment */
+      code span.cv { color: #7f8c8d; } /* CommentVar */
+      code span.do { color: #a43340; } /* Documentation */
+      code span.dt { color: #2980b9; } /* DataType */
+      code span.dv { color: #f67400; } /* DecVal */
+      code span.er { color: #da4453; text-decoration: underline; } /* Error */
+      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+      code span.fl { color: #f67400; } /* Float */
+      code span.fu { color: #8e44ad; } /* Function */
+      code span.im { color: #27ae60; } /* Import */
+      code span.in { color: #c45b00; } /* Information */
+      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+      code span.op { color: #cfcfc2; } /* Operator */
+      code span.ot { color: #27ae60; } /* Other */
+      code span.pp { color: #27ae60; } /* Preprocessor */
+      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+      code span.sc { color: #3daee9; } /* SpecialChar */
+      code span.ss { color: #da4453; } /* SpecialString */
+      code span.st { color: #f44f4f; } /* String */
+      code span.va { color: #27aeae; } /* Variable */
+      code span.vs { color: #da4453; } /* VerbatimString */
+      code span.wa { color: #da4453; } /* Warning */
+    </style>
+        <link rel="stylesheet" href="/home/runner/work/blog.notashelf.dev/blog.notashelf.dev/templates/style.css" />
+        <!-- Begin Lineicons import -->
+    <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css" />
+    <!-- End Lineicons import-->
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="shortcut icon"
+      href="/assets/favicon-96x96.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header class="page-navigation">
+      <nav class="primary-buttons">
+        <ul>
+          <li><a class="nav-button" href="/">Index</a></li>
+        </ul>
+      </nav>
+      <nav class="secondary-buttons">
+        <ul>
+          <li>
+            <a class="nav-button" href="/pages/posts.html"> Posts </a>
+            <a class="nav-button" href="/pages/about.html"> About </a>
+            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <hr class="nav-border">
+
+    <main>
+      <!-- Keywords, if any. -->
+      
+
+      <!-- Table of Contents, if enabled -->
+       <h1
+id="lazy-evaluation-in-nix-where-your-conditionals-go-to-die">Lazy
+Evaluation in Nix: Where Your Conditionals Go to Die</h1>
+<div class="reading-time">
+<p>5 minute read</p>
+</div>
+<p>If you have spent time in traditional programming languages, then you
+have probably relied on conditionals (<code>if-else</code>,
+<code>switch</code>, <code>case</code>) at least once in your life. In
+Nix, as a grace of lazy evaluation, many of those construct become less
+relevant—or outright unnecessary. This post dives into <em>why</em> this
+is the case, and hopes to save you from a few pitfalls that come with
+this.</p>
+<h2 id="what-is-lazy-evaluation" id="what-is-lazy-evaluation">What is
+Lazy
+Evaluation? <a href="#what-is-lazy-evaluation" class="anchor-link">🔗</a></h2>
+<p>I first need to explain what Lazy evaluation is. Not just within the
+context of Nix, but in programming in general.</p>
+<p>Lazy evaluation means that expressions are not evaluated until their
+values are actually needed. This is in contrast to strict (or eager)
+evaluation, where expressions are computed as soon as they are bound to
+a variable. In more practical terms, lazy evaluation helps avoid
+unnecessary computations by delaying the evaluation of expressions. It’s
+a powerful technique for improving performance and managing resources
+efficiently.</p>
+<h3 id="laziness-in-haskell" id="laziness-in-haskell">Laziness in
+Haskell <a href="#laziness-in-haskell" class="anchor-link">🔗</a></h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">lazyNumbers ::</span> [<span class="dt">Int</span>]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>lazyNumbers <span class="ot">=</span> [<span class="dv">1</span><span class="op">..</span>]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">firstFiveNumbers ::</span> [<span class="dt">Int</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>firstFiveNumbers <span class="ot">=</span> <span class="fu">take</span> <span class="dv">5</span> lazyNumbers</span></code></pre></div>
+<p>In this example <code>lazyNumbers</code> is an infinite list.
+However, the values are not computed all at once. The
+<code>take 5 lazyNumbers</code> expression only computes the first 5
+elements of the list when required. That is the most typical example of
+lazy evaluation I can think of. Key point is that the numbers are only
+generated when needed, instead of being computed upfront.</p>
+<h3 id="laziness-in-python" id="laziness-in-python">Laziness in
+Python <a href="#laziness-in-python" class="anchor-link">🔗</a></h3>
+<p>With some friction, we can implement lazy iteration in Python.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lazy_numbers():</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> num</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        num <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>lazy_gen <span class="op">=</span> lazy_numbers()</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>first_five_numbers <span class="op">=</span> [<span class="bu">next</span>(lazy_gen) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>)]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first_five_numbers)</span></code></pre></div>
+<p>In this example, <code>lazy_numbers()</code> is a generator that
+lazily yields numbers starting from 1. Unlike a typical <em>list</em>,
+the numbers are not computed all at once. The
+<code>next(lazy_gen)</code> call only computes the next number when
+needed. So, when we request the first five numbers, only the first five
+numbers are generated.</p>
+<p>In Nix, laziness manifests in several ways:</p>
+<ul>
+<li><strong>Unused branches of an if-else are never
+evaluated.</strong></li>
+<li><strong>Function arguments are not evaluated unless explicitly
+used.</strong><a href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a></li>
+<li><strong>Attribute sets can contain self-referential definitions
+without infinite recursion (if structured properly).</strong><a
+href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a></li>
+</ul>
+<h2 id="the-death-of-conditionals-or-at-least-their-diminished-role"
+id="the-death-of-conditionals-or-at-least-their-diminished-role">The
+Death of Conditionals (or at Least Their Diminished
+Role) <a href="#the-death-of-conditionals-or-at-least-their-diminished-role" class="anchor-link">🔗</a></h2>
+<p>In strict languages, conditionals are usually used to prevent
+expensive computations from running unnecessarily. But in Nix, the very
+nature of laziness means that an expensive computation inside an unused
+branch never executes.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">expensive</span> <span class="op">=</span> <span class="bu">builtins</span>.trace <span class="st">&quot;This should not print!&quot;</span> <span class="op">(</span><span class="bu">throw</span> <span class="st">&quot;Error&quot;</span><span class="op">);</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">value</span> <span class="op">=</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="cn">false</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">then</span> expensive</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">else</span> <span class="st">&quot;Safe&quot;</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  value</span></code></pre></div>
+<p>In an eagerly evaluated language, this would result in an error
+because <code>expensive</code> would be computed before <code>if</code>
+even runs. In Nix, however, the <code>false</code> branch is never
+evaluated, so the program executes safely.</p>
+<h2 id="functions-only-compute-what-is-needed"
+id="functions-only-compute-what-is-needed">Functions: Only Compute What
+is
+Needed <a href="#functions-only-compute-what-is-needed" class="anchor-link">🔗</a></h2>
+<p>Since function arguments are evaluated lazily, unnecessary
+computations can be avoided naturally.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">alwaysReturnsOne</span> <span class="op">=</span> <span class="va">x</span><span class="op">:</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>alwaysReturnsOne <span class="op">(</span><span class="bu">throw</span> <span class="st">&quot;This should never be evaluated&quot;</span><span class="op">)</span></span></code></pre></div>
+<p>Even though we pass an expression that would normally cause an error,
+it is never evaluated since <code>x</code> is not used inside the
+function body.</p>
+<h2 id="self-referencing-without-infinite-loops"
+id="self-referencing-without-infinite-loops">Self-Referencing Without
+Infinite
+Loops <a href="#self-referencing-without-infinite-loops" class="anchor-link">🔗</a></h2>
+<p>laziness allows for powerful self-referential structures that would
+be impossible in strict languages without explicit mechanisms like
+<code>fix</code>. <a href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a> We’ll talk about <code>fix</code>
+shortly.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># rec is a special form in Nix used for defining recursive</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># attribute sets, allowing circular references to resolve</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># lazily without infinite loops. You will find out very</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># quickly, however, that it is often discouraged.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="va">infiniteRec</span> <span class="op">=</span> <span class="kw">rec</span> <span class="op">{</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">a</span> <span class="op">=</span> b <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">b</span> <span class="op">=</span> a <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a> infiniteRec.a  <span class="co"># This evaluates without an infinite loop</span></span></code></pre></div>
+<p>Here, Nix resolves <code>a</code> and <code>b</code> lazily, allowing
+this circular dependency to work without crashing.</p>
+<h3 id="what-is-fix" id="what-is-fix">What is
+<code>fix</code>? <a href="#what-is-fix" class="anchor-link">🔗</a></h3>
+<p><code>fix</code> is a function used in some functional languages
+(such as Haskell) to define recursive expressions without requiring
+explicit naming. It applies a function to itself, allowing the
+expression to refer to itself.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode hs"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fix f <span class="ot">=</span> f (fix f)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fact <span class="ot">=</span> fix (\rec n <span class="ot">-&gt;</span> <span class="kw">if</span> n <span class="op">==</span> <span class="dv">0</span> <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> n <span class="op">*</span> rec (n <span class="op">-</span> <span class="dv">1</span>))</span></code></pre></div>
+<h3 id="other-examples" id="other-examples">Other
+Examples <a href="#other-examples" class="anchor-link">🔗</a></h3>
+<p>To help give you an idea of what lazy evaluation can do for you, e.g.
+in your NixOS configuration, I’d like to demonstrate laziness in
+action.</p>
+<p><strong>Lazy Lists</strong></p>
+<p>In Nix, you can define infinite data structures like lazy lists
+without causing infinite loops:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">lazyList</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">head</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">tail</span> <span class="op">=</span> lazyList.tail<span class="op">;</span> <span class="co"># this is an infinite recursion, if it evaluates...</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  lazyList.head</span></code></pre></div>
+<p><strong>Delayed Computation in Attribute Sets</strong></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">config</span> <span class="op">=</span> <span class="kw">rec</span> <span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">setting</span> <span class="op">=</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> useAdvanced</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="kw">then</span> <span class="bu">builtins</span>.<span class="bu">throw</span> <span class="st">&quot;Too expensive!&quot;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="kw">else</span> <span class="st">&quot;default&quot;</span><span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">useAdvanced</span> <span class="op">=</span> <span class="cn">false</span><span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># evaluates to &quot;default&quot;, error is never thrown</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  config.setting</span></code></pre></div>
+<h2 id="conclusion"
+id="conclusion">Conclusion <a href="#conclusion" class="anchor-link">🔗</a></h2>
+<p>Laziness is powerful, but it can lead to surprises:</p>
+<ul>
+<li>Debugging is harder because errors might not surface until a deeply
+nested expression is finally evaluated. <code>--show-trace</code> is
+your friend most of the time.</li>
+<li>Performance tuning requires careful observation of when expressions
+are actually computed.</li>
+<li>Memory usage can balloon if large unevaluated thunks pile up,
+leading to unexpected memory pressure. Though, Nix’s performance woes
+come from elsewhere.</li>
+</ul>
+<p>A very good question would be <em>“why did you write this post?”</em>
+Truth is, I want to make it clear that Nix is <em>not</em> one of your
+traditional languages. There also seems to be a trend of new Nix/OS
+users failing to understand Nix <em>is</em> a programming language, and
+it is a functional one no less. I wanted to make it very clear that some
+of the “issues” (such as dreadfully long error messages) are an
+occupational hazard.</p>
+<p>To conclude, laziness in Nix removes the need for many traditional
+control flow constructs, albeit with its own set of caveats. Rather than
+guarding expensive computations with explicit conditionals, you often
+don’t need to worry at all—unused expressions simply never evaluate.
+However, laziness introduces its own challenges, especially when
+debugging or managing performance.</p>
+<p>Next time you are working with Nix, remember that you are using a
+domain specific language that is bound to have its own quirks.
+Regardless of said quirks, Nix is a very powerful language that
+trivializes Infrastructure as Code, but <em>only</em> if you treat it as
+code.</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Static analysis tools, such as <a
+href="https://github.com/oppiliappan/statix">Statix</a> will warn you
+when the function argument is unused. For example in the
+<code>alwaysReturnOne</code> function I’ve used as an example above,
+Statix would’ve warned you about the unused argument <code>x</code>.<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>This is possible due to lazy evaluation resolving
+circular dependencies without causing crashes.<a href="#fnref2"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>I’m very well aware that there is a <code>fix</code>
+function in nixpkgs lib. I mainly want to focus on core Nix language, so
+applications of <code>lib.fix</code> are omitted this time around. I’d
+like to talk about <code>fix</code> and recursion specifically in
+another post, another time. This is already long as it is.<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section> 
+    </main>
+    <footer>
+      <div class="footer-divider"></div>
+      <p>&copy; <span id="copyright"></span> NotAShelf</p>
+      <div class="footer-icons">
+        <a href="https://github.com/notashelf">
+          <i class="lni lni-github-original" title="GitHub"></i>
+        </a>
+      </div>
+    </footer>
+    <script src="/static/copyright.js"</script>
+  </body>
+</html>
