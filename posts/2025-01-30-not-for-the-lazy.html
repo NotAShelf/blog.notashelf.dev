@@ -205,7 +205,7 @@
 id="lazy-evaluation-in-nix-where-your-conditionals-go-to-die">Lazy
 Evaluation in Nix: Where Your Conditionals Go to Die</h1>
 <div class="reading-time">
-<p>5 minute read</p>
+<p>7 minute read</p>
 </div>
 <p>If you have spent time in traditional programming languages, then you
 have probably relied on conditionals (<code>if-else</code>,
@@ -265,10 +265,10 @@ evaluated.</strong></li>
 <li><strong>Function arguments are not evaluated unless explicitly
 used.</strong><a href="#fn1" class="footnote-ref" id="fnref1"
 role="doc-noteref"><sup>1</sup></a></li>
-<li>**Attribute sets can include self-referential definitions, leading
-to infinite recursion errors only when an attribute directly refers to
-itself. ** <a href="#fn2" class="footnote-ref" id="fnref2"
-role="doc-noteref"><sup>2</sup></a></li>
+<li><strong>Attribute sets can include self-referential definitions,
+leading to infinite recursion errors only when an attribute directly
+refers to itself.</strong><a href="#fn2" class="footnote-ref"
+id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
 </ul>
 <h2 id="the-death-of-conditionals-or-at-least-their-diminished-role"
 id="the-death-of-conditionals-or-at-least-their-diminished-role">The
@@ -302,19 +302,20 @@ computations can be avoided naturally.</p>
 class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">alwaysReturnsOne</span> <span class="op">=</span> <span class="va">x</span><span class="op">:</span> <span class="dv">1</span><span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>alwaysReturnsOne <span class="op">(</span><span class="bu">throw</span> <span class="st">&quot;This should never be evaluated&quot;</span><span class="op">)</span></span></code></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># The throw becomes the function argument here, which is x.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Since x is never evaluated, nor is the throw so the program</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># will continue.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  alwaysReturnsOne <span class="op">(</span><span class="bu">throw</span> <span class="st">&quot;This should never be evaluated&quot;</span><span class="op">)</span></span></code></pre></div>
 <p>Even though we pass an expression that would normally cause an error,
 it is never evaluated since <code>x</code> is not used inside the
 function body.</p>
-<h2 id="self-referencing-without-infinite-loops"
-id="self-referencing-without-infinite-loops">Self-Referencing Without
-Infinite
-Loops <a href="#self-referencing-without-infinite-loops" class="anchor-link">🔗</a></h2>
-<p>laziness allows for powerful self-referential structures that would
-be impossible in strict languages without explicit mechanisms like
-<code>fix</code>. <a href="#fn3" class="footnote-ref" id="fnref3"
-role="doc-noteref"><sup>3</sup></a> We’ll talk about <code>fix</code>
-shortly.</p>
+<h2 id="self-referencing-with-and-without-infinite-loops"
+id="self-referencing-with-and-without-infinite-loops">Self-Referencing
+With and Without Infinite
+Loops <a href="#self-referencing-with-and-without-infinite-loops" class="anchor-link">🔗</a></h2>
+<p>Nix allows for self-referential structures, but only if evaluated
+lazily. Direct cyclic dependencies will cause infinite recursion unless
+structured carefully.</p>
 <div class="sourceCode" id="cb5"><pre
 class="sourceCode nix"><code class="sourceCode nix"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># rec is a special form in Nix used for defining recursive</span></span>
@@ -323,20 +324,94 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb5-1"><a href="#c
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># quickly, however, that it is often discouraged.</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="va">infiniteRec</span> <span class="op">=</span> <span class="kw">rec</span> <span class="op">{</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">a</span> <span class="op">=</span> b <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">b</span> <span class="op">=</span> a <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a> infiniteRec.a  <span class="co"># This evaluates without an infinite loop</span></span></code></pre></div>
-<p>Here, Nix resolves <code>a</code> and <code>b</code> lazily, allowing
-this circular dependency to work without crashing.</p>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">b</span> <span class="op">=</span> <span class="kw">let</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="co"># This would cause an infinite recursion if it was evaluated</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="co"># but the variable `infrec` is never referenced, so it passes.</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="va">infrec</span> <span class="op">=</span> a <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="dv">42</span><span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  infiniteRec.a  <span class="co"># Evaluates safely</span></span></code></pre></div>
+<p>This works because what would cause the infrec is never evaluated. If
+the evaluator even touched the variable <code>infrec</code>, the program
+would immediately face and infinite recursion. Instead, it uses the
+fixed value <code>42</code> from <code>b</code> so <code>a</code> can
+refer to <code>b</code> safely.</p>
+<p>Here is an example that would fail.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">infiniteRec</span> <span class="op">=</span> <span class="kw">rec</span> <span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">a</span> <span class="op">=</span> b <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">b</span> <span class="op">=</span> a <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  infiniteRec.a  <span class="co"># Infinite recursion</span></span></code></pre></div>
+<p>Here both <code>a</code> and <code>b</code> depend on each other
+without a base case, which results in infinite recursion. The only way
+to prevent this is to explicitly anchor one of the values with a
+concrete number or expression that doesn’t rely on the cycle.</p>
+<blockquote>
+<p>Infinite recursion is not as straightforward as it looks here. While
+working with small sets and short files you can <em>easily</em> identify
+where the infinite recursion comes from. While using the module system
+to break your code into multiple files, or even repositories, you might
+have more difficulty identifying where exactly it comes from, because
+you will notice that error messages are as clueless as you are. We’ll
+talk about the costs of deep abstractions in another post.</p>
+</blockquote>
 <h3 id="what-is-fix" id="what-is-fix">What is
 <code>fix</code>? <a href="#what-is-fix" class="anchor-link">🔗</a></h3>
 <p><code>fix</code> is a function used in some functional languages
 (such as Haskell) to define recursive expressions without requiring
 explicit naming. It applies a function to itself, allowing the
 expression to refer to itself.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode hs"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fix f <span class="ot">=</span> f (fix f)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fact <span class="ot">=</span> fix (\rec n <span class="ot">-&gt;</span> <span class="kw">if</span> n <span class="op">==</span> <span class="dv">0</span> <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> n <span class="op">*</span> rec (n <span class="op">-</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode hs"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fix f <span class="ot">=</span> f (fix f)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fact <span class="ot">=</span> fix (\rec n <span class="ot">-&gt;</span> <span class="kw">if</span> n <span class="op">==</span> <span class="dv">0</span> <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> n <span class="op">*</span> rec (n <span class="op">-</span> <span class="dv">1</span>))</span></code></pre></div>
+<p>In strict (non-lazy) languages, recursion requires named definitions,
+such as explicitly defining fact and referencing itself. Without
+laziness, a function cannot pass itself as an argument to another
+function without being fully evaluated first—leading to a situation
+where the function reference does not exist at the time of evaluation.
+The fix function allows recursion to be encoded explicitly by ensuring
+that a function can reference itself even in strict evaluation
+contexts.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">factorials</span> <span class="op">=</span> <span class="kw">rec</span> <span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">zero</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">fact</span> <span class="op">=</span> <span class="va">n</span><span class="op">:</span> <span class="kw">if</span> n == <span class="dv">0</span> <span class="kw">then</span> zero <span class="kw">else</span> n <span class="op">*</span> fact <span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  factorials.fact <span class="dv">5</span>  <span class="co"># Evaluates to 120</span></span></code></pre></div>
+<p>Here, fact refers to itself without requiring an explicit fixed-point
+combinator like <code>fix</code>. This is because Nix only evaluates
+values when needed, meaning references can exist without being
+immediately resolved. In contrast, strict languages would require fix to
+explicitly establish recursion.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> factorial <span class="op">=</span> (n) <span class="kw">=&gt;</span> (n <span class="op">===</span> <span class="dv">0</span> <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> n <span class="op">*</span> <span class="fu">factorial</span>(n <span class="op">-</span> <span class="dv">1</span>))<span class="op">;</span></span></code></pre></div>
+<p>Here, factorial is explicitly named, allowing it to refer to itself.
+However, if we wanted to define it without naming it explicitly, we
+would need something like <code>fix</code>.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Why yes I&#39;ve used Javascript as an example for a good reason.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">// The reason is that if I&#39;ve suffered with writing Haskell, then</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">// you must suffer reading Javascript. Ha.</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">// `fix` is a function that helps a function call itself</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">// It takes a function `f` as an argument and returns `f` applied to itself</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fix <span class="op">=</span> (f) <span class="kw">=&gt;</span> <span class="fu">f</span>((x) <span class="kw">=&gt;</span> <span class="fu">fix</span>(f)(x))<span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> factorial <span class="op">=</span> <span class="fu">fix</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  (rec) <span class="kw">=&gt;</span> (n) <span class="kw">=&gt;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Base case: if n is 0, return 1 (because 0! = 1)</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    n <span class="op">===</span> <span class="dv">0</span> <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> n <span class="op">*</span> <span class="fu">rec</span>(n <span class="op">-</span> <span class="dv">1</span>)<span class="op">,</span> <span class="co">// recursive case: multiply n by the factorial of (n-1)</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="fu">factorial</span>(<span class="dv">5</span>))<span class="op">;</span> <span class="co">// 120</span></span></code></pre></div>
+<p>Thus, while fix is necessary for recursion in strict evaluation,
+Nix’s lazy evaluation makes it unnecessary, allowing for powerful
+self-referential structures with <em>careful</em> structuring.</p>
 <h3 id="other-examples" id="other-examples">Other
 Examples <a href="#other-examples" class="anchor-link">🔗</a></h3>
 <p>To help give you an idea of what lazy evaluation can do for you, e.g.
@@ -345,27 +420,27 @@ action.</p>
 <p><strong>Lazy Lists</strong></p>
 <p>In Nix, you can define infinite data structures like lazy lists
 without causing infinite loops:</p>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode nix"><code class="sourceCode nix"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">lazyList</span> <span class="op">=</span> <span class="op">{</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">head</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">tail</span> <span class="op">=</span> lazyList.tail<span class="op">;</span> <span class="co"># this is an infinite recursion, if it evaluates...</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  lazyList.head</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">lazyList</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">head</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">tail</span> <span class="op">=</span> lazyList.tail<span class="op">;</span> <span class="co"># this is an infinite recursion, if it evaluates...</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  lazyList.head</span></code></pre></div>
 <p><strong>Delayed Computation in Attribute Sets</strong></p>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode nix"><code class="sourceCode nix"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">config</span> <span class="op">=</span> <span class="kw">rec</span> <span class="op">{</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">setting</span> <span class="op">=</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> useAdvanced</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="kw">then</span> <span class="bu">builtins</span>.<span class="bu">throw</span> <span class="st">&quot;Too expensive!&quot;</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="kw">else</span> <span class="st">&quot;default&quot;</span><span class="op">;</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">useAdvanced</span> <span class="op">=</span> <span class="cn">false</span><span class="op">;</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># evaluates to &quot;default&quot;, error is never thrown</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  config.setting</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">config</span> <span class="op">=</span> <span class="kw">rec</span> <span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">setting</span> <span class="op">=</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> useAdvanced</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      <span class="kw">then</span> <span class="bu">builtins</span>.<span class="bu">throw</span> <span class="st">&quot;Too expensive!&quot;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      <span class="kw">else</span> <span class="st">&quot;default&quot;</span><span class="op">;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">useAdvanced</span> <span class="op">=</span> <span class="cn">false</span><span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># evaluates to &quot;default&quot;, error is never thrown</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  config.setting</span></code></pre></div>
 <h2 id="conclusion"
 id="conclusion">Conclusion <a href="#conclusion" class="anchor-link">🔗</a></h2>
 <p>Laziness is powerful, but it can lead to surprises:</p>
@@ -391,7 +466,10 @@ control flow constructs, albeit with its own set of caveats. Rather than
 guarding expensive computations with explicit conditionals, you often
 don’t need to worry at all—unused expressions simply never evaluate.
 However, laziness introduces its own challenges, especially when
-debugging or managing performance.</p>
+debugging or managing performance. I want to make it very clear that
+most of the time, you can overcome those challenges by simply thinking
+about how you structure your program. In short, Nix is very demanding
+from the user but it almost always returns your investment in full.</p>
 <p>Next time you are working with Nix, remember that you are using a
 domain specific language that is bound to have its own quirks.
 Regardless of said quirks, Nix is a very powerful language that
@@ -411,12 +489,6 @@ href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 circular dependencies without causing crashes. However, an infinitely
 recursing attribute can exist as long as it’s not evaluated.<a
 href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>I’m very well aware that there is a <code>fix</code>
-function in nixpkgs lib. I mainly want to focus on core Nix language, so
-applications of <code>lib.fix</code> are omitted this time around. I’d
-like to talk about <code>fix</code> and recursion specifically in
-another post, another time. This is already long as it is.<a
-href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section> 
     </main>
