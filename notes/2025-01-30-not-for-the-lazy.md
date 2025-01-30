@@ -67,8 +67,8 @@ In Nix, laziness manifests in several ways:
 
 - **Unused branches of an if-else are never evaluated.**
 - **Function arguments are not evaluated unless explicitly used.**[^1]
-- **Attribute sets can contain self-referential definitions without infinite
-  recursion (if structured properly).**[^2]
+- **Attribute sets can include self-referential definitions, leading to infinite
+  recursion errors only when an attribute directly refers to itself. ** [^2]
 
 ## The Death of Conditionals (or at Least Their Diminished Role)
 
@@ -217,7 +217,8 @@ but _only_ if you treat it as code.
     `x`.
 
 [^2]: This is possible due to lazy evaluation resolving circular dependencies
-    without causing crashes.
+    without causing crashes. However, an infinitely recursing attribute can
+    exist as long as it's not evaluated.
 
 [^3]: I'm very well aware that there is a `fix` function in nixpkgs lib. I
     mainly want to focus on core Nix language, so applications of `lib.fix` are
