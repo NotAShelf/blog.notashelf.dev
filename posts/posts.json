@@ -31,6 +31,14 @@
       "description": "Exploring lazy evaluation in relative depth",
       "date": "2025-01-30",
       "path": "/posts/2025-01-30-not-for-the-lazy.html"
+    },
+    {
+      "name": "2025-02-01-extended-nixpkgs-lib.md",
+      "url": "https://blog.notashelf.dev/posts/2025-02-01-extended-nixpkgs-lib.html",
+      "title": "When, Why and How to Extend Nixpkgs’ Standard Library",
+      "description": "Reasons why and how you might create your own extended library",
+      "date": "2023-06-07",
+      "path": "/posts/2025-02-01-extended-nixpkgs-lib.html"
     }
   ]
 }
