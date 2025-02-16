@@ -1,3 +1,7 @@
+---
+title: About
+---
+
 # About
 
 I work with Nix quite often, and share some of the stuff I learn while I do so.
