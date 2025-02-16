@@ -215,7 +215,7 @@ generate_other_pages() {
         --standalone \
         --template "$templatedir"/html/posts.html \
         --css "$templatedir"/style.css \
-        --metadata title="Nyx | Available Posts" \
+        --metadata title="Available Posts" \
         --metadata description="$site_description" \
         "$templatedir"/pages/posts.md -o "$outdir"/pages/posts.html
 }
