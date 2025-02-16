@@ -39,6 +39,14 @@
       "description": "Reasons why and how you might create your own extended library",
       "date": "2025-02-01",
       "path": "/posts/2025-02-01-extended-nixpkgs-lib.html"
+    },
+    {
+      "name": "2025-02-15-impermanence.md",
+      "url": "https://blog.notashelf.dev/posts/2025-02-15-impermanence.html",
+      "title": "Full Disk Encryption &amp; Impermanence on NixOS",
+      "description": "Notes on setting up Impermanence with Full Disk Encryption on a NixOS system",
+      "date": "2025-02-15",
+      "path": "/posts/2025-02-15-impermanence.html"
     }
   ]
 }
