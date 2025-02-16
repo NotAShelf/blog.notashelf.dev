@@ -1,5 +1,5 @@
 ---
-title: Full Disk Encryption & Impermanence on NixOS
+title: Full Disk Encryption and Impermanence on NixOS
 date: 2025-02-15
 description: Notes on setting up Impermanence with Full Disk Encryption on a NixOS system
 wordcount: process-anyway
