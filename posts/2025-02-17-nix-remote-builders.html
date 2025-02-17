@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="/assets/apple-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="/assets/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="/assets/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/assets/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/assets/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/assets/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/assets/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/assets/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/assets/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+         <meta name="dcterms.date" content="2025-02-17" />
+          <meta name="description" content="Notes on Nix, Linux and every other pie I put a finger in" />
+        <title>Posts - Nix Remote Builders</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      /* The extra [class] is a hack that increases specificity enough to
+         override a similar rule in reveal.js */
+      ul.task-list[class]{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        font-size: inherit;
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1.6em;
+        vertical-align: middle;
+      }
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+          background-color: #232629;
+          color: #7a7c7d;
+        }
+      pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+      div.sourceCode
+        { color: #cfcfc2;  }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span { color: #cfcfc2; } /* Normal */
+      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+      code span.an { color: #3f8058; } /* Annotation */
+      code span.at { color: #2980b9; } /* Attribute */
+      code span.bn { color: #f67400; } /* BaseN */
+      code span.bu { color: #7f8c8d; } /* BuiltIn */
+      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+      code span.ch { color: #3daee9; } /* Char */
+      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+      code span.co { color: #7a7c7d; } /* Comment */
+      code span.cv { color: #7f8c8d; } /* CommentVar */
+      code span.do { color: #a43340; } /* Documentation */
+      code span.dt { color: #2980b9; } /* DataType */
+      code span.dv { color: #f67400; } /* DecVal */
+      code span.er { color: #da4453; text-decoration: underline; } /* Error */
+      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+      code span.fl { color: #f67400; } /* Float */
+      code span.fu { color: #8e44ad; } /* Function */
+      code span.im { color: #27ae60; } /* Import */
+      code span.in { color: #c45b00; } /* Information */
+      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+      code span.op { color: #cfcfc2; } /* Operator */
+      code span.ot { color: #27ae60; } /* Other */
+      code span.pp { color: #27ae60; } /* Preprocessor */
+      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+      code span.sc { color: #3daee9; } /* SpecialChar */
+      code span.ss { color: #da4453; } /* SpecialString */
+      code span.st { color: #f44f4f; } /* String */
+      code span.va { color: #27aeae; } /* Variable */
+      code span.vs { color: #da4453; } /* VerbatimString */
+      code span.wa { color: #da4453; } /* Warning */
+    </style>
+        <link rel="stylesheet" href="/home/runner/work/blog.notashelf.dev/blog.notashelf.dev/templates/style.css" />
+        <!-- Begin Lineicons import -->
+    <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css" />
+    <!-- End Lineicons import-->
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="shortcut icon"
+      href="/assets/favicon-96x96.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header class="page-navigation">
+      <nav class="primary-buttons">
+        <ul>
+          <li><a class="nav-button" href="/">Index</a></li>
+        </ul>
+      </nav>
+      <nav class="secondary-buttons">
+        <ul>
+          <li>
+            <a class="nav-button" href="/pages/posts.html"> Posts </a>
+            <a class="nav-button" href="/pages/about.html"> About </a>
+            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <hr class="nav-border">
+
+    <main>
+      <!-- Keywords, if any. -->
+      
+
+      <!-- Table of Contents, if enabled -->
+       <h1
+id="getting-remote-builders-to-build-your-nix-derivations">Getting
+Remote Builders to Build your Nix Derivations</h1>
+<div class="reading-time">
+<p>6 minute read</p>
+</div>
+<p>Nix is a package manager–nay, a <em>build tool</em><a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+that is capable of scaling both vertically and horizontally through its
+<strong>Binary Caches</strong> and <strong>Remote Builders</strong>
+respectively.</p>
+<p>You are introduced to the binary cache as soon as the moment you
+begin the installation process of NixOS. The ISO image you download,
+minimal or one of the graphical flavours, is built by Hydra <a
+href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a> as a result of a particular
+combination of module option combinations in Nixpkgs. In this sense,
+NixOS is a build artifact. It consists of many derivations that are put
+in a particular configuration, and built in a particular way to result
+in a NixOS ISO image. The images, or a common NixOS system, consist of
+many derivations.</p>
+<p>Although Nix has a strange concept of dependencies, let us try to
+count everything that contributes to the building of your final
+system.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nix-store <span class="at">-q</span> <span class="at">--requisites</span> /run/current-system <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d-</span> <span class="at">-f2-</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">2956</span></span></code></pre></div>
+<p>This is by no means 100% accurate, but it gets somewhat close. My
+system is the result of around 3000 separate derivations, that would
+need to be built if not for the binary caches Nix pulls built
+derivations from. Similar to the installation ISO images, Hydra builds
+and caches most of the derivations <a href="#fn3" class="footnote-ref"
+id="fnref3" role="doc-noteref"><sup>3</sup></a> so that you may pull
+them from <code>https://cache.nixos.org</code>. All things considered,
+the binary caches are distributed (and load balanced) for global reach.
+<a href="#fn4" class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a></p>
+<h2 id="remote-builders" id="remote-builders">Remote
+Builders <a href="#remote-builders" class="anchor-link">🔗</a></h2>
+<p>The topic I wanted to talk about today is <strong>Remote
+Builders</strong>, a less frequently employed method for scaling. Remote
+builders require additional setup, as they execute builds on an
+authorized machine rather than pull built results from a cache. While
+building things that might not be available in a public cache, you may
+offload build steps to a remote machine instead of using your current
+machine in the case your build process requires compilation, and higher
+resource usage. In this case, a machine with more resources can speed-up
+the process.</p>
+<p>The structure of Nix remote builders consists of two components:</p>
+<ol type="1">
+<li>Local Machine</li>
+<li>Remote Machine_s_</li>
+</ol>
+<p>There is no limit to how many machines you may distribute your builds
+upon.</p>
+<h3 id="remote-machine" id="remote-machine">Remote
+Machine <a href="#remote-machine" class="anchor-link">🔗</a></h3>
+<p>For the sake of simplicity, let us assume that there is one remote
+builders that you would like to utilize for your builds. Nix utilizes
+remote builders by opening SSH connection to the target machine, so you
+must first have a user with SSH access on the target machine. Let’s call
+this user <code>builder</code>. You must mark this user as a “trusted
+user” (<em>users that have additional rights when connecting to the Nix
+daemon, such as the ability to specify additional binary caches, or to
+import unsigned NARs.</em>) to utilize this user for remote builds.</p>
+<p>On a typical NixOS setup, you would do so by adding it to
+<code>trusted-users</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">nix</span>.<span class="va">config</span>.<span class="va">trusted-users</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;builder&quot;</span><span class="op">];</span> <span class="co"># you may also use @groups instead</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Once you make sure that the <code>builder</code> user on the remote
+machine is accessible via SSH, and is marked as a trusted user, try
+offloading a build to the remote machine to test your connection:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix</span> build nixpkgs#hello <span class="at">--rebuild</span> <span class="at">--builders</span> <span class="st">&quot;ssh://builder@ssh.example.tld&quot;</span></span></code></pre></div>
+<p>You can replace <code>ssh.example.tld</code> with a domain pointing
+at your server, or just the raw IP address of your machine. If SSH is
+running a port other than <code>22</code> on your machine, then you may
+also specify an alternate port to be used with the
+<code>NIX_SSHOPTS</code> environment variable. For example:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NIX_SSHOPTS</span><span class="op">=</span><span class="st">&quot;-p 2222&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nix</span> build nixpkgs#hello <span class="at">--rebuild</span> <span class="at">--builders</span> <span class="st">&quot;ssh://builder@ssh.example.tld&quot;</span></span></code></pre></div>
+<p>Would open a connection over port <code>2222</code> instead of the
+default <code>22</code>.</p>
+<h3 id="local-machine" id="local-machine">Local
+Machine <a href="#local-machine" class="anchor-link">🔗</a></h3>
+<p>This is a good time to warn you that sometimes, especially if your
+connection is shaky, adding remote builders to the mix might slow things
+down. Remember that everything built on the server will have to be sent
+back to your local machine to complete the final closure. However, if
+you are positive that remote builders are good addition and the network
+effects are negligible, then you may configure Nix to utilize certain
+builders on each build.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># https://wiki.nixos.org/wiki/Distributed_build</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">nix</span>.<span class="va">buildMachines</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="va">hostName</span> <span class="op">=</span> <span class="st">&quot;ssh.example.tld&quot;</span><span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="va">sshUser</span> <span class="op">=</span> <span class="st">&quot;builder&quot;</span><span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      <span class="co"># &#39;ssn-ng&#39; is faster if both machines are NixOS but falls flat if the</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      <span class="co"># machine Nix will attempt a connection to is not NixOS. In such a case</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="co"># you must use &#39;ssh&#39; instead.</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="va">protocol</span> <span class="op">=</span> <span class="st">&quot;ssh-ng&quot;</span><span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      <span class="co"># This can be an absolute path to a private key or it can be managed</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="co"># with something like Agenix, or SOPS.</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      <span class="va">sshKey</span> <span class="op">=</span> <span class="st">&quot;/home/user/.ssh/builder-rsa&quot;</span><span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Systems for which builds will be offloaded.</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      <span class="va">systems</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;x86_64-linux&quot;</span> <span class="st">&quot;i686-linux&quot;</span><span class="op">];</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Default is 1 but may keep the builder idle in between builds</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>      <span class="va">maxJobs</span> <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>      <span class="co"># How fast is the builder compared to your local machine</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>      <span class="va">speedFactor</span> <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>      <span class="va">supportedFeatures</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;big-parallel&quot;</span> <span class="st">&quot;kvm&quot;</span> <span class="st">&quot;nixos-test&quot;</span><span class="op">];</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="op">];</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>The above configuration sets up <code>/etc/nix/machines</code>. If
+you are setting up remote builders on non-NixOS, you will need to
+manually construct the contents of that file.</p>
+<blockquote>
+<p>A cool trick, if you are self-hosting Hydra, is that Hydra can pick
+up remote builders if you tell it to. How you can do this is documented
+in the Hydra manual, but you might consider self-hosting Hydra on your
+desktop or a weaker machine like a Raspberry Pi while utilizing a
+stronger machine for remote builds.</p>
+</blockquote>
+<p><code>nix.buildMachines</code> also plays very nicely with your SSH
+configuration. For example in the case of unique ports, you may use
+<code>programs.ssh.extraConfig</code>. For example:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">programs</span>.<span class="va">ssh</span>.<span class="va">extraConfig</span> <span class="op">=</span> <span class="st">&#39;&#39;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">    Host remote-builder</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">      User builder</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="st">      HostName ssh.builder.tld</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">      Port 2222</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="st">      IdentityFile /home/user.ssh/builder-rsa # As before, Agenix will work here</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="st">  &#39;&#39;</span><span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Specifying your connection details in
+<code>programs.ssh.extraConfig</code> is a more sophisticated way of
+configuring the SSH connection that will be established on remote
+builds. As such, you may omit <code>NIX_SSHOPTS</code> and connection
+information. For the command-line example, you may now use
+<code>protocol://host</code>.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix</span> build nixpkgs#hello <span class="at">--rebuild</span> <span class="at">--builders</span> <span class="st">&quot;ssh://remote-builder&quot;</span></span></code></pre></div>
+<p>If there are more than one builder that you would like to use, lets
+call them <code>remote-builder1</code> and <code>remote-builder2</code>,
+you can specify them in the <code>--builders</code> flag, separated by
+spaces.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix</span> build nixpkgs#hello <span class="at">--rebuild</span> <span class="at">--builders</span> <span class="st">&quot;ssh://remote-builder1 ssh://remote-builder2&quot;</span></span></code></pre></div>
+<h2 id="closing-thoughts" id="closing-thoughts">Closing
+Thoughts <a href="#closing-thoughts" class="anchor-link">🔗</a></h2>
+<p>That should be everything you need to configure remote builders on
+your system. If you have a Tailnet, via Tailscale, you may utilize
+MagicDNS or something similar to simply query builders by hostname and
+partially skip the SSH configuration. E.g.,
+<code>ssh-ng://builder@my-host</code> where my-host is available on your
+Tailnet, and systemd-resolved is asked to search your Tailnet
+domain.</p>
+<p>In the case your local system is too weak, you may also consider
+passing <code>--max-jobs 0</code> to the build command to execute
+<em>all</em> build tasks on your available remote machines. I pass
+<code>--max-jobs</code> to the <code>nixos-rebuild</code> command when I
+am attempting a rebuild on my weakest machine, which only has 4gb RAM
+available, to avoid running my system out of resources.</p>
+<p>A very cool, but somewhat unrelated trick, is that you can use
+<code>--build-host</code> in <code>nixos-rebuild</code> to build on a
+remote host.</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Nix, although most commonly referred to as a “Package
+Manager” is actually a build tool. Some find this definition pedantic,
+but package management is only a subset of what it is actually capable
+of. Calling it a package manager is fair, but also a bit reductive in a
+way that it does not communicate Nix’s advantages over traditional
+package managers.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Hydra is a Nix-based continuous build system, tasked for
+evaluating and building derivations from a jobset such as but not
+limited to Nixpkgs. In the context of Nixpkgs, Hydra is what populates
+the cache, logs evaluation or build failures, and makes channels
+available.<a href="#fnref2" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><em>Some</em> derivations are not built and therefore
+not available in the cache. There are a few different conditions for
+this, but it is the case especially when the derivation has been marked
+specifically not to be built by Hydra.<a href="#fnref3"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>This should show you how fragile the Nix infrastructure
+is. As much as I am a huge fan of Nix, Nixpkgs and NixOS, without the
+proper funding Nix’s adoption would not be possible. <em>Nobody</em>
+wants to build everything from source, all of the time. Even though
+content-addressed Nix would make rebuilds less troublesome, this is a
+problem to ponder on while considering the future of Nix and NixOS.<a
+href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section> 
+    </main>
+    <footer>
+      <div class="footer-divider"></div>
+      <p>&copy; <span id="copyright"></span> NotAShelf</p>
+      <div class="footer-icons">
+        <a href="https://github.com/notashelf">
+          <i class="lni lni-github-original" title="GitHub"></i>
+        </a>
+      </div>
+    </footer>
+    <script defer src="/static/copyright.js"</script>
+    <script
+        defer
+      data-domain="blog.notashelf.dev"
+      src="https://pl.notashelf.dev/js/script.file-downloads.hash.outbound-links.tagged-events.js"
+    ></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (window.plausible.q = window.plausible.q || []).push(arguments);
+        };
+    </script>
+
+        </body>
+</html>

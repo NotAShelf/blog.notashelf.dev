@@ -47,6 +47,14 @@
       "description": "Notes on setting up Impermanence with Full Disk Encryption on a NixOS system",
       "date": "2025-02-15",
       "path": "/posts/2025-02-15-impermanence.html"
+    },
+    {
+      "name": "2025-02-17-nix-remote-builders.md",
+      "url": "https://blog.notashelf.dev/posts/2025-02-17-nix-remote-builders.html",
+      "title": "Getting Remote Builders to Build Your Nix Derivations",
+      "description": "Taking full advantage of Nix’s scalability.",
+      "date": "2025-02-17",
+      "path": "/posts/2025-02-17-nix-remote-builders.html"
     }
   ]
 }
