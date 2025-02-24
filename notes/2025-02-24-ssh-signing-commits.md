@@ -1,6 +1,6 @@
 ---
 title: Signing Git commits with SSH keys
-date: 2024-05-10
+date: 2025-02-24
 description: Setting up SSH signing for your many, many Git commits
 ---
 
@@ -12,11 +12,12 @@ description: Setting up SSH signing for your many, many Git commits
 
 ## Setting up SSH signing for Git commits
 
-For the longest of times, I have been running an obscure GPG setup that requires
-me to go back to my notes every time I wish to replicate it on a new machine or
-a friend's machine to help them set up GPG signing on their system. Today, after
-roughly 6 years of pushing GPG signed commits, I have learned about SSH
-signing[^1], and have decided to share my notes on setting it up.
+For the longest of times, I have been running an obscure GPG setup using
+Yubikeys that requires me to go back to my notes every time I wish to replicate
+it on a new machine or a friend's machine to help them set up GPG signing on
+their system. Today, after roughly 6 years of pushing GPG signed commits, I have
+learned about SSH signing[^1], and have decided to share my notes on setting it
+up.
 
 [Github Documentation]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
 
@@ -65,7 +66,8 @@ In typical NixOS fashion, such a trivial process is mind-numbingly easy. You
 will want to configure `programs.git` under either NixOS or Home-Manager module
 systems. As Git is rather a userspace application, I choose to use the one under
 home-manager but NixOS also allows you to configure git globally with
-`/etc/gitconfig` being used.
+`/etc/gitconfig` being used. Please note that the steps will change slightly if
+you are using the Git module under NixOS' module system.
 
 First you would like to add `programs.git.signing` to your home.nix as follows:
 
@@ -81,8 +83,9 @@ programs.git = {
 };
 ```
 
-and this will be enough to tell Git where to look while also setting
-`signByDefault`, meaning all of your commits will be signed. Great!
+This will be enough to tell Git where to look while also setting
+`signByDefault`, meaning all of your commits will be signed by default,
+equivalent of passing `--gpg-sign=<key id>`. Great!
 
 If you wish to take this a bit further, you may consider setting allowed signers
 to decide who can and cannot sign using the `ssh.allowedSignersFile` option
@@ -127,8 +130,7 @@ And that is all! You may now switch Home-Manager generations with either
 `home-manager switch` (if you are using home-manager in standalone mode). Do
 make sure to adapt the example to your own setup.
 
-[^1]:
-    To be fair, I have known about SSH signing for a while now, but the
+[^1]: To be fair, I have known about SSH signing for a while now, but the
     sunk-cost fallacy has prevented me from ever looking into it. As a matter of
     fact, I am still not convinced by it, but that is because I still use a
     Yubikey based GPG setup which partially obsoletes SSH signing and prevents
