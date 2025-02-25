@@ -55,6 +55,14 @@
       "description": "Taking full advantage of Nix’s scalability.",
       "date": "2025-02-17",
       "path": "/posts/2025-02-17-nix-remote-builders.html"
+    },
+    {
+      "name": "2025-02-24-ssh-signing-commits.md",
+      "url": "https://blog.notashelf.dev/posts/2025-02-24-ssh-signing-commits.html",
+      "title": "Signing Git commits with SSH keys",
+      "description": "Setting up SSH signing for your many, many Git commits",
+      "date": "2025-02-24",
+      "path": "/posts/2025-02-24-ssh-signing-commits.html"
     }
   ]
 }
