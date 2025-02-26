@@ -9,8 +9,12 @@ from datetime import datetime, timezone
 
 
 def generate_rss(posts_json_path, output_rss_path, metadata_json_path=None):
-    with open(posts_json_path, "r") as file:
-        data = json.load(file)
+    try:
+        with open(posts_json_path, "r") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        print(f"Error: Posts JSON file not found at {posts_json_path}")
+        return
 
     # Load metadata from JSON if it's available
     metadata = {
