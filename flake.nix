@@ -15,6 +15,7 @@
         jq
         sassc
         pandoc
+        python3
 
         # Eslint_d
         nodejs-slim
