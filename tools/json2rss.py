@@ -49,7 +49,7 @@ def generate_rss(posts_json_path, output_rss_path, metadata_json_path=None):
 
     # Add each post to the feed as an item
     posts = data.get("posts", [])
-    for post in posts:
+    for post in reversed(posts):
         item = ET.SubElement(channel, "item")
         ET.SubElement(item, "title").text = post.get("title", "")
         ET.SubElement(item, "link").text = post.get("url", "")
