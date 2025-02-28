@@ -176,7 +176,45 @@ _minimum headache_. You may stick those into the `serviceConfig` of a service in
 your configuration, and if the service is a basic daemon that does not need
 intricate FS access, it should perform as expected. In addition, the draft
 [Systemd Sandboxing Article] on Archwiki provides some insight on other options
-and their level of impact,
+and their level of impact.
+
+There are many directives that are used in Systemd services, with various
+exposure scores. While the scores differ, some of them might come in very handy.
+Here are a few that are worth mentioning while you work on hardening your
+services.
+
+#### InaccessiblePaths
+
+`InaccessiblePaths` is a very useful directive, which I did not about until
+recently, that might come in handy if the service requires access to a lot of
+directives. In which case, you may manually add _sensitive_ directories that you
+want hidden at all costs.
+
+#### DynamicUsers
+
+Systemd _system_ services (as opposed to user services) run as root unless they
+are explicitly given a user to run as. `DynamicUsers` is a special directive
+that can help you with _dynamically_ (look I said the thing!) creating separate
+user accounts for each instance of the service. Each of these unique users runs
+their own instance of the service, providing a high level of isolation between
+different processes. This not only enhances security by limiting the potential
+impact of a compromised process but also improves resource management by
+isolating each instance's file system access. Although the impact of
+`DynamicUsers` on a service's exposure score is low, it is a very handy
+directive that you might consider if root privileges are not necessary for oyur
+service.
+
+#### SystemCallFilter
+
+One noteworthy directive is `SystemCallFilter`. As its name indicates, this
+Directive allows restricting syscalls that a service can call. This is very
+tricky to work with, and you can get out of hand as the process gains new
+features over time. Systemd, to make your life a _bit_ easier, includes
+so-called "groupings"-- several groups of system calls, all prepended with `@`.
+
+`@swap`, `@reboot`, `@memlock` and `@raw-io` are some examples of those groups.
+You may find a more detailed explanation
+[on linux-audit.com](https://linux-audit.com/systemd/settings/units/systemcallfilter/)
 
 ### Application
 
