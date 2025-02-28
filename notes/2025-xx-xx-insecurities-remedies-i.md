@@ -15,11 +15,12 @@ perpetual vulnerability--calls you to action.
 
 For the last 6 months or so, I have been focusing on hardening each and every
 single component of my NixOS installation. This post, as an attempt to document
-my experiences, marks the beginning of a series dedicated to hardening the
-different components of your NixOS system. Given that NixOS is a systemd-based
-distribution, we’ll start by focusing on systemd. Over the course of the series,
-I’ll also delve into kernel and network security, although these topics require
-deeper research and are beyond the scope of this post.
+my experiences for the sake of establishing a point of reference, marks the
+beginning of a series dedicated to hardening the different components of a NixOS
+system. Given that NixOS is a systemd-based distribution, we’ll start by
+focusing on systemd. Over the course of the series, I’ll also delve into kernel
+and network security, although these topics require further research and are
+beyond the scope of this post.
 
 In this installment, we’ll explore how you can harden various systemd services
 on your system to reduce potential attack surfaces.
@@ -33,7 +34,7 @@ any time. Most of them extend beyond the scope of Systemd hardening, and will
 come up again in future posts. Visit them at your own discretion, you are sure
 to learn something new.
 
-- [man 5 systemd.exec](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#Sandboxing)
+- [`man 5 systemd.exec`](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#Sandboxing)
 - [Stackexchange on unprivileged userns clone](https://security.stackexchange.com/questions/209529/what-does-enabling-kernel-unprivileged-userns-clone-do)
 - [Archwiki: Systemd Sandboxing by NetSysFire](https://wiki.archlinux.org/title/User:NetSysFire/systemd_sandboxing)
 - [Madaidans Insecurities](https://madaidans-insecurities.github.io/)
@@ -93,7 +94,7 @@ principles in mind:
    system is to remain ever-vigilant.
 
 > Some hardening options will disable access to certain paths, or make them
-> read-only for the service. This is quite helpful in theory, but not every
+> read-only for the service. This is quite helpful, in theory, but not every
 > program is written intelligently and as such, not all programs will fail
 > gracefully when they are missing access to a path. Sometimes the service will
 > fail, and you will not be able to tell why. This is exactly why you must treat
@@ -102,13 +103,19 @@ principles in mind:
 
 ### Hardening Services
 
+[NixOS option search]: https://search.nixos.org/options?channel=unstable&size=50&sort=relevance&type=packages&query=systemd.services.
+
 Systemd services in NixOS are defined through the systemd module exposed in the
 Nixpkgs module system. The schema is very basic, and I suggest that you consult
-[NixOS option search](https://search.nixos.org) if you wish to know more. For
-our purposes, just `serviceConfig` is enough as we will be working primarily
-with the `[Service]` field of systemd services. Documentation is very scattered,
-but available at `systemd.unit(5)`, `systemd.service(5)` and `systemd.exec(5)`
-manpages.
+[NixOS option search] if you wish to learn more. For our purposes, just
+`serviceConfig` is enough as we will be working primarily with the `[Service]`
+field of systemd services. Documentation is very scattered, but available at
+`systemd.unit(5)`, `systemd.service(5)` and `systemd.exec(5)` manpages. They
+contain many important tidbids, and I encourage you to go through them alongside
+this post during your hardening journey.
+
+Here is a very basic example to demonstrate how individual options are applied
+to a service.
 
 ```nix
 {
@@ -136,6 +143,12 @@ services that reach more into the system, hardening must be done more
 diligently: you must assess the needs of your service and tweak its capabilities
 accordingly. Furthermore, you will be able to bring the score down from MEDIUM
 by focusing on the needs of service and applying other configuration fields.
+
+To check how effective the change was, run `systemd-analyze security <unit>`
+before and after applying service changes, and compare the results. The output
+of `systemd-analyze security` will also provide in-depth explanation of each
+option that is (or is not) set, so it is worth running frequently on services
+that you aim to harden.
 
 #### Definitions
 
@@ -174,9 +187,10 @@ establish some baseline for how you may look at hardening.
 These are the definitions for some common directives that you may apply with
 _minimum headache_. You may stick those into the `serviceConfig` of a service in
 your configuration, and if the service is a basic daemon that does not need
-intricate FS access, it should perform as expected. In addition, the draft
-[Systemd Sandboxing Article] on Archwiki provides some insight on other options
-and their level of impact.
+intricate FS or memory access, it should perform as expected.
+
+> The draft [Systemd Sandboxing Article] on Archwiki provides some insight on
+> other options and their level of impact.
 
 There are many directives that are used in Systemd services, with various
 exposure scores. While the scores differ, some of them might come in very handy.
@@ -241,10 +255,12 @@ those directives.
 
 > Systemd's error messages for when a service is misconfigured can be vague or
 > misleading, especially if the executable fails to properly inform the user of
-> the error. [^1] Setting the log level temporarily to debug via
+> the error. [^2] Setting the log level temporarily to debug via
 > `systemctl log-level debug` may help getting actually relevant information.
 > Though do not rely too much on debug information, as it is usually equally
 > useless.
+
+[^2]: [Hint hint wink wink](https://blog.notashelf.dev/posts/2025-01-02-well-done-verbosity.html)
 
 As mentioned above, you might isolate services that need hardening with
 `systemd-analyze security <unit>` and focus on hardening each and every one of
@@ -311,7 +327,7 @@ harden each individual service.
   systemd.services.acpid.serviceConfig = {
     ProtectSystem = "full";
     ProtectHome = true;
-    RestrictAddressFamilies = [ "AF_INET" AF_INET6" ];
+    RestrictAddressFamilies = [ "AF_INET" "AF_INET6" ];
     SystemCallFilter = "~@clock @cpu-emulation @debug @module @mount @raw-io @reboot @swap";
     ProtectKernelTunables = true;
     ProtectKernelModules = true;
@@ -386,11 +402,9 @@ option to set.
 ## Conclusion
 
 Remember that no amount of service hardening constitutes a bullet-proof security
-layer. Also remember that those scores assigned by systemd are arbitrary. A
-service can be "safe" in the oblivious eyes of systemd, but may risk security or
+layer. Also remember that those scores assigned by Systemd are arbitrary. A
+service can be "safe" in the oblivious eyes of Systemd, but may risk security or
 privacy in other ways. While hardening services, consider the needs and attack
 vectors of each service that you are looking at.
 
-Security is a meaningless term without a thread model.
-
-[^1]: [Hint hint wink wink](https://blog.notashelf.dev/posts/2025-01-02-well-done-verbosity.html)
+**Security is a meaningless term without a threat model.**
