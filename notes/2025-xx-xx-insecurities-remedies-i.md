@@ -137,7 +137,7 @@ diligently: you must assess the needs of your service and tweak its capabilities
 accordingly. Furthermore, you will be able to bring the score down from MEDIUM
 by focusing on the needs of service and applying other configuration fields.
 
-### Definitions
+#### Definitions
 
 While we are at it, let's talk about definitions. There too many options for me
 to cover, and as such this section **will not** cover each and every once of
@@ -183,14 +183,14 @@ exposure scores. While the scores differ, some of them might come in very handy.
 Here are a few that are worth mentioning while you work on hardening your
 services.
 
-#### InaccessiblePaths
+##### InaccessiblePaths
 
 `InaccessiblePaths` is a very useful directive, which I did not about until
 recently, that might come in handy if the service requires access to a lot of
 directives. In which case, you may manually add _sensitive_ directories that you
 want hidden at all costs.
 
-#### DynamicUsers
+##### DynamicUsers
 
 Systemd _system_ services (as opposed to user services) run as root unless they
 are explicitly given a user to run as. `DynamicUsers` is a special directive
@@ -204,7 +204,7 @@ isolating each instance's file system access. Although the impact of
 directive that you might consider if root privileges are not necessary for oyur
 service.
 
-#### SystemCallFilter
+##### SystemCallFilter
 
 One noteworthy directive is `SystemCallFilter`. As its name indicates, this
 Directive allows restricting syscalls that a service can call. This is very
@@ -216,7 +216,24 @@ so-called "groupings"-- several groups of system calls, all prepended with `@`.
 You may find a more detailed explanation
 [on linux-audit.com](https://linux-audit.com/systemd/settings/units/systemcallfilter/)
 
-### Application
+##### IP Accounting
+
+With Systemd 235, Systemd was granted ability to track network traffic
+statistics for individual services or units. It allows administrators to monitor
+bandwidth usage, packet counts, and other network-related metrics associated
+with specific systemd services. This feature is implemented through the
+`IPAddressAllow` and `IPAddressDeny` directives in the `[Service]`section of a
+service unit file.
+
+[awesome article on IP accounting]: https://0pointer.net/blog/ip-accounting-and-access-lists-with-systemd.html
+
+By enabling IP accounting, systemd can provide detailed insights into network
+activity, facilitating better network management, troubleshooting, and
+performance optimization for services running under its control. Network
+security is a little out of my scope today, but I encourage you to read the
+[awesome article on IP accounting]
+
+#### Application
 
 From the previous section, you should have a basic understanding of directives
 we will be using to harden services. Now let's take a look at the application of
@@ -281,7 +298,7 @@ service that you find to be vulnerable. Keep in mind that it is crucial that you
 keep at least _one_ stable generation on your system, as hardening can mess with
 even your user accounts, or TTYs as they are _also_ managed by Systemd.
 
-### Examples
+#### Examples
 
 There are many services that score high in Systemd's exposure analysis, but it
 is impossible for me to provide configuration options for each service. Instead,
@@ -322,11 +339,57 @@ harden each individual service.
 ```
 
 This is based on the example I have shown above, and should serve as a good base
-for _most_ services. Remember that no amount of service hardening constitutes a
-bullet-proof security layer. Also remember that those scores assigned by systemd
-are arbitrary. A service can be "safe" in the oblivious eyes of systemd, but may
-risk security or privacy in other ways. While hardening services, consider the
-needs and attack vectors of each service that you are looking at.
+for _most_ services.
+
+## Journal Hardening
+
+It is no secret that Systemd services run with very lax permissions. What is
+less often talk about, is the Systemd journal.
+
+As the primary logging mechanism for systemd-based distributions, Journald
+captures vast amounts of system and application data. However, this collection
+of information also presents significant security risks if left unprotected.
+This is why we must also take a look at hardening the System journal, which I
+find is essential for maintaining system integrity, protecting sensitive data,
+and ensuring compliance with security standards.
+
+There are various methods through which Journald can leak sensitive information.
+The thread model for the Journal may differ based on your distribution (i.e.,
+different distributions ship different configurations for the system journal)
+but as a general rule of thumb you should consider storing system journal on
+encrypted storage, with proper permissions (e.g., `640`) to protect it from
+unauthorized inquiries. If you have configured Journald to send logs over the
+network, then then proper encryption is mandatory, or the data may be
+intercepted during transmission. Do treat logfiles like toxic waste, and handle
+them with care.
+
+As a precaution, you might consider using volatile storage for the system
+journal as such:
+
+```nix
+{
+  services.journald = {
+    storage = "volatile"; # Store logs in memory
+    upload.enable = false; # Disable remote log upload (the default)
+  };
+}
+```
+
+`man 5 journald.conf` provides additional insight on options you may consider
+setting through `services.journald.extraConfig`.
+
+Last but not least, a dedicated enough attacker by attempt to run your system
+out of resources by filling your journal (e.g., if service output is forwarded
+to the journal) with bogus logs. In which case `SystemMaxUse` is a very useful
+option to set.
+
+## Conclusion
+
+Remember that no amount of service hardening constitutes a bullet-proof security
+layer. Also remember that those scores assigned by systemd are arbitrary. A
+service can be "safe" in the oblivious eyes of systemd, but may risk security or
+privacy in other ways. While hardening services, consider the needs and attack
+vectors of each service that you are looking at.
 
 Security is a meaningless term without a thread model.
 
