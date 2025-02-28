@@ -15,39 +15,15 @@ perpetual vulnerability--calls you to action.
 
 For the last 6 months or so, I have been focusing on hardening each and every
 single component of my NixOS installation. This post, as an attempt to document
-my experiences, marks the beginning of a series dedicated to hardening the
-different components of your NixOS system. Given that NixOS is a systemd-based
-distribution, we’ll start by focusing on systemd. Over the course of the series,
-I’ll also delve into kernel and network security, although these topics require
-deeper research and are beyond the scope of this post.
+my experiences for the sake of establishing a point of reference, marks the
+beginning of a series dedicated to hardening the different components of a NixOS
+system. Given that NixOS is a systemd-based distribution, we’ll start by
+focusing on systemd. Over the course of the series, I’ll also delve into kernel
+and network security, although these topics require further research and are
+beyond the scope of this post.
 
 In this installment, we’ll explore how you can harden various systemd services
 on your system to reduce potential attack surfaces.
-
-## Resources
-
-Before I talk about systemd, I am leaving here the resources I have consulted in
-the past. This post aims to serve as a digestible summary of those resources as
-well as a guide to hardening your system, but do feel free to consult them at
-any time. Most of them extend beyond the scope of Systemd hardening, and will
-come up again in future posts. Visit them at your own discretion, you are sure
-to learn something new.
-
-- [man 5 systemd.exec](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#Sandboxing)
-- [Stackexchange on unprivileged userns clone](https://security.stackexchange.com/questions/209529/what-does-enabling-kernel-unprivileged-userns-clone-do)
-- [Archwiki: Systemd Sandboxing by NetSysFire](https://wiki.archlinux.org/title/User:NetSysFire/systemd_sandboxing)
-- [Madaidans Insecurities](https://madaidans-insecurities.github.io/)
-  - [Madaidan's General Security Tips](https://madaidans-insecurities.github.io/security-privacy-advice.html)
-- [Privsec on Desktop Linux hardening](https://privsec.dev/posts/linux/desktop-linux-hardening/)
-- [Kicksecure Security](https://github.com/Kicksecure/security-misc)
-  - [Kicksecure Hardened Kernel](https://www.kicksecure.com/wiki/Hardened-kernel)
-- [Secureblue](https://github.com/secureblue/secureblue)
-- [GrapheneOS Infrastructure](https://github.com/GrapheneOS/infrastructure)
-- [NixOS Wiki on Systemd Hardening](https://wiki.nixos.org/wiki/Systemd/Hardening)
-- [General tips on Systemd Hardening](https://github.com/alegrey91/systemd-service-hardening)
-- [K4YT3X's Hardened & Optimized Linux Kernel Parameters](https://github.com/k4yt3x/sysctl/blob/master/sysctl.conf)
-- [Notes on SSH Hardening](https://www.sshaudit.com/hardening_guides.html)
-- [Hardened Profile module in Nixpkgs](https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/profiles/hardened.nix)
 
 ## The Problem
 
@@ -59,7 +35,7 @@ will come in very handy today, is **systemd-analyze security**.
 
 Go ahead and run `sudo systemd-analyze security` on your system. You will notice
 _very quickly_ that it contains a lot of "UNSAFE" and "EXPOSED" services. First
-of all, do not worry. Your system is _probably safe_. The assessment done by
+of all, do not worry. Your system is _probably safe_. The assessments done by
 Systemd, as I will emphasize time and time again, are **entirely arbitrary**.
 They are rule-based score calculations based on your configuration, do not
 correspond to or reflect upon the actual vulnerability of your system; there is
@@ -93,7 +69,7 @@ principles in mind:
    system is to remain ever-vigilant.
 
 > Some hardening options will disable access to certain paths, or make them
-> read-only for the service. This is quite helpful in theory, but not every
+> read-only for the service. This is quite helpful, in theory, but not every
 > program is written intelligently and as such, not all programs will fail
 > gracefully when they are missing access to a path. Sometimes the service will
 > fail, and you will not be able to tell why. This is exactly why you must treat
@@ -102,13 +78,19 @@ principles in mind:
 
 ### Hardening Services
 
+[NixOS option search]: https://search.nixos.org/options?channel=unstable&size=50&sort=relevance&type=packages&query=systemd.services.
+
 Systemd services in NixOS are defined through the systemd module exposed in the
 Nixpkgs module system. The schema is very basic, and I suggest that you consult
-[NixOS option search](https://search.nixos.org) if you wish to know more. For
-our purposes, just `serviceConfig` is enough as we will be working primarily
-with the `[Service]` field of systemd services. Documentation is very scattered,
-but available at `systemd.unit(5)`, `systemd.service(5)` and `systemd.exec(5)`
-manpages.
+[NixOS option search] if you wish to learn more. For our purposes, just
+`serviceConfig` is enough as we will be working primarily with the `[Service]`
+field of systemd services. Documentation is very scattered, but available at
+`systemd.unit(5)`, `systemd.service(5)` and `systemd.exec(5)` manpages. They
+contain many important tidbids, and I encourage you to go through them alongside
+this post during your hardening journey.
+
+Here is a very basic example to demonstrate how individual options are applied
+to a service.
 
 ```nix
 {
@@ -128,14 +110,21 @@ manpages.
 }
 ```
 
-This is usually enough to bring a service down to MEDIUM exposure level. It
-removes some of the "unnecessary" permissions--although they may very well be
-necessary-- all services are granted by default. In short this _does_ meet _the
-basic requirements_ for hardening, but it is also not very comprehensive. For
-services that reach more into the system, hardening must be done more
-diligently: you must assess the needs of your service and tweak its capabilities
-accordingly. Furthermore, you will be able to bring the score down from MEDIUM
-by focusing on the needs of service and applying other configuration fields.
+Options set in this example usually enough to bring a service down to MEDIUM
+exposure level. It removes some of the "unnecessary" permissions--although they
+may very well be necessary-- all services are granted by default. In short this
+example _does_ meet _the basic requirements_ for hardening, but it is also not
+very comprehensive. For services that reach more into the system, hardening must
+be done more diligently: you must assess the needs of your service and tweak its
+capabilities accordingly. Furthermore, you will be able to bring the score down
+from MEDIUM by focusing on the needs of service and applying other configuration
+fields.
+
+To check how effective the change was, run `systemd-analyze security <unit>`
+before and after applying service changes, and compare the results. The output
+of `systemd-analyze security` will also provide in-depth explanation of each
+option that is (or is not) set, so it is worth running frequently on services
+that you aim to harden.
 
 #### Definitions
 
@@ -174,9 +163,10 @@ establish some baseline for how you may look at hardening.
 These are the definitions for some common directives that you may apply with
 _minimum headache_. You may stick those into the `serviceConfig` of a service in
 your configuration, and if the service is a basic daemon that does not need
-intricate FS access, it should perform as expected. In addition, the draft
-[Systemd Sandboxing Article] on Archwiki provides some insight on other options
-and their level of impact.
+intricate FS or memory access, it should perform as expected.
+
+> The draft [Systemd Sandboxing Article] on Archwiki provides some insight on
+> other options and their level of impact.
 
 There are many directives that are used in Systemd services, with various
 exposure scores. While the scores differ, some of them might come in very handy.
@@ -241,10 +231,12 @@ those directives.
 
 > Systemd's error messages for when a service is misconfigured can be vague or
 > misleading, especially if the executable fails to properly inform the user of
-> the error. [^1] Setting the log level temporarily to debug via
+> the error. [^2] Setting the log level temporarily to debug via
 > `systemctl log-level debug` may help getting actually relevant information.
 > Though do not rely too much on debug information, as it is usually equally
 > useless.
+
+[^2]: [Hint hint wink wink](https://blog.notashelf.dev/posts/2025-01-02-well-done-verbosity.html)
 
 As mentioned above, you might isolate services that need hardening with
 `systemd-analyze security <unit>` and focus on hardening each and every one of
@@ -311,7 +303,7 @@ harden each individual service.
   systemd.services.acpid.serviceConfig = {
     ProtectSystem = "full";
     ProtectHome = true;
-    RestrictAddressFamilies = [ "AF_INET" AF_INET6" ];
+    RestrictAddressFamilies = [ "AF_INET" "AF_INET6" ];
     SystemCallFilter = "~@clock @cpu-emulation @debug @module @mount @raw-io @reboot @swap";
     ProtectKernelTunables = true;
     ProtectKernelModules = true;
@@ -343,25 +335,25 @@ for _most_ services.
 
 ## Journal Hardening
 
-It is no secret that Systemd services run with very lax permissions. What is
-less often talk about, is the Systemd journal.
+It is no secret that Systemd services run with very lax permissions. One thing
+that is less often talked about is the Systemd journal, Journald.
 
 As the primary logging mechanism for systemd-based distributions, Journald
 captures vast amounts of system and application data. However, this collection
 of information also presents significant security risks if left unprotected.
-This is why we must also take a look at hardening the System journal, which I
+This is why we must also take a look at hardening the system journal, which I
 find is essential for maintaining system integrity, protecting sensitive data,
 and ensuring compliance with security standards.
 
 There are various methods through which Journald can leak sensitive information.
-The thread model for the Journal may differ based on your distribution (i.e.,
-different distributions ship different configurations for the system journal)
-but as a general rule of thumb you should consider storing system journal on
+The threat model for the Journal may differ based on your distribution (i.e.,
+different distributions ship different configurations for the system journal),
+but as a general rule of thumb you should consider storing the system journal on
 encrypted storage, with proper permissions (e.g., `640`) to protect it from
-unauthorized inquiries. If you have configured Journald to send logs over the
-network, then then proper encryption is mandatory, or the data may be
-intercepted during transmission. Do treat logfiles like toxic waste, and handle
-them with care.
+unauthorized inquiries. Additionally, if you have configured Journald to send
+logs over the network, then then proper encryption is mandatory, or the data may
+be intercepted during transmission. Do treat logfiles like toxic waste, and
+handle them with care.
 
 As a precaution, you might consider using volatile storage for the system
 journal as such:
@@ -378,7 +370,7 @@ journal as such:
 `man 5 journald.conf` provides additional insight on options you may consider
 setting through `services.journald.extraConfig`.
 
-Last but not least, a dedicated enough attacker by attempt to run your system
+Last but not least, a dedicated enough attacker may attempt to run your system
 out of resources by filling your journal (e.g., if service output is forwarded
 to the journal) with bogus logs. In which case `SystemMaxUse` is a very useful
 option to set.
@@ -386,11 +378,33 @@ option to set.
 ## Conclusion
 
 Remember that no amount of service hardening constitutes a bullet-proof security
-layer. Also remember that those scores assigned by systemd are arbitrary. A
-service can be "safe" in the oblivious eyes of systemd, but may risk security or
+layer. Also remember that those scores assigned by Systemd are arbitrary. A
+service can be "safe" in the oblivious eyes of Systemd, but may risk security or
 privacy in other ways. While hardening services, consider the needs and attack
 vectors of each service that you are looking at.
 
-Security is a meaningless term without a thread model.
+## Resources
 
-[^1]: [Hint hint wink wink](https://blog.notashelf.dev/posts/2025-01-02-well-done-verbosity.html)
+I am leaving here the resources I have consulted in the past. This post aims to
+serve as a digestible summary of those resources as well as a guide to hardening
+your system, but do feel free to consult them at any time. Most of them extend
+beyond the scope of Systemd hardening, and will come up again in future posts.
+Visit them at your own discretion, you are sure to learn something new.
+
+- [`man 5 systemd.exec`](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#Sandboxing)
+- [Stackexchange on unprivileged userns clone](https://security.stackexchange.com/questions/209529/what-does-enabling-kernel-unprivileged-userns-clone-do)
+- [Archwiki: Systemd Sandboxing by NetSysFire](https://wiki.archlinux.org/title/User:NetSysFire/systemd_sandboxing)
+- [Madaidans Insecurities](https://madaidans-insecurities.github.io/)
+  - [Madaidan's General Security Tips](https://madaidans-insecurities.github.io/security-privacy-advice.html)
+- [Privsec on Desktop Linux hardening](https://privsec.dev/posts/linux/desktop-linux-hardening/)
+- [Kicksecure Security](https://github.com/Kicksecure/security-misc)
+  - [Kicksecure Hardened Kernel](https://www.kicksecure.com/wiki/Hardened-kernel)
+- [Secureblue](https://github.com/secureblue/secureblue)
+- [GrapheneOS Infrastructure](https://github.com/GrapheneOS/infrastructure)
+- [NixOS Wiki on Systemd Hardening](https://wiki.nixos.org/wiki/Systemd/Hardening)
+- [General tips on Systemd Hardening](https://github.com/alegrey91/systemd-service-hardening)
+- [K4YT3X's Hardened & Optimized Linux Kernel Parameters](https://github.com/k4yt3x/sysctl/blob/master/sysctl.conf)
+- [Notes on SSH Hardening](https://www.sshaudit.com/hardening_guides.html)
+- [Hardened Profile module in Nixpkgs](https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/profiles/hardened.nix)
+
+**Security is a meaningless term without a threat model.**
