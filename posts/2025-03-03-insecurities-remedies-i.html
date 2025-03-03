@@ -203,7 +203,7 @@
       <!-- Table of Contents, if enabled -->
        <h1 id="nixos-security-i-systemd">NixOS Security I: Systemd</h1>
 <div class="reading-time">
-<p>11 minute read</p>
+<p>12 minute read</p>
 </div>
 <p>A Linux system is a complex ecosystem of components, each with its
 own set of vulnerabilities. NixOS is no exception. While its declarative
@@ -278,7 +278,7 @@ modifying multiple services at once.</p>
 </blockquote>
 <h3 id="hardening-services" id="hardening-services">Hardening
 Services <a href="#hardening-services" class="anchor-link">🔗</a></h3>
-<p>Systemd services in NixOS are defined through the systemd module
+<p>Systemd services in NixOS are defined through the Systemd module
 exposed in the Nixpkgs module system. The schema is very basic, and I
 suggest that you consult <a
 href="https://search.nixos.org/options?channel=unstable&amp;size=50&amp;sort=relevance&amp;type=packages&amp;query=systemd.services.">NixOS
@@ -289,6 +289,18 @@ is very scattered, but available at <code>systemd.unit(5)</code>,
 <code>systemd.service(5)</code> and <code>systemd.exec(5)</code>
 manpages. They contain many important tidbids, and I encourage you to go
 through them alongside this post during your hardening journey.</p>
+<p>Most services enabled in NixOS, such as Miniflux under
+<code>services.*</code>, are essentially abstractions over
+<code>systemd.services</code> When you enable a service, you’re
+essentially creating a Systemd service unit via
+<code>systemd.services.&lt;name&gt;</code>. Unfortunately, there are
+limited options (usually limited only to application-specific settings)
+to harden services through <code>services.*</code> options. Thus, we
+often need to strip away the abstraction and modify the settings for the
+Systemd services directly, using <code>serviceConfig.</code> You should
+also be aware that some services create more than one service unit, in
+which case <code>systemctl list-units --type=service</code> can help you
+find more services associated with one module.</p>
 <p>Here is a very basic example to demonstrate how individual options
 are applied to a service.</p>
 <div class="sourceCode" id="cb1"><pre
