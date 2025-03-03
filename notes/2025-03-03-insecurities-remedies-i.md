@@ -265,12 +265,12 @@ as a score of **9.6**.
 Acpid is, of course, not the only example. On my system, there are little over
 50 systemd services running and a majority of them were ranked EXPOSED, UNSAFE
 or MEDIUM until I went out of my way to harden each and every single one of
-them. [^2] My advice to you is to do the same: there are some Nix-based projects
+them. [^3] My advice to you is to do the same: there are some Nix-based projects
 that try and handle hardening for you, but remember that there is no solution
 that suits all systems. Not to mention that relying on a 3rd party project for
 your system hardening is a security vulnerability of its own.
 
-[^2]: Okay maybe not _all_ of them. It is not feasible to try and harden each
+[^3]: Okay maybe not _all_ of them. It is not feasible to try and harden each
     service, as the minimum required conditions to run some services will always
     remain unsafe by Systemd's definition. This is what I have meant when I
     referred to the scores as arbitrary. Services that run as root, for example,
