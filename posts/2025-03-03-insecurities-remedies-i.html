@@ -168,7 +168,7 @@
     </style>
         <link rel="stylesheet" href="/home/runner/work/blog.notashelf.dev/blog.notashelf.dev/templates/style.css" />
         <!-- Begin Lineicons import -->
-    <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css" />
+    <link rel="stylesheet" href="https://cdn.lineicons.com/5.0/lineicons.css" />
     <!-- End Lineicons import-->
     <link rel="stylesheet" href="/style.css" />
     <link
@@ -675,10 +675,16 @@ role="doc-backlink">↩︎</a></p></li>
 href="https://blog.notashelf.dev/posts/2025-01-02-well-done-verbosity.html">Hint
 hint wink wink</a><a href="#fnref2" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p><a
-href="https://blog.notashelf.dev/posts/2025-01-02-well-done-verbosity.html">Hint
-hint wink wink</a><a href="#fnref3" class="footnote-back"
-role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Okay maybe not <em>all</em> of them. It is not feasible
+to try and harden each service, as the minimum required conditions to
+run some services will always remain unsafe by Systemd’s definition.
+This is what I have meant when I referred to the scores as arbitrary.
+Services that run as root, for example, can never be fully hardened as
+running as root is a security vulnerability on its own. Trying to
+offload the service to a dedicated user, or using
+<code>DynamicUser</code> might break functionality, therefore some
+services are bound to remain exposed as per Systemd.<a href="#fnref3"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section> 
     </main>
@@ -687,7 +693,7 @@ role="doc-backlink">↩︎</a></p></li>
       <p>&copy; <span id="copyright"></span> NotAShelf</p>
       <div class="footer-icons">
         <a href="https://github.com/notashelf">
-          <i class="lni lni-github-original" title="GitHub"></i>
+          <i class="lni lni-github" title="GitHub"></i>
         </a>
       </div>
     </footer>
