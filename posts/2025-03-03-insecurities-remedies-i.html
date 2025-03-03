@@ -79,8 +79,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=yes"
     />
-           <meta name="description" content="Notes on Nix, Linux and every other pie I put a finger in" />
-        <title>2025-xx-xx-insecurities-remedies-i.md</title>
+         <meta name="dcterms.date" content="2025-03-03" />
+          <meta name="description" content="Notes on Nix, Linux and every other pie I put a finger in" />
+        <title>Posts - Insecurities Remedies I</title>
     <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -124,43 +125,46 @@
           -khtml-user-select: none; -moz-user-select: none;
           -ms-user-select: none; user-select: none;
           padding: 0 4px; width: 4em;
-          color: #aaaaaa;
+          background-color: #232629;
+          color: #7a7c7d;
         }
-      pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+      pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
       div.sourceCode
-        {   }
+        { color: #cfcfc2;  }
       @media screen {
       pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
       }
-      code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-      code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-      code span.at { color: #7d9029; } /* Attribute */
-      code span.bn { color: #40a070; } /* BaseN */
-      code span.bu { color: #008000; } /* BuiltIn */
-      code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-      code span.ch { color: #4070a0; } /* Char */
-      code span.cn { color: #880000; } /* Constant */
-      code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-      code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-      code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-      code span.dt { color: #902000; } /* DataType */
-      code span.dv { color: #40a070; } /* DecVal */
-      code span.er { color: #ff0000; font-weight: bold; } /* Error */
-      code span.ex { } /* Extension */
-      code span.fl { color: #40a070; } /* Float */
-      code span.fu { color: #06287e; } /* Function */
-      code span.im { color: #008000; font-weight: bold; } /* Import */
-      code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-      code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-      code span.op { color: #666666; } /* Operator */
-      code span.ot { color: #007020; } /* Other */
-      code span.pp { color: #bc7a00; } /* Preprocessor */
-      code span.sc { color: #4070a0; } /* SpecialChar */
-      code span.ss { color: #bb6688; } /* SpecialString */
-      code span.st { color: #4070a0; } /* String */
-      code span.va { color: #19177c; } /* Variable */
-      code span.vs { color: #4070a0; } /* VerbatimString */
-      code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+      code span { color: #cfcfc2; } /* Normal */
+      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+      code span.an { color: #3f8058; } /* Annotation */
+      code span.at { color: #2980b9; } /* Attribute */
+      code span.bn { color: #f67400; } /* BaseN */
+      code span.bu { color: #7f8c8d; } /* BuiltIn */
+      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+      code span.ch { color: #3daee9; } /* Char */
+      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+      code span.co { color: #7a7c7d; } /* Comment */
+      code span.cv { color: #7f8c8d; } /* CommentVar */
+      code span.do { color: #a43340; } /* Documentation */
+      code span.dt { color: #2980b9; } /* DataType */
+      code span.dv { color: #f67400; } /* DecVal */
+      code span.er { color: #da4453; text-decoration: underline; } /* Error */
+      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+      code span.fl { color: #f67400; } /* Float */
+      code span.fu { color: #8e44ad; } /* Function */
+      code span.im { color: #27ae60; } /* Import */
+      code span.in { color: #c45b00; } /* Information */
+      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+      code span.op { color: #cfcfc2; } /* Operator */
+      code span.ot { color: #27ae60; } /* Other */
+      code span.pp { color: #27ae60; } /* Preprocessor */
+      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+      code span.sc { color: #3daee9; } /* SpecialChar */
+      code span.ss { color: #da4453; } /* SpecialString */
+      code span.st { color: #f44f4f; } /* String */
+      code span.va { color: #27aeae; } /* Variable */
+      code span.vs { color: #da4453; } /* VerbatimString */
+      code span.wa { color: #da4453; } /* Warning */
     </style>
         <link rel="stylesheet" href="/home/runner/work/blog.notashelf.dev/blog.notashelf.dev/templates/style.css" />
         <!-- Begin Lineicons import -->
@@ -198,11 +202,14 @@
 
       <!-- Table of Contents, if enabled -->
        <h1 id="nixos-security-i-systemd">NixOS Security I: Systemd</h1>
+<div class="reading-time">
+<p>11 minute read</p>
+</div>
 <p>A Linux system is a complex ecosystem of components, each with its
 own set of vulnerabilities. NixOS is no exception. While its declarative
-nature provides some advantages, it is not--nor can it ever be--a silver
+nature provides some advantages, it is not–nor can it ever be–a silver
 bullet against the inherent insecurities that exist in any system. This
-<em>status quo</em>--a state of perpetual vulnerability--calls you to
+<em>status quo</em>–a state of perpetual vulnerability–calls you to
 action.</p>
 <p>For the last 6 months or so, I have been focusing on hardening each
 and every single component of my NixOS installation. This post, as an
@@ -215,7 +222,8 @@ although these topics require further research and are beyond the scope
 of this post.</p>
 <p>In this installment, we’ll explore how you can harden various systemd
 services on your system to reduce potential attack surfaces.</p>
-<h2 id="the-problem">The Problem</h2>
+<h2 id="the-problem" id="the-problem">The
+Problem <a href="#the-problem" class="anchor-link">🔗</a></h2>
 <p>Systemd, as a central part of many modern Linux distributions,
 provides various utilities designed to streamline system management.
 However, its centralization can also mean a single point of failure, and
@@ -224,7 +232,7 @@ misconfigured. One of the utilities it offers, which will come in very
 handy today, is <strong>systemd-analyze security</strong>.</p>
 <p>Go ahead and run <code>sudo systemd-analyze security</code> on your
 system. You will notice <em>very quickly</em> that it contains a lot of
-"UNSAFE" and "EXPOSED" services. First of all, do not worry. Your system
+“UNSAFE” and “EXPOSED” services. First of all, do not worry. Your system
 is <em>probably safe</em>. The assessments done by Systemd, as I will
 emphasize time and time again, are <strong>entirely arbitrary</strong>.
 They are rule-based score calculations based on your configuration, do
@@ -235,7 +243,8 @@ is <em>not</em> an indicator of how secure or insecure it is. It is,
 however, a start. In the case of Systemd, hardening services is a second
 line of defense when the executable the service is for becomes the
 vulnerability.</p>
-<h2 id="the-solution">The Solution</h2>
+<h2 id="the-solution" id="the-solution">The
+Solution <a href="#the-solution" class="anchor-link">🔗</a></h2>
 <p><code>systemd-analyze security &lt;unit&gt;</code> generates a score
 for a given unit, showing all the used directives. Based on limited
 information we have, it is possible to try and harden individual
@@ -244,14 +253,14 @@ services.</p>
 understandable, as trying to preemptively harden a service is likely to
 cause conflicts with individual services and their requirements.</p>
 <p>Although NixOS makes <em>some</em> effort to harden services,
-installed services--be it through NixOS' services or your inferior
-distribution's package manager--will be running with little to no
+installed services–be it through NixOS’ services or your inferior
+distribution’s package manager–will be running with little to no
 hardening - which you can confirm by viewing the security report. This
 post, as per my experience, aims to detail potential hardening options.
 Throughout this post, please keep those following core principles in
 mind:</p>
 <ol type="1">
-<li>There is <strong>no</strong> "one size fits all" kind of hardening,
+<li>There is <strong>no</strong> “one size fits all” kind of hardening,
 all services will require your undivided attention to make sure
 everything continues to work as intended.</li>
 <li>No kind of hardening can catch all kinds of exploits. The key to a
@@ -267,7 +276,8 @@ exactly why you must treat each service with special care - and harden
 them one service at a time instead of abstracting a generalized way of
 modifying multiple services at once.</p>
 </blockquote>
-<h3 id="hardening-services">Hardening Services</h3>
+<h3 id="hardening-services" id="hardening-services">Hardening
+Services <a href="#hardening-services" class="anchor-link">🔗</a></h3>
 <p>Systemd services in NixOS are defined through the systemd module
 exposed in the Nixpkgs module system. The schema is very basic, and I
 suggest that you consult <a
@@ -298,8 +308,8 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb1-1"><a href="#c
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>Options set in this example usually enough to bring a service down to
-MEDIUM exposure level. It removes some of the "unnecessary"
-permissions--although they may very well be necessary-- all services are
+MEDIUM exposure level. It removes some of the “unnecessary”
+permissions–although they may very well be necessary– all services are
 granted by default. In short this example <em>does</em> meet <em>the
 basic requirements</em> for hardening, but it is also not very
 comprehensive. For services that reach more into the system, hardening
@@ -313,8 +323,9 @@ applying service changes, and compare the results. The output of
 <code>systemd-analyze security</code> will also provide in-depth
 explanation of each option that is (or is not) set, so it is worth
 running frequently on services that you aim to harden.</p>
-<h4 id="definitions">Definitions</h4>
-<p>While we are at it, let's talk about definitions. There too many
+<h4 id="definitions"
+id="definitions">Definitions <a href="#definitions" class="anchor-link">🔗</a></h4>
+<p>While we are at it, let’s talk about definitions. There too many
 options for me to cover, and as such this section <strong>will
 not</strong> cover each and every once of them. Instead, I would like to
 focus on the example I have given above to establish some baseline for
@@ -405,13 +416,15 @@ options and their level of impact.</p>
 various exposure scores. While the scores differ, some of them might
 come in very handy. Here are a few that are worth mentioning while you
 work on hardening your services.</p>
-<h5 id="inaccessiblepaths">InaccessiblePaths</h5>
+<h5 id="inaccessiblepaths"
+id="inaccessiblepaths">InaccessiblePaths <a href="#inaccessiblepaths" class="anchor-link">🔗</a></h5>
 <p><code>InaccessiblePaths</code> is a very useful directive, which I
 did not about until recently, that might come in handy if the service
 requires access to a lot of directives. In which case, you may manually
 add <em>sensitive</em> directories that you want hidden at all
 costs.</p>
-<h5 id="dynamicusers">DynamicUsers</h5>
+<h5 id="dynamicusers"
+id="dynamicusers">DynamicUsers <a href="#dynamicusers" class="anchor-link">🔗</a></h5>
 <p>Systemd <em>system</em> services (as opposed to user services) run as
 root unless they are explicitly given a user to run as.
 <code>DynamicUsers</code> is a special directive that can help you with
@@ -420,23 +433,25 @@ accounts for each instance of the service. Each of these unique users
 runs their own instance of the service, providing a high level of
 isolation between different processes. This not only enhances security
 by limiting the potential impact of a compromised process but also
-improves resource management by isolating each instance's file system
-access. Although the impact of <code>DynamicUsers</code> on a service's
+improves resource management by isolating each instance’s file system
+access. Although the impact of <code>DynamicUsers</code> on a service’s
 exposure score is low, it is a very handy directive that you might
 consider if root privileges are not necessary for oyur service.</p>
-<h5 id="systemcallfilter">SystemCallFilter</h5>
+<h5 id="systemcallfilter"
+id="systemcallfilter">SystemCallFilter <a href="#systemcallfilter" class="anchor-link">🔗</a></h5>
 <p>One noteworthy directive is <code>SystemCallFilter</code>. As its
 name indicates, this Directive allows restricting syscalls that a
 service can call. This is very tricky to work with, and you can get out
 of hand as the process gains new features over time. Systemd, to make
-your life a <em>bit</em> easier, includes so-called "groupings"--
-several groups of system calls, all prepended with <code>@</code>.</p>
+your life a <em>bit</em> easier, includes so-called “groupings”– several
+groups of system calls, all prepended with <code>@</code>.</p>
 <p><code>@swap</code>, <code>@reboot</code>, <code>@memlock</code> and
 <code>@raw-io</code> are some examples of those groups. You may find a
 more detailed explanation <a
 href="https://linux-audit.com/systemd/settings/units/systemcallfilter/">on
 linux-audit.com</a></p>
-<h5 id="ip-accounting">IP Accounting</h5>
+<h5 id="ip-accounting" id="ip-accounting">IP
+Accounting <a href="#ip-accounting" class="anchor-link">🔗</a></h5>
 <p>With Systemd 235, Systemd was granted ability to track network
 traffic statistics for individual services or units. It allows
 administrators to monitor bandwidth usage, packet counts, and other
@@ -451,12 +466,13 @@ its control. Network security is a little out of my scope today, but I
 encourage you to read the <a
 href="https://0pointer.net/blog/ip-accounting-and-access-lists-with-systemd.html">awesome
 article on IP accounting</a></p>
-<h4 id="application">Application</h4>
+<h4 id="application"
+id="application">Application <a href="#application" class="anchor-link">🔗</a></h4>
 <p>From the previous section, you should have a basic understanding of
-directives we will be using to harden services. Now let's take a look at
+directives we will be using to harden services. Now let’s take a look at
 the application of those directives.</p>
 <blockquote>
-<p>Systemd's error messages for when a service is misconfigured can be
+<p>Systemd’s error messages for when a service is misconfigured can be
 vague or misleading, especially if the executable fails to properly
 inform the user of the error. <a href="#fn2" class="footnote-ref"
 id="fnref2" role="doc-noteref"><sup>2</sup></a> Setting the log level
@@ -482,7 +498,7 @@ like this:</p>
 <p>I have omitted the rest of the output, but you should get a gist of
 the output from this example. First field is the directive, second is
 the impact of the currently set value and the third field is the
-"vulnerability score" assigned to the service. Higher the score, more
+“vulnerability score” assigned to the service. Higher the score, more
 vulnerable the service. Acpid, for example, as a score of
 <strong>9.6</strong>.</p>
 <p>Acpid is, of course, not the only example. On my system, there are
@@ -495,20 +511,21 @@ hardening for you, but remember that there is no solution that suits all
 systems. Not to mention that relying on a 3rd party project for your
 system hardening is a security vulnerability of its own.</p>
 <p>I find that <a
-href="https://git.sr.ht/~krathalan/systemd-sandboxing">krathalan's
+href="https://git.sr.ht/~krathalan/systemd-sandboxing">krathalan’s
 systemd sandboxing template</a> serves as a good base that you may apply
 with minimal tweaks. In addition to providing templates for common
 services, it explains how certain options might interact with each other
 or system settings while set. Based on this template, manpages and the
-directives I've described (or linked) above; you should be able to go
+directives I’ve described (or linked) above; you should be able to go
 over each and every service that you find to be vulnerable. Keep in mind
 that it is crucial that you keep at least <em>one</em> stable generation
 on your system, as hardening can mess with even your user accounts, or
 TTYs as they are <em>also</em> managed by Systemd.</p>
-<h4 id="examples">Examples</h4>
-<p>There are many services that score high in Systemd's exposure
+<h4 id="examples"
+id="examples">Examples <a href="#examples" class="anchor-link">🔗</a></h4>
+<p>There are many services that score high in Systemd’s exposure
 analysis, but it is impossible for me to provide configuration options
-for each service. Instead, I'll provide some examples for you to base
+for each service. Instead, I’ll provide some examples for you to base
 your work off of. Using the information and sources I have referenced,
 it should not be very difficult to harden each individual service.</p>
 <div class="sourceCode" id="cb3"><pre
@@ -541,7 +558,8 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#c
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>This is based on the example I have shown above, and should serve as
 a good base for <em>most</em> services.</p>
-<h2 id="journal-hardening">Journal Hardening</h2>
+<h2 id="journal-hardening" id="journal-hardening">Journal
+Hardening <a href="#journal-hardening" class="anchor-link">🔗</a></h2>
 <p>It is no secret that Systemd services run with very lax permissions.
 One thing that is less often talked about is the Systemd journal,
 Journald.</p>
@@ -578,14 +596,16 @@ options you may consider setting through
 your system out of resources by filling your journal (e.g., if service
 output is forwarded to the journal) with bogus logs. In which case
 <code>SystemMaxUse</code> is a very useful option to set.</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion"
+id="conclusion">Conclusion <a href="#conclusion" class="anchor-link">🔗</a></h2>
 <p>Remember that no amount of service hardening constitutes a
 bullet-proof security layer. Also remember that those scores assigned by
-Systemd are arbitrary. A service can be "safe" in the oblivious eyes of
+Systemd are arbitrary. A service can be “safe” in the oblivious eyes of
 Systemd, but may risk security or privacy in other ways. While hardening
 services, consider the needs and attack vectors of each service that you
 are looking at.</p>
-<h2 id="resources">Resources</h2>
+<h2 id="resources"
+id="resources">Resources <a href="#resources" class="anchor-link">🔗</a></h2>
 <p>I am leaving here the resources I have consulted in the past. This
 post aims to serve as a digestible summary of those resources as well as
 a guide to hardening your system, but do feel free to consult them at
@@ -605,7 +625,7 @@ Systemd Sandboxing by NetSysFire</a></li>
 Insecurities</a>
 <ul>
 <li><a
-href="https://madaidans-insecurities.github.io/security-privacy-advice.html">Madaidan's
+href="https://madaidans-insecurities.github.io/security-privacy-advice.html">Madaidan’s
 General Security Tips</a></li>
 </ul></li>
 <li><a
@@ -627,7 +647,7 @@ on Systemd Hardening</a></li>
 href="https://github.com/alegrey91/systemd-service-hardening">General
 tips on Systemd Hardening</a></li>
 <li><a
-href="https://github.com/k4yt3x/sysctl/blob/master/sysctl.conf">K4YT3X's
+href="https://github.com/k4yt3x/sysctl/blob/master/sysctl.conf">K4YT3X’s
 Hardened &amp; Optimized Linux Kernel Parameters</a></li>
 <li><a href="https://www.sshaudit.com/hardening_guides.html">Notes on
 SSH Hardening</a></li>

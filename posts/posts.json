@@ -63,6 +63,14 @@
       "description": "Setting up SSH signing for your many, many Git commits",
       "date": "2025-02-24",
       "path": "/posts/2025-02-24-ssh-signing-commits.html"
+    },
+    {
+      "name": "2025-03-03-insecurities-remedies-i.md",
+      "url": "https://blog.notashelf.dev/posts/2025-03-03-insecurities-remedies-i.html",
+      "title": "NixOS Security I: Systemd",
+      "description": "First installment to a series on securing your NixOS systems",
+      "date": "2025-03-03",
+      "path": "/posts/2025-03-03-insecurities-remedies-i.html"
     }
   ]
 }
