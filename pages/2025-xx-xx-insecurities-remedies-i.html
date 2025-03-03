@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="/assets/apple-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="/assets/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="/assets/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/assets/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/assets/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/assets/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/assets/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/assets/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/assets/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+           <meta name="description" content="Notes on Nix, Linux and every other pie I put a finger in" />
+        <title>2025-xx-xx-insecurities-remedies-i.md</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      /* The extra [class] is a hack that increases specificity enough to
+         override a similar rule in reveal.js */
+      ul.task-list[class]{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        font-size: inherit;
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1.6em;
+        vertical-align: middle;
+      }
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+          color: #aaaaaa;
+        }
+      pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+      div.sourceCode
+        {   }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+      code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+      code span.at { color: #7d9029; } /* Attribute */
+      code span.bn { color: #40a070; } /* BaseN */
+      code span.bu { color: #008000; } /* BuiltIn */
+      code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+      code span.ch { color: #4070a0; } /* Char */
+      code span.cn { color: #880000; } /* Constant */
+      code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+      code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+      code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+      code span.dt { color: #902000; } /* DataType */
+      code span.dv { color: #40a070; } /* DecVal */
+      code span.er { color: #ff0000; font-weight: bold; } /* Error */
+      code span.ex { } /* Extension */
+      code span.fl { color: #40a070; } /* Float */
+      code span.fu { color: #06287e; } /* Function */
+      code span.im { color: #008000; font-weight: bold; } /* Import */
+      code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+      code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+      code span.op { color: #666666; } /* Operator */
+      code span.ot { color: #007020; } /* Other */
+      code span.pp { color: #bc7a00; } /* Preprocessor */
+      code span.sc { color: #4070a0; } /* SpecialChar */
+      code span.ss { color: #bb6688; } /* SpecialString */
+      code span.st { color: #4070a0; } /* String */
+      code span.va { color: #19177c; } /* Variable */
+      code span.vs { color: #4070a0; } /* VerbatimString */
+      code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    </style>
+        <link rel="stylesheet" href="/home/runner/work/blog.notashelf.dev/blog.notashelf.dev/templates/style.css" />
+        <!-- Begin Lineicons import -->
+    <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css" />
+    <!-- End Lineicons import-->
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="shortcut icon"
+      href="/assets/favicon-96x96.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header class="page-navigation">
+      <nav class="primary-buttons">
+        <ul>
+          <li><a class="nav-button" href="/">Index</a></li>
+        </ul>
+      </nav>
+      <nav class="secondary-buttons">
+        <ul>
+          <li>
+            <a class="nav-button" href="/pages/posts.html"> Posts </a>
+            <a class="nav-button" href="/pages/about.html"> About </a>
+            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <hr class="nav-border">
+
+    <main>
+      <!-- Keywords, if any. -->
+      
+
+      <!-- Table of Contents, if enabled -->
+       <h1 id="nixos-security-i-systemd">NixOS Security I: Systemd</h1>
+<p>A Linux system is a complex ecosystem of components, each with its
+own set of vulnerabilities. NixOS is no exception. While its declarative
+nature provides some advantages, it is not--nor can it ever be--a silver
+bullet against the inherent insecurities that exist in any system. This
+<em>status quo</em>--a state of perpetual vulnerability--calls you to
+action.</p>
+<p>For the last 6 months or so, I have been focusing on hardening each
+and every single component of my NixOS installation. This post, as an
+attempt to document my experiences for the sake of establishing a point
+of reference, marks the beginning of a series dedicated to hardening the
+different components of a NixOS system. Given that NixOS is a
+systemd-based distribution, we’ll start by focusing on systemd. Over the
+course of the series, I’ll also delve into kernel and network security,
+although these topics require further research and are beyond the scope
+of this post.</p>
+<p>In this installment, we’ll explore how you can harden various systemd
+services on your system to reduce potential attack surfaces.</p>
+<h2 id="the-problem">The Problem</h2>
+<p>Systemd, as a central part of many modern Linux distributions,
+provides various utilities designed to streamline system management.
+However, its centralization can also mean a single point of failure, and
+its wide array of features offers a large attack surface if
+misconfigured. One of the utilities it offers, which will come in very
+handy today, is <strong>systemd-analyze security</strong>.</p>
+<p>Go ahead and run <code>sudo systemd-analyze security</code> on your
+system. You will notice <em>very quickly</em> that it contains a lot of
+"UNSAFE" and "EXPOSED" services. First of all, do not worry. Your system
+is <em>probably safe</em>. The assessments done by Systemd, as I will
+emphasize time and time again, are <strong>entirely arbitrary</strong>.
+They are rule-based score calculations based on your configuration, do
+not correspond to or reflect upon the actual vulnerability of your
+system; there is more nuance to such vulnerabilities than a rule-based
+analysis tool can determine. Indeed, the score assigned to each service
+is <em>not</em> an indicator of how secure or insecure it is. It is,
+however, a start. In the case of Systemd, hardening services is a second
+line of defense when the executable the service is for becomes the
+vulnerability.</p>
+<h2 id="the-solution">The Solution</h2>
+<p><code>systemd-analyze security &lt;unit&gt;</code> generates a score
+for a given unit, showing all the used directives. Based on limited
+information we have, it is possible to try and harden individual
+services.</p>
+<p>By default, Systemd leaves running services in the open. This is
+understandable, as trying to preemptively harden a service is likely to
+cause conflicts with individual services and their requirements.</p>
+<p>Although NixOS makes <em>some</em> effort to harden services,
+installed services--be it through NixOS' services or your inferior
+distribution's package manager--will be running with little to no
+hardening - which you can confirm by viewing the security report. This
+post, as per my experience, aims to detail potential hardening options.
+Throughout this post, please keep those following core principles in
+mind:</p>
+<ol type="1">
+<li>There is <strong>no</strong> "one size fits all" kind of hardening,
+all services will require your undivided attention to make sure
+everything continues to work as intended.</li>
+<li>No kind of hardening can catch all kinds of exploits. The key to a
+secure system is to remain ever-vigilant.</li>
+</ol>
+<blockquote>
+<p>Some hardening options will disable access to certain paths, or make
+them read-only for the service. This is quite helpful, in theory, but
+not every program is written intelligently and as such, not all programs
+will fail gracefully when they are missing access to a path. Sometimes
+the service will fail, and you will not be able to tell why. This is
+exactly why you must treat each service with special care - and harden
+them one service at a time instead of abstracting a generalized way of
+modifying multiple services at once.</p>
+</blockquote>
+<h3 id="hardening-services">Hardening Services</h3>
+<p>Systemd services in NixOS are defined through the systemd module
+exposed in the Nixpkgs module system. The schema is very basic, and I
+suggest that you consult <a
+href="https://search.nixos.org/options?channel=unstable&amp;size=50&amp;sort=relevance&amp;type=packages&amp;query=systemd.services.">NixOS
+option search</a> if you wish to learn more. For our purposes, just
+<code>serviceConfig</code> is enough as we will be working primarily
+with the <code>[Service]</code> field of systemd services. Documentation
+is very scattered, but available at <code>systemd.unit(5)</code>,
+<code>systemd.service(5)</code> and <code>systemd.exec(5)</code>
+manpages. They contain many important tidbids, and I encourage you to go
+through them alongside this post during your hardening journey.</p>
+<p>Here is a very basic example to demonstrate how individual options
+are applied to a service.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">systemd</span>.<span class="va">services</span>.<span class="st">&quot;</span>&lt;serviceName&gt;<span class="st">&quot;</span>.<span class="va">serviceConfig</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectClock</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectKernelTunables</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectKernelModules</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectKernelLogs</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">SystemCallFilter</span> <span class="op">=</span> <span class="st">&quot;~@clock @cpu-emulation @debug @obsolete @module @mount @raw-io @reboot @swap&quot;</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectControlGroups</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">RestrictNamespaces</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">LockPersonality</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">MemoryDenyWriteExecute</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">RestrictRealtime</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">RestrictSUIDSGID</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Options set in this example usually enough to bring a service down to
+MEDIUM exposure level. It removes some of the "unnecessary"
+permissions--although they may very well be necessary-- all services are
+granted by default. In short this example <em>does</em> meet <em>the
+basic requirements</em> for hardening, but it is also not very
+comprehensive. For services that reach more into the system, hardening
+must be done more diligently: you must assess the needs of your service
+and tweak its capabilities accordingly. Furthermore, you will be able to
+bring the score down from MEDIUM by focusing on the needs of service and
+applying other configuration fields.</p>
+<p>To check how effective the change was, run
+<code>systemd-analyze security &lt;unit&gt;</code> before and after
+applying service changes, and compare the results. The output of
+<code>systemd-analyze security</code> will also provide in-depth
+explanation of each option that is (or is not) set, so it is worth
+running frequently on services that you aim to harden.</p>
+<h4 id="definitions">Definitions</h4>
+<p>While we are at it, let's talk about definitions. There too many
+options for me to cover, and as such this section <strong>will
+not</strong> cover each and every once of them. Instead, I would like to
+focus on the example I have given above to establish some baseline for
+how you may look at hardening.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Option</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">ProtectClock</td>
+<td style="text-align: left;">Prevents procee from accessing the system
+clock</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">ProtectKernelTunables</td>
+<td style="text-align: left;">Restricts modification of kernel
+parameters</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">ProtectKernelModules</td>
+<td style="text-align: left;">Prevents loading of kernel modules</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">ProtectKernelLogs</td>
+<td style="text-align: left;">Limits access to kernel log messages</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">ProtectHome</td>
+<td style="text-align: left;">Mounts /home, /root and /run/user as
+read-only tmpfs fs</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">ProtectSystem</td>
+<td style="text-align: left;">Makes <code>/boot</code>,
+<code>/etc</code>, and <code>/usr</code> directories
+<strong>read-only</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">SystemCallFilter</td>
+<td style="text-align: left;">Filters out specific system calls</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">ProtectControlGroups</td>
+<td style="text-align: left;">Restricts use of control groups</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">RestrictNamespaces</td>
+<td style="text-align: left;">Limits process namespaces</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">LockPersonality</td>
+<td style="text-align: left;">Prevents changing process personality</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">MemoryDenyWriteExecute</td>
+<td style="text-align: left;">Disallows write-execute memory
+mappings</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">RestrictRealtime</td>
+<td style="text-align: left;">Limits real-time scheduling
+capabilities</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">RestrictSUIDSGID</td>
+<td style="text-align: left;">Restricts SUID/SGID binaries<a href="#fn1"
+class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a></td>
+</tr>
+</tbody>
+</table>
+<p>These are the definitions for some common directives that you may
+apply with <em>minimum headache</em>. You may stick those into the
+<code>serviceConfig</code> of a service in your configuration, and if
+the service is a basic daemon that does not need intricate FS or memory
+access, it should perform as expected.</p>
+<blockquote>
+<p>The draft <a
+href="https://wiki.archlinux.org/title/User:NetSysFire/systemd_sandboxing#Common_directives">Systemd
+Sandboxing Article</a> on Archwiki provides some insight on other
+options and their level of impact.</p>
+</blockquote>
+<p>There are many directives that are used in Systemd services, with
+various exposure scores. While the scores differ, some of them might
+come in very handy. Here are a few that are worth mentioning while you
+work on hardening your services.</p>
+<h5 id="inaccessiblepaths">InaccessiblePaths</h5>
+<p><code>InaccessiblePaths</code> is a very useful directive, which I
+did not about until recently, that might come in handy if the service
+requires access to a lot of directives. In which case, you may manually
+add <em>sensitive</em> directories that you want hidden at all
+costs.</p>
+<h5 id="dynamicusers">DynamicUsers</h5>
+<p>Systemd <em>system</em> services (as opposed to user services) run as
+root unless they are explicitly given a user to run as.
+<code>DynamicUsers</code> is a special directive that can help you with
+<em>dynamically</em> (look I said the thing!) creating separate user
+accounts for each instance of the service. Each of these unique users
+runs their own instance of the service, providing a high level of
+isolation between different processes. This not only enhances security
+by limiting the potential impact of a compromised process but also
+improves resource management by isolating each instance's file system
+access. Although the impact of <code>DynamicUsers</code> on a service's
+exposure score is low, it is a very handy directive that you might
+consider if root privileges are not necessary for oyur service.</p>
+<h5 id="systemcallfilter">SystemCallFilter</h5>
+<p>One noteworthy directive is <code>SystemCallFilter</code>. As its
+name indicates, this Directive allows restricting syscalls that a
+service can call. This is very tricky to work with, and you can get out
+of hand as the process gains new features over time. Systemd, to make
+your life a <em>bit</em> easier, includes so-called "groupings"--
+several groups of system calls, all prepended with <code>@</code>.</p>
+<p><code>@swap</code>, <code>@reboot</code>, <code>@memlock</code> and
+<code>@raw-io</code> are some examples of those groups. You may find a
+more detailed explanation <a
+href="https://linux-audit.com/systemd/settings/units/systemcallfilter/">on
+linux-audit.com</a></p>
+<h5 id="ip-accounting">IP Accounting</h5>
+<p>With Systemd 235, Systemd was granted ability to track network
+traffic statistics for individual services or units. It allows
+administrators to monitor bandwidth usage, packet counts, and other
+network-related metrics associated with specific systemd services. This
+feature is implemented through the <code>IPAddressAllow</code> and
+<code>IPAddressDeny</code> directives in the
+<code>[Service]</code>section of a service unit file.</p>
+<p>By enabling IP accounting, systemd can provide detailed insights into
+network activity, facilitating better network management,
+troubleshooting, and performance optimization for services running under
+its control. Network security is a little out of my scope today, but I
+encourage you to read the <a
+href="https://0pointer.net/blog/ip-accounting-and-access-lists-with-systemd.html">awesome
+article on IP accounting</a></p>
+<h4 id="application">Application</h4>
+<p>From the previous section, you should have a basic understanding of
+directives we will be using to harden services. Now let's take a look at
+the application of those directives.</p>
+<blockquote>
+<p>Systemd's error messages for when a service is misconfigured can be
+vague or misleading, especially if the executable fails to properly
+inform the user of the error. <a href="#fn2" class="footnote-ref"
+id="fnref2" role="doc-noteref"><sup>2</sup></a> Setting the log level
+temporarily to debug via <code>systemctl log-level debug</code> may help
+getting actually relevant information. Though do not rely too much on
+debug information, as it is usually equally useless.</p>
+</blockquote>
+<p>As mentioned above, you might isolate services that need hardening
+with <code>systemd-analyze security &lt;unit&gt;</code> and focus on
+hardening each and every one of them. For example,
+<code>systemd-analyze security acpid</code> returns for me something
+like this:</p>
+<pre><code>✗ RootDirectory=/RootImage=                                   Service runs within the host&#39;s root directory                                0.1
+  SupplementaryGroups=                                        Service runs as root, option does not matter
+  RemoveIPC=                                                  Service runs as root, option does not apply
+✗ User=/DynamicUser=                                          Service runs as root user                                                    0.4
+✗ CapabilityBoundingSet=~CAP_SYS_TIME                         Service processes may change the system clock                                0.2
+✗ NoNewPrivileges=                                            Service processes may acquire new privileges                                 0.2
+✓ AmbientCapabilities=                                        Service process does not receive ambient capabilities
+✗ PrivateDevices=                                             Service potentially has access to hardware devices                           0.2
+✗ ProtectClock=                                               Service may write to the hardware clock or system clock                      0.2
+...</code></pre>
+<p>I have omitted the rest of the output, but you should get a gist of
+the output from this example. First field is the directive, second is
+the impact of the currently set value and the third field is the
+"vulnerability score" assigned to the service. Higher the score, more
+vulnerable the service. Acpid, for example, as a score of
+<strong>9.6</strong>.</p>
+<p>Acpid is, of course, not the only example. On my system, there are
+little over 50 systemd services running and a majority of them were
+ranked EXPOSED, UNSAFE or MEDIUM until I went out of my way to harden
+each and every single one of them. <a href="#fn3" class="footnote-ref"
+id="fnref3" role="doc-noteref"><sup>3</sup></a> My advice to you is to
+do the same: there are some Nix-based projects that try and handle
+hardening for you, but remember that there is no solution that suits all
+systems. Not to mention that relying on a 3rd party project for your
+system hardening is a security vulnerability of its own.</p>
+<p>I find that <a
+href="https://git.sr.ht/~krathalan/systemd-sandboxing">krathalan's
+systemd sandboxing template</a> serves as a good base that you may apply
+with minimal tweaks. In addition to providing templates for common
+services, it explains how certain options might interact with each other
+or system settings while set. Based on this template, manpages and the
+directives I've described (or linked) above; you should be able to go
+over each and every service that you find to be vulnerable. Keep in mind
+that it is crucial that you keep at least <em>one</em> stable generation
+on your system, as hardening can mess with even your user accounts, or
+TTYs as they are <em>also</em> managed by Systemd.</p>
+<h4 id="examples">Examples</h4>
+<p>There are many services that score high in Systemd's exposure
+analysis, but it is impossible for me to provide configuration options
+for each service. Instead, I'll provide some examples for you to base
+your work off of. Using the information and sources I have referenced,
+it should not be very difficult to harden each individual service.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">systemd</span>.<span class="va">services</span>.<span class="va">acpid</span>.<span class="va">serviceConfig</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectSystem</span> <span class="op">=</span> <span class="st">&quot;full&quot;</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectHome</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">RestrictAddressFamilies</span> <span class="op">=</span> <span class="op">[</span> <span class="st">&quot;AF_INET&quot;</span> <span class="st">&quot;AF_INET6&quot;</span> <span class="op">];</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">SystemCallFilter</span> <span class="op">=</span> <span class="st">&quot;~@clock @cpu-emulation @debug @module @mount @raw-io @reboot @swap&quot;</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectKernelTunables</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectKernelModules</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">systemd</span>.<span class="va">services</span>.<span class="va">power-profiles-daemon</span>.<span class="va">serviceConfig</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectHome</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectClock</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectKernelTunables</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectKernelModules</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectKernelLogs</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">SystemCallFilter</span> <span class="op">=</span> <span class="st">&quot;~@clock @cpu-emulation @debug @obsolete @module @mount @swap&quot;</span><span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">ProtectControlGroups</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">RestrictNamespaces</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">LockPersonality</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">MemoryDenyWriteExecute</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">RestrictRealtime</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">RestrictSUIDSGID</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>This is based on the example I have shown above, and should serve as
+a good base for <em>most</em> services.</p>
+<h2 id="journal-hardening">Journal Hardening</h2>
+<p>It is no secret that Systemd services run with very lax permissions.
+One thing that is less often talked about is the Systemd journal,
+Journald.</p>
+<p>As the primary logging mechanism for systemd-based distributions,
+Journald captures vast amounts of system and application data. However,
+this collection of information also presents significant security risks
+if left unprotected. This is why we must also take a look at hardening
+the system journal, which I find is essential for maintaining system
+integrity, protecting sensitive data, and ensuring compliance with
+security standards.</p>
+<p>There are various methods through which Journald can leak sensitive
+information. The threat model for the Journal may differ based on your
+distribution (i.e., different distributions ship different
+configurations for the system journal), but as a general rule of thumb
+you should consider storing the system journal on encrypted storage,
+with proper permissions (e.g., <code>640</code>) to protect it from
+unauthorized inquiries. Additionally, if you have configured Journald to
+send logs over the network, then then proper encryption is mandatory, or
+the data may be intercepted during transmission. Do treat logfiles like
+toxic waste, and handle them with care.</p>
+<p>As a precaution, you might consider using volatile storage for the
+system journal as such:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">services</span>.<span class="va">journald</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">storage</span> <span class="op">=</span> <span class="st">&quot;volatile&quot;</span><span class="op">;</span> <span class="co"># Store logs in memory</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">upload</span>.<span class="va">enable</span> <span class="op">=</span> <span class="cn">false</span><span class="op">;</span> <span class="co"># Disable remote log upload (the default)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>man 5 journald.conf</code> provides additional insight on
+options you may consider setting through
+<code>services.journald.extraConfig</code>.</p>
+<p>Last but not least, a dedicated enough attacker may attempt to run
+your system out of resources by filling your journal (e.g., if service
+output is forwarded to the journal) with bogus logs. In which case
+<code>SystemMaxUse</code> is a very useful option to set.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Remember that no amount of service hardening constitutes a
+bullet-proof security layer. Also remember that those scores assigned by
+Systemd are arbitrary. A service can be "safe" in the oblivious eyes of
+Systemd, but may risk security or privacy in other ways. While hardening
+services, consider the needs and attack vectors of each service that you
+are looking at.</p>
+<h2 id="resources">Resources</h2>
+<p>I am leaving here the resources I have consulted in the past. This
+post aims to serve as a digestible summary of those resources as well as
+a guide to hardening your system, but do feel free to consult them at
+any time. Most of them extend beyond the scope of Systemd hardening, and
+will come up again in future posts. Visit them at your own discretion,
+you are sure to learn something new.</p>
+<ul>
+<li><a
+href="https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#Sandboxing"><code>man 5 systemd.exec</code></a></li>
+<li><a
+href="https://security.stackexchange.com/questions/209529/what-does-enabling-kernel-unprivileged-userns-clone-do">Stackexchange
+on unprivileged userns clone</a></li>
+<li><a
+href="https://wiki.archlinux.org/title/User:NetSysFire/systemd_sandboxing">Archwiki:
+Systemd Sandboxing by NetSysFire</a></li>
+<li><a href="https://madaidans-insecurities.github.io/">Madaidans
+Insecurities</a>
+<ul>
+<li><a
+href="https://madaidans-insecurities.github.io/security-privacy-advice.html">Madaidan's
+General Security Tips</a></li>
+</ul></li>
+<li><a
+href="https://privsec.dev/posts/linux/desktop-linux-hardening/">Privsec
+on Desktop Linux hardening</a></li>
+<li><a href="https://github.com/Kicksecure/security-misc">Kicksecure
+Security</a>
+<ul>
+<li><a href="https://www.kicksecure.com/wiki/Hardened-kernel">Kicksecure
+Hardened Kernel</a></li>
+</ul></li>
+<li><a
+href="https://github.com/secureblue/secureblue">Secureblue</a></li>
+<li><a href="https://github.com/GrapheneOS/infrastructure">GrapheneOS
+Infrastructure</a></li>
+<li><a href="https://wiki.nixos.org/wiki/Systemd/Hardening">NixOS Wiki
+on Systemd Hardening</a></li>
+<li><a
+href="https://github.com/alegrey91/systemd-service-hardening">General
+tips on Systemd Hardening</a></li>
+<li><a
+href="https://github.com/k4yt3x/sysctl/blob/master/sysctl.conf">K4YT3X's
+Hardened &amp; Optimized Linux Kernel Parameters</a></li>
+<li><a href="https://www.sshaudit.com/hardening_guides.html">Notes on
+SSH Hardening</a></li>
+<li><a
+href="https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/profiles/hardened.nix">Hardened
+Profile module in Nixpkgs</a></li>
+</ul>
+<p><strong>Security is a meaningless term without a threat
+model.</strong></p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>SUID (Set User ID) and GUID (Set Group ID) binaries are
+special executables that run with elevated privileges. When executed,
+they temporarily assume the privileges of the owner or group specified
+in their file attributes. This allows certain programs to perform
+operations that would otherwise require root-level access, such as
+changing system settings or accessing restricted files. However, this
+capability can be misused if not properly implemented, therefore it is
+often restricted through systemd unit options like
+<code>RestrictSUIDSGID</code>.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a
+href="https://blog.notashelf.dev/posts/2025-01-02-well-done-verbosity.html">Hint
+hint wink wink</a><a href="#fnref2" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a
+href="https://blog.notashelf.dev/posts/2025-01-02-well-done-verbosity.html">Hint
+hint wink wink</a><a href="#fnref3" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section> 
+    </main>
+    <footer>
+      <div class="footer-divider"></div>
+      <p>&copy; <span id="copyright"></span> NotAShelf</p>
+      <div class="footer-icons">
+        <a href="https://github.com/notashelf">
+          <i class="lni lni-github-original" title="GitHub"></i>
+        </a>
+      </div>
+    </footer>
+    <script defer src="/static/copyright.js"</script>
+    <script
+        defer
+      data-domain="blog.notashelf.dev"
+      src="https://pl.notashelf.dev/js/script.file-downloads.hash.outbound-links.tagged-events.js"
+    ></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (window.plausible.q = window.plausible.q || []).push(arguments);
+        };
+    </script>
+
+        </body>
+</html>
