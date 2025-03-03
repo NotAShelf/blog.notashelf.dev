@@ -1,6 +1,6 @@
 ---
 title: "NixOS Security I: Systemd"
-date: 2025-xx-xx
+date: 2025-03-03
 description: First installment to a series on securing your NixOS systems
 wordcount: process-anyway
 ---
