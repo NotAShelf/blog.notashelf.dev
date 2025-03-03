@@ -80,7 +80,7 @@ principles in mind:
 
 [NixOS option search]: https://search.nixos.org/options?channel=unstable&size=50&sort=relevance&type=packages&query=systemd.services.
 
-Systemd services in NixOS are defined through the systemd module exposed in the
+Systemd services in NixOS are defined through the Systemd module exposed in the
 Nixpkgs module system. The schema is very basic, and I suggest that you consult
 [NixOS option search] if you wish to learn more. For our purposes, just
 `serviceConfig` is enough as we will be working primarily with the `[Service]`
@@ -88,6 +88,17 @@ field of systemd services. Documentation is very scattered, but available at
 `systemd.unit(5)`, `systemd.service(5)` and `systemd.exec(5)` manpages. They
 contain many important tidbids, and I encourage you to go through them alongside
 this post during your hardening journey.
+
+Most services enabled in NixOS, such as Miniflux under `services.*`, are
+essentially abstractions over `systemd.services` When you enable a service,
+you're essentially creating a Systemd service unit via
+`systemd.services.<name>`. Unfortunately, there are limited options (usually
+limited only to application-specific settings) to harden services through
+`services.*` options. Thus, we often need to strip away the abstraction and
+modify the settings for the Systemd services directly, using `serviceConfig.`
+You should also be aware that some services create more than one service unit,
+in which case `systemctl list-units --type=service` can help you find more
+services associated with one module.
 
 Here is a very basic example to demonstrate how individual options are applied
 to a service.
