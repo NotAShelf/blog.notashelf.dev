@@ -71,6 +71,14 @@
       "description": "First installment to a series on securing your NixOS systems",
       "date": "2025-03-03",
       "path": "/posts/2025-03-03-insecurities-remedies-i.html"
+    },
+    {
+      "name": "2025-03-11-on-editors-and-things.md",
+      "url": "https://blog.notashelf.dev/posts/2025-03-11-on-editors-and-things.html",
+      "title": "On Editors and Things",
+      "description": "Heartfelt ramblings about available editors",
+      "date": "2025-03-11",
+      "path": "/posts/2025-03-11-on-editors-and-things.html"
     }
   ]
 }
