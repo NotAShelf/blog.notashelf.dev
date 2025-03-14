@@ -5,6 +5,8 @@ description: Heartfelt ramblings about available editors
 wordcount: process-anyway
 ---
 
+# On Editors and Things
+
 Hi all, good news first. I am a **Release Editor for NixOS 25.05**. This is a
 bit difficult for me to talk about, since I do not know what exactly what it
 entails _yet_ but know that I am excited about it, and I wanted to share it with
