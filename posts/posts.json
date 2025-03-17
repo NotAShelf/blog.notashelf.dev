@@ -79,6 +79,14 @@
       "description": "Heartfelt ramblings about available editors",
       "date": "2025-03-11",
       "path": "/posts/2025-03-11-on-editors-and-things.html"
+    },
+    {
+      "name": "2025-03-17-deterministic-typst.md",
+      "url": "https://blog.notashelf.dev/posts/2025-03-17-deterministic-typst.html",
+      "title": "Building Deterministic Typst Packages with Nix",
+      "description": "Every time I think to myself ‘no way Nix can do this,’ Nix does it anyway.",
+      "date": "2025-03-17",
+      "path": "/posts/2025-03-17-deterministic-typst.html"
     }
   ]
 }
