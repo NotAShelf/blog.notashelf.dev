@@ -61,7 +61,7 @@ function fetchPosts() {
         postTitle.classList.add("dropdown-link");
 
         const postDate = document.createElement("p");
-        postDate.textContent = formatDate(post.date);
+        postDate.textContent = `🗓️ ${formatDate(post.date)}`;
         postDate.classList.add("post-date");
 
         const postDescription = document.createElement("p");
