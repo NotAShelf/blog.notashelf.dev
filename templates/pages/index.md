@@ -1,4 +1,8 @@
-<!-- Get markdown page, look inside, HTML.-->
+<!--
+> Open Markdown page
+> Look inside
+> HTML :wires:
+-->
 <div id="top-level" style="margin-top: 50px;">
     <p align="center">
         <img class="profile-picture" src="https://avatars.githubusercontent.com/u/62766066?v=4" alt="NotAShelf">
