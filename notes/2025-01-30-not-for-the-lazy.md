@@ -70,6 +70,17 @@ In Nix, laziness manifests in several ways:
 - **Attribute sets can include self-referential definitions, leading to infinite
   recursion errors only when an attribute directly refers to itself.**[^2]
 
+[Statix]: https://github.com/oppiliappan/statix
+
+[^1]: Static analysis tools, such as [Statix] will warn you when the function
+    argument is unused. For example in the `alwaysReturnOne` function I've used
+    as an example above, Statix would've warned you about the unused argument
+    `x`.
+
+[^2]: This is possible due to lazy evaluation resolving circular dependencies
+    without causing crashes. However, an infinitely recursing attribute can
+    exist as long as it's not evaluated.
+
 ## The Death of Conditionals (or at Least Their Diminished Role)
 
 In strict languages, conditionals are usually used to prevent expensive
@@ -196,7 +207,12 @@ in
 Here, fact refers to itself without requiring an explicit fixed-point combinator
 like `fix`. This is because Nix only evaluates values when needed, meaning
 references can exist without being immediately resolved. In contrast, strict
-languages would require fix to explicitly establish recursion.
+languages would require fix to explicitly establish recursion. [^3]
+
+[^3]: I'm very well aware that there is a `fix` function in nixpkgs lib. I
+    mainly want to focus on core Nix language, so applications of `lib.fix` are
+    omitted this time around. I'd like to talk about `fix` and recursion
+    specifically in another post, another time. This is already long as it is.
 
 ```js
 const factorial = (n) => (n === 0 ? 1 : n * factorial(n - 1));
@@ -297,19 +313,3 @@ Next time you are working with Nix, remember that you are using a domain
 specific language that is bound to have its own quirks. Regardless of said
 quirks, Nix is a very powerful language that trivializes Infrastructure as Code,
 but _only_ if you treat it as code.
-
-[Statix]: https://github.com/oppiliappan/statix
-
-[^1]: Static analysis tools, such as [Statix] will warn you when the function
-    argument is unused. For example in the `alwaysReturnOne` function I've used
-    as an example above, Statix would've warned you about the unused argument
-    `x`.
-
-[^2]: This is possible due to lazy evaluation resolving circular dependencies
-    without causing crashes. However, an infinitely recursing attribute can
-    exist as long as it's not evaluated.
-
-[^3]: I'm very well aware that there is a `fix` function in nixpkgs lib. I
-    mainly want to focus on core Nix language, so applications of `lib.fix` are
-    omitted this time around. I'd like to talk about `fix` and recursion
-    specifically in another post, another time. This is already long as it is.
