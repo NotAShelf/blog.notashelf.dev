@@ -24,7 +24,7 @@ OUT_PAGES_DIR := $(OUT_DIR)/pages
 
 # Site Metadata
 METADATA_FILE := meta.json
-SITE_TITLE := NotAShelf\'s personal blog
+SITE_TITLE := NotAShelf's personal blog
 SITE_URL := https://blog.notashelf.dev
 SITE_DESC := Notes on Nix, Linux and every other pie I put a finger in
 

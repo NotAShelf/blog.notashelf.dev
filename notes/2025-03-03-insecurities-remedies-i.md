@@ -17,12 +17,12 @@ For the last 6 months or so, I have been focusing on hardening each and every
 single component of my NixOS installation. This post, as an attempt to document
 my experiences for the sake of establishing a point of reference, marks the
 beginning of a series dedicated to hardening the different components of a NixOS
-system. Given that NixOS is a systemd-based distribution, we’ll start by
-focusing on systemd. Over the course of the series, I’ll also delve into kernel
+system. Given that NixOS is a systemd-based distribution, we'll start by
+focusing on systemd. Over the course of the series, I'll also delve into kernel
 and network security, although these topics require further research and are
 beyond the scope of this post.
 
-In this installment, we’ll explore how you can harden various systemd services
+In this installment, we'll explore how you can harden various systemd services
 on your system to reduce potential attack surfaces.
 
 ## The Problem
