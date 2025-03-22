@@ -30,7 +30,7 @@ jobs:
         run: |
           # Execute generation script
           # If the script fails, we should abort here.
-          nix run .#build-site || exit 1
+          nix run .#build-site -o out || exit 1
 
           # Generate feed
           nix run .#json2rss -- \
