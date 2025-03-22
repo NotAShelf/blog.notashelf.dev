@@ -98,7 +98,7 @@
       }
       .display.math{display: block; text-align: center; margin: 0.5rem auto;}
     </style>
-        <link rel="stylesheet" href="/home/runner/work/blog.notashelf.dev/blog.notashelf.dev/templates/style.css" />
+        <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="/style.css" />
     <link
       rel="shortcut icon"
@@ -114,26 +114,6 @@ is not the page you are looking for.</h2>
 looking for.</p> 
       <a id="countdown"></a>
     </main>
-    <script>
-      // Countdown timer
-      let countdown = 5;
-      const countdownElement = document.getElementById("countdown");
-      const countdownInterval = setInterval(updateCountdown, 1000);
-      updateCountdown();
-
-      function updateCountdown() {
-        countdown--;
-        if (countdown <= 0) {
-          clearInterval(countdownInterval);
-          window.location.href = "/";
-        } else {
-          countdownElement.textContent =
-            "Redirecting in " +
-            countdown +
-            " second" +
-            (countdown !== 1 ? "s." : ".");
-        }
-      }
-    </script>
+    <script defer src="/static/scripts/redirect.js"</script>
   </body>
 </html>

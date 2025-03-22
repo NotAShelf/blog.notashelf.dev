@@ -80,8 +80,9 @@
       content="width=device-width, initial-scale=1.0, user-scalable=yes"
     />
          <meta name="dcterms.date" content="2025-01-30" />
-          <meta name="description" content="Notes on Nix, Linux and every other pie I put a finger in" />
-        <title>Posts - Not For The Lazy</title>
+          <meta name="description" content="Exploring lazy evaluation in relative depth" />
+        <title>Lazy Evaluation in Nix: Where Your Conditionals Go to
+Die</title>
     <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -125,48 +126,45 @@
           -khtml-user-select: none; -moz-user-select: none;
           -ms-user-select: none; user-select: none;
           padding: 0 4px; width: 4em;
-          background-color: #232629;
-          color: #7a7c7d;
+          color: #aaaaaa;
         }
-      pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+      pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
       div.sourceCode
-        { color: #cfcfc2;  }
+        {   }
       @media screen {
       pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
       }
-      code span { color: #cfcfc2; } /* Normal */
-      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
-      code span.an { color: #3f8058; } /* Annotation */
-      code span.at { color: #2980b9; } /* Attribute */
-      code span.bn { color: #f67400; } /* BaseN */
-      code span.bu { color: #7f8c8d; } /* BuiltIn */
-      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
-      code span.ch { color: #3daee9; } /* Char */
-      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
-      code span.co { color: #7a7c7d; } /* Comment */
-      code span.cv { color: #7f8c8d; } /* CommentVar */
-      code span.do { color: #a43340; } /* Documentation */
-      code span.dt { color: #2980b9; } /* DataType */
-      code span.dv { color: #f67400; } /* DecVal */
-      code span.er { color: #da4453; text-decoration: underline; } /* Error */
-      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
-      code span.fl { color: #f67400; } /* Float */
-      code span.fu { color: #8e44ad; } /* Function */
-      code span.im { color: #27ae60; } /* Import */
-      code span.in { color: #c45b00; } /* Information */
-      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
-      code span.op { color: #cfcfc2; } /* Operator */
-      code span.ot { color: #27ae60; } /* Other */
-      code span.pp { color: #27ae60; } /* Preprocessor */
-      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
-      code span.sc { color: #3daee9; } /* SpecialChar */
-      code span.ss { color: #da4453; } /* SpecialString */
-      code span.st { color: #f44f4f; } /* String */
-      code span.va { color: #27aeae; } /* Variable */
-      code span.vs { color: #da4453; } /* VerbatimString */
-      code span.wa { color: #da4453; } /* Warning */
+      code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+      code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+      code span.at { color: #7d9029; } /* Attribute */
+      code span.bn { color: #40a070; } /* BaseN */
+      code span.bu { color: #008000; } /* BuiltIn */
+      code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+      code span.ch { color: #4070a0; } /* Char */
+      code span.cn { color: #880000; } /* Constant */
+      code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+      code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+      code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+      code span.dt { color: #902000; } /* DataType */
+      code span.dv { color: #40a070; } /* DecVal */
+      code span.er { color: #ff0000; font-weight: bold; } /* Error */
+      code span.ex { } /* Extension */
+      code span.fl { color: #40a070; } /* Float */
+      code span.fu { color: #06287e; } /* Function */
+      code span.im { color: #008000; font-weight: bold; } /* Import */
+      code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+      code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+      code span.op { color: #666666; } /* Operator */
+      code span.ot { color: #007020; } /* Other */
+      code span.pp { color: #bc7a00; } /* Preprocessor */
+      code span.sc { color: #4070a0; } /* SpecialChar */
+      code span.ss { color: #bb6688; } /* SpecialString */
+      code span.st { color: #4070a0; } /* String */
+      code span.va { color: #19177c; } /* Variable */
+      code span.vs { color: #4070a0; } /* VerbatimString */
+      code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
     </style>
-        <link rel="stylesheet" href="/home/runner/work/blog.notashelf.dev/blog.notashelf.dev/templates/style.css" />
+        <link rel="stylesheet" href="/style.css" />
         <!-- Begin Lineicons import -->
     <link rel="stylesheet" href="https://cdn.lineicons.com/5.0/lineicons.css" />
     <!-- End Lineicons import-->
@@ -204,9 +202,6 @@
        <h1
 id="lazy-evaluation-in-nix-where-your-conditionals-go-to-die">Lazy
 Evaluation in Nix: Where Your Conditionals Go to Die</h1>
-<div class="reading-time">
-<p>7 minute read</p>
-</div>
 <p>If you have spent time in traditional programming languages, then you
 have probably relied on conditionals (<code>if-else</code>,
 <code>switch</code>, <code>case</code>) at least once in your life. In
@@ -214,9 +209,7 @@ Nix, as a grace of lazy evaluation, many of those construct become less
 relevant—or outright unnecessary. This post dives into <em>why</em> this
 is the case, and hopes to save you from a few pitfalls that come with
 this.</p>
-<h2 id="what-is-lazy-evaluation" id="what-is-lazy-evaluation">What is
-Lazy
-Evaluation? <a href="#what-is-lazy-evaluation" class="anchor-link">🔗</a></h2>
+<h2 id="what-is-lazy-evaluation">What is Lazy Evaluation?</h2>
 <p>I first need to explain what Lazy evaluation is. Not just within the
 context of Nix, but in programming in general.</p>
 <p>Lazy evaluation means that expressions are not evaluated until their
@@ -226,8 +219,7 @@ a variable. In more practical terms, lazy evaluation helps avoid
 unnecessary computations by delaying the evaluation of expressions. It’s
 a powerful technique for improving performance and managing resources
 efficiently.</p>
-<h3 id="laziness-in-haskell" id="laziness-in-haskell">Laziness in
-Haskell <a href="#laziness-in-haskell" class="anchor-link">🔗</a></h3>
+<h3 id="laziness-in-haskell">Laziness in Haskell</h3>
 <div class="sourceCode" id="cb1"><pre
 class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">lazyNumbers ::</span> [<span class="dt">Int</span>]</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>lazyNumbers <span class="ot">=</span> [<span class="dv">1</span><span class="op">..</span>]</span>
@@ -240,8 +232,7 @@ However, the values are not computed all at once. The
 elements of the list when required. That is the most typical example of
 lazy evaluation I can think of. Key point is that the numbers are only
 generated when needed, instead of being computed upfront.</p>
-<h3 id="laziness-in-python" id="laziness-in-python">Laziness in
-Python <a href="#laziness-in-python" class="anchor-link">🔗</a></h3>
+<h3 id="laziness-in-python">Laziness in Python</h3>
 <p>With some friction, we can implement lazy iteration in Python.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lazy_numbers():</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> <span class="dv">1</span></span>
@@ -270,10 +261,8 @@ leading to infinite recursion errors only when an attribute directly
 refers to itself.</strong><a href="#fn2" class="footnote-ref"
 id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
 </ul>
-<h2 id="the-death-of-conditionals-or-at-least-their-diminished-role"
-id="the-death-of-conditionals-or-at-least-their-diminished-role">The
-Death of Conditionals (or at Least Their Diminished
-Role) <a href="#the-death-of-conditionals-or-at-least-their-diminished-role" class="anchor-link">🔗</a></h2>
+<h2 id="the-death-of-conditionals-or-at-least-their-diminished-role">The
+Death of Conditionals (or at Least Their Diminished Role)</h2>
 <p>In strict languages, conditionals are usually used to prevent
 expensive computations from running unnecessarily. But in Nix, the very
 nature of laziness means that an expensive computation inside an unused
@@ -292,10 +281,8 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb3-1"><a href="#c
 because <code>expensive</code> would be computed before <code>if</code>
 even runs. In Nix, however, the <code>false</code> branch is never
 evaluated, so the program executes safely.</p>
-<h2 id="functions-only-compute-what-is-needed"
-id="functions-only-compute-what-is-needed">Functions: Only Compute What
-is
-Needed <a href="#functions-only-compute-what-is-needed" class="anchor-link">🔗</a></h2>
+<h2 id="functions-only-compute-what-is-needed">Functions: Only Compute
+What is Needed</h2>
 <p>Since function arguments are evaluated lazily, unnecessary
 computations can be avoided naturally.</p>
 <div class="sourceCode" id="cb4"><pre
@@ -309,10 +296,9 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#c
 <p>Even though we pass an expression that would normally cause an error,
 it is never evaluated since <code>x</code> is not used inside the
 function body.</p>
-<h2 id="self-referencing-with-and-without-infinite-loops"
+<h2
 id="self-referencing-with-and-without-infinite-loops">Self-Referencing
-With and Without Infinite
-Loops <a href="#self-referencing-with-and-without-infinite-loops" class="anchor-link">🔗</a></h2>
+With and Without Infinite Loops</h2>
 <p>Nix allows for self-referential structures, but only if evaluated
 lazily. Direct cyclic dependencies will cause infinite recursion unless
 structured carefully.</p>
@@ -360,8 +346,7 @@ have more difficulty identifying where exactly it comes from, because
 you will notice that error messages are as clueless as you are. We’ll
 talk about the costs of deep abstractions in another post.</p>
 </blockquote>
-<h3 id="what-is-fix" id="what-is-fix">What is
-<code>fix</code>? <a href="#what-is-fix" class="anchor-link">🔗</a></h3>
+<h3 id="what-is-fix">What is <code>fix</code>?</h3>
 <p><code>fix</code> is a function used in some functional languages
 (such as Haskell) to define recursive expressions without requiring
 explicit naming. It applies a function to itself, allowing the
@@ -388,7 +373,8 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb8-1"><a href="#c
 combinator like <code>fix</code>. This is because Nix only evaluates
 values when needed, meaning references can exist without being
 immediately resolved. In contrast, strict languages would require fix to
-explicitly establish recursion.</p>
+explicitly establish recursion. <a href="#fn3" class="footnote-ref"
+id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> factorial <span class="op">=</span> (n) <span class="kw">=&gt;</span> (n <span class="op">===</span> <span class="dv">0</span> <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> n <span class="op">*</span> <span class="fu">factorial</span>(n <span class="op">-</span> <span class="dv">1</span>))<span class="op">;</span></span></code></pre></div>
 <p>Here, factorial is explicitly named, allowing it to refer to itself.
 However, if we wanted to define it without naming it explicitly, we
@@ -412,8 +398,7 @@ class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a h
 <p>Thus, while fix is necessary for recursion in strict evaluation,
 Nix’s lazy evaluation makes it unnecessary, allowing for powerful
 self-referential structures with <em>careful</em> structuring.</p>
-<h3 id="other-examples" id="other-examples">Other
-Examples <a href="#other-examples" class="anchor-link">🔗</a></h3>
+<h3 id="other-examples">Other Examples</h3>
 <p>To help give you an idea of what lazy evaluation can do for you, e.g.
 in your NixOS configuration, I’d like to demonstrate laziness in
 action.</p>
@@ -441,8 +426,7 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb12-1"><a href="#
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># evaluates to &quot;default&quot;, error is never thrown</span></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  config.setting</span></code></pre></div>
-<h2 id="conclusion"
-id="conclusion">Conclusion <a href="#conclusion" class="anchor-link">🔗</a></h2>
+<h2 id="conclusion">Conclusion</h2>
 <p>Laziness is powerful, but it can lead to surprises:</p>
 <ul>
 <li>Debugging is harder because errors might not surface until a deeply
@@ -489,6 +473,12 @@ href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 circular dependencies without causing crashes. However, an infinitely
 recursing attribute can exist as long as it’s not evaluated.<a
 href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>I’m very well aware that there is a <code>fix</code>
+function in nixpkgs lib. I mainly want to focus on core Nix language, so
+applications of <code>lib.fix</code> are omitted this time around. I’d
+like to talk about <code>fix</code> and recursion specifically in
+another post, another time. This is already long as it is.<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section> 
     </main>
@@ -501,7 +491,7 @@ href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
         </a>
       </div>
     </footer>
-    <script defer src="/static/copyright.js"</script>
+    <script defer src="/static/scripts/copyright.js"</script>
     <script
         defer
       data-domain="blog.notashelf.dev"
