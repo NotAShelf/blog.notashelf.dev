@@ -59,9 +59,23 @@
       };
 
       build-site = let
+        # Files that we would like to avoid copying to the build sandbox
+        # and therefore the nix store.
+        junkfiles = [
+          "flake.nix"
+          "flake.lock"
+          "LICENSE"
+          ".gitignore"
+          ".gitattributes"
+          ".editorconfig"
+          ".envrc"
+          "README.md"
+        ];
+
         repoDirFilter = name: type:
           !((type == "directory") && ((baseNameOf name) == "tools"))
-          && !((type == "directory") && ((baseNameOf (dirOf name)) == ".github"));
+          && !((type == "directory") && ((baseNameOf (dirOf name)) == ".github"))
+          && !(builtins.any (r: (builtins.match r (baseNameOf name)) != null) junkfiles);
 
         cleanBlogSource = src:
           lib.cleanSourceWith {
@@ -71,8 +85,12 @@
       in
         pkgs.stdenvNoCC.mkDerivation {
           pname = "build-site";
-          version = "0-unstable-2025-03-21";
+          version =
+            if (self ? rev)
+            then (builtins.substring 0 7 self.rev)
+            else "dirty";
 
+          # Required by the build tooling
           nativeBuildInputs = with pkgs; [
             pandoc
             sassc
