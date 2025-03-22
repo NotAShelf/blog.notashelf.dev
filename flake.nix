@@ -41,7 +41,10 @@
     in {
       json2rss = pkgs.stdenvNoCC.mkDerivation {
         pname = "json2rss";
-        version = "0-unstable-2025-03-21";
+        version =
+          if (self ? rev)
+          then (builtins.substring 0 7 self.rev)
+          else "dirty";
 
         src = ./tools/json2rss.py;
         nativeBuildInputs = [pkgs.makeWrapper];
@@ -52,7 +55,7 @@
 
           wrapProgram $out/bin/json2rss \
             --prefix PATH : ${lib.makeBinPath [(pkgs.python3.withPackages (_: []))]} \
-            --set METADATA_FILE ${./meta.json}
+            --set METADATA_FILE ${./tools/meta.json}
         '';
 
         meta.description = "Generate a rss feed from post metadata";
