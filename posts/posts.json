@@ -87,6 +87,14 @@
       "description": "Every time I think to myself ‘no way Nix can do this,’ Nix does it anyway.",
       "date": "2025-03-17",
       "path": "/posts/2025-03-17-deterministic-typst.html"
+    },
+    {
+      "name": "2025-03-31-reject-flake-config.md",
+      "url": "https://blog.notashelf.dev/posts/2025-03-31-reject-flake-config.html",
+      "title": "What is nixConfig, Should You Trust It?",
+      "description": "A quick look into Nix’s ‘controversial’ nixConfig settings",
+      "date": "2025-03-31",
+      "path": "/posts/2025-03-31-reject-flake-config.html"
     }
   ]
 }
