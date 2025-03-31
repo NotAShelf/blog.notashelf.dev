@@ -12,9 +12,9 @@ INPUT_FILE="$1"
 OUTPUT_FILE="$2"
 META_TEMPLATE="$3"
 TEMPLATE_DIR="$4"
-SITE_TITLE="$5"
-SITE_DESC="$6"
-SITE_URL="$7"
+FILTER_DIR="$5"
+SITE_TITLE="$6"
+SITE_DESC="$7"
 
 FILENAME=$(basename "$INPUT_FILE")
 SANITIZED_TITLE=$(sanitize_title "$FILENAME")
@@ -39,6 +39,8 @@ mkdir -p "$(dirname "$OUTPUT_FILE")"
 log_info "Converting to HTML..."
 pandoc --from gfm+smart --to html \
   --standalone \
+  -L "${FILTER_DIR}"/wordcount.lua -M wordcount=process \
+  -L "${FILTER_DIR}"/anchor.lua \
   --template "${TEMPLATE_DIR}/html/page.html" \
   --css "/style.css" \
   --metadata "title=${TITLE}" \
