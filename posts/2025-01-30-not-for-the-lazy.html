@@ -185,9 +185,9 @@ Die</title>
       <nav class="secondary-buttons">
         <ul>
           <li>
-            <a class="nav-button" href="/pages/posts.html"> Posts </a>
-            <a class="nav-button" href="/pages/about.html"> About </a>
-            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
           </li>
         </ul>
       </nav>
@@ -202,6 +202,9 @@ Die</title>
        <h1
 id="lazy-evaluation-in-nix-where-your-conditionals-go-to-die">Lazy
 Evaluation in Nix: Where Your Conditionals Go to Die</h1>
+<div class="reading-time">
+<p>7 minute read</p>
+</div>
 <p>If you have spent time in traditional programming languages, then you
 have probably relied on conditionals (<code>if-else</code>,
 <code>switch</code>, <code>case</code>) at least once in your life. In
@@ -209,7 +212,9 @@ Nix, as a grace of lazy evaluation, many of those construct become less
 relevant—or outright unnecessary. This post dives into <em>why</em> this
 is the case, and hopes to save you from a few pitfalls that come with
 this.</p>
-<h2 id="what-is-lazy-evaluation">What is Lazy Evaluation?</h2>
+<h2 id="what-is-lazy-evaluation" id="what-is-lazy-evaluation">What is
+Lazy
+Evaluation? <a href="#what-is-lazy-evaluation" class="anchor-link">🔗</a></h2>
 <p>I first need to explain what Lazy evaluation is. Not just within the
 context of Nix, but in programming in general.</p>
 <p>Lazy evaluation means that expressions are not evaluated until their
@@ -219,7 +224,8 @@ a variable. In more practical terms, lazy evaluation helps avoid
 unnecessary computations by delaying the evaluation of expressions. It’s
 a powerful technique for improving performance and managing resources
 efficiently.</p>
-<h3 id="laziness-in-haskell">Laziness in Haskell</h3>
+<h3 id="laziness-in-haskell" id="laziness-in-haskell">Laziness in
+Haskell <a href="#laziness-in-haskell" class="anchor-link">🔗</a></h3>
 <div class="sourceCode" id="cb1"><pre
 class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">lazyNumbers ::</span> [<span class="dt">Int</span>]</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>lazyNumbers <span class="ot">=</span> [<span class="dv">1</span><span class="op">..</span>]</span>
@@ -232,7 +238,8 @@ However, the values are not computed all at once. The
 elements of the list when required. That is the most typical example of
 lazy evaluation I can think of. Key point is that the numbers are only
 generated when needed, instead of being computed upfront.</p>
-<h3 id="laziness-in-python">Laziness in Python</h3>
+<h3 id="laziness-in-python" id="laziness-in-python">Laziness in
+Python <a href="#laziness-in-python" class="anchor-link">🔗</a></h3>
 <p>With some friction, we can implement lazy iteration in Python.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lazy_numbers():</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> <span class="dv">1</span></span>
@@ -261,8 +268,10 @@ leading to infinite recursion errors only when an attribute directly
 refers to itself.</strong><a href="#fn2" class="footnote-ref"
 id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
 </ul>
-<h2 id="the-death-of-conditionals-or-at-least-their-diminished-role">The
-Death of Conditionals (or at Least Their Diminished Role)</h2>
+<h2 id="the-death-of-conditionals-or-at-least-their-diminished-role"
+id="the-death-of-conditionals-or-at-least-their-diminished-role">The
+Death of Conditionals (or at Least Their Diminished
+Role) <a href="#the-death-of-conditionals-or-at-least-their-diminished-role" class="anchor-link">🔗</a></h2>
 <p>In strict languages, conditionals are usually used to prevent
 expensive computations from running unnecessarily. But in Nix, the very
 nature of laziness means that an expensive computation inside an unused
@@ -281,8 +290,10 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb3-1"><a href="#c
 because <code>expensive</code> would be computed before <code>if</code>
 even runs. In Nix, however, the <code>false</code> branch is never
 evaluated, so the program executes safely.</p>
-<h2 id="functions-only-compute-what-is-needed">Functions: Only Compute
-What is Needed</h2>
+<h2 id="functions-only-compute-what-is-needed"
+id="functions-only-compute-what-is-needed">Functions: Only Compute What
+is
+Needed <a href="#functions-only-compute-what-is-needed" class="anchor-link">🔗</a></h2>
 <p>Since function arguments are evaluated lazily, unnecessary
 computations can be avoided naturally.</p>
 <div class="sourceCode" id="cb4"><pre
@@ -296,9 +307,10 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#c
 <p>Even though we pass an expression that would normally cause an error,
 it is never evaluated since <code>x</code> is not used inside the
 function body.</p>
-<h2
+<h2 id="self-referencing-with-and-without-infinite-loops"
 id="self-referencing-with-and-without-infinite-loops">Self-Referencing
-With and Without Infinite Loops</h2>
+With and Without Infinite
+Loops <a href="#self-referencing-with-and-without-infinite-loops" class="anchor-link">🔗</a></h2>
 <p>Nix allows for self-referential structures, but only if evaluated
 lazily. Direct cyclic dependencies will cause infinite recursion unless
 structured carefully.</p>
@@ -346,7 +358,8 @@ have more difficulty identifying where exactly it comes from, because
 you will notice that error messages are as clueless as you are. We’ll
 talk about the costs of deep abstractions in another post.</p>
 </blockquote>
-<h3 id="what-is-fix">What is <code>fix</code>?</h3>
+<h3 id="what-is-fix" id="what-is-fix">What is
+<code>fix</code>? <a href="#what-is-fix" class="anchor-link">🔗</a></h3>
 <p><code>fix</code> is a function used in some functional languages
 (such as Haskell) to define recursive expressions without requiring
 explicit naming. It applies a function to itself, allowing the
@@ -398,7 +411,8 @@ class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a h
 <p>Thus, while fix is necessary for recursion in strict evaluation,
 Nix’s lazy evaluation makes it unnecessary, allowing for powerful
 self-referential structures with <em>careful</em> structuring.</p>
-<h3 id="other-examples">Other Examples</h3>
+<h3 id="other-examples" id="other-examples">Other
+Examples <a href="#other-examples" class="anchor-link">🔗</a></h3>
 <p>To help give you an idea of what lazy evaluation can do for you, e.g.
 in your NixOS configuration, I’d like to demonstrate laziness in
 action.</p>
@@ -426,7 +440,8 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb12-1"><a href="#
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># evaluates to &quot;default&quot;, error is never thrown</span></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  config.setting</span></code></pre></div>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion"
+id="conclusion">Conclusion <a href="#conclusion" class="anchor-link">🔗</a></h2>
 <p>Laziness is powerful, but it can lead to surprises:</p>
 <ul>
 <li>Debugging is harder because errors might not surface until a deeply

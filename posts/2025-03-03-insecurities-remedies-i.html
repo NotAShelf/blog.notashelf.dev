@@ -184,9 +184,9 @@
       <nav class="secondary-buttons">
         <ul>
           <li>
-            <a class="nav-button" href="/pages/posts.html"> Posts </a>
-            <a class="nav-button" href="/pages/about.html"> About </a>
-            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
           </li>
         </ul>
       </nav>
@@ -199,6 +199,9 @@
 
       <!-- Table of Contents, if enabled -->
        <h1 id="nixos-security-i-systemd">NixOS Security I: Systemd</h1>
+<div class="reading-time">
+<p>12 minute read</p>
+</div>
 <p>A Linux system is a complex ecosystem of components, each with its
 own set of vulnerabilities. NixOS is no exception. While its declarative
 nature provides some advantages, it is not–nor can it ever be–a silver
@@ -216,7 +219,8 @@ although these topics require further research and are beyond the scope
 of this post.</p>
 <p>In this installment, we’ll explore how you can harden various systemd
 services on your system to reduce potential attack surfaces.</p>
-<h2 id="the-problem">The Problem</h2>
+<h2 id="the-problem" id="the-problem">The
+Problem <a href="#the-problem" class="anchor-link">🔗</a></h2>
 <p>Systemd, as a central part of many modern Linux distributions,
 provides various utilities designed to streamline system management.
 However, its centralization can also mean a single point of failure, and
@@ -236,7 +240,8 @@ is <em>not</em> an indicator of how secure or insecure it is. It is,
 however, a start. In the case of Systemd, hardening services is a second
 line of defense when the executable the service is for becomes the
 vulnerability.</p>
-<h2 id="the-solution">The Solution</h2>
+<h2 id="the-solution" id="the-solution">The
+Solution <a href="#the-solution" class="anchor-link">🔗</a></h2>
 <p><code>systemd-analyze security &lt;unit&gt;</code> generates a score
 for a given unit, showing all the used directives. Based on limited
 information we have, it is possible to try and harden individual
@@ -268,7 +273,8 @@ exactly why you must treat each service with special care - and harden
 them one service at a time instead of abstracting a generalized way of
 modifying multiple services at once.</p>
 </blockquote>
-<h3 id="hardening-services">Hardening Services</h3>
+<h3 id="hardening-services" id="hardening-services">Hardening
+Services <a href="#hardening-services" class="anchor-link">🔗</a></h3>
 <p>Systemd services in NixOS are defined through the Systemd module
 exposed in the Nixpkgs module system. The schema is very basic, and I
 suggest that you consult <a
@@ -326,7 +332,8 @@ applying service changes, and compare the results. The output of
 <code>systemd-analyze security</code> will also provide in-depth
 explanation of each option that is (or is not) set, so it is worth
 running frequently on services that you aim to harden.</p>
-<h4 id="definitions">Definitions</h4>
+<h4 id="definitions"
+id="definitions">Definitions <a href="#definitions" class="anchor-link">🔗</a></h4>
 <p>While we are at it, let’s talk about definitions. There too many
 options for me to cover, and as such this section <strong>will
 not</strong> cover each and every once of them. Instead, I would like to
@@ -418,13 +425,15 @@ options and their level of impact.</p>
 various exposure scores. While the scores differ, some of them might
 come in very handy. Here are a few that are worth mentioning while you
 work on hardening your services.</p>
-<h5 id="inaccessiblepaths">InaccessiblePaths</h5>
+<h5 id="inaccessiblepaths"
+id="inaccessiblepaths">InaccessiblePaths <a href="#inaccessiblepaths" class="anchor-link">🔗</a></h5>
 <p><code>InaccessiblePaths</code> is a very useful directive, which I
 did not about until recently, that might come in handy if the service
 requires access to a lot of directives. In which case, you may manually
 add <em>sensitive</em> directories that you want hidden at all
 costs.</p>
-<h5 id="dynamicusers">DynamicUsers</h5>
+<h5 id="dynamicusers"
+id="dynamicusers">DynamicUsers <a href="#dynamicusers" class="anchor-link">🔗</a></h5>
 <p>Systemd <em>system</em> services (as opposed to user services) run as
 root unless they are explicitly given a user to run as.
 <code>DynamicUsers</code> is a special directive that can help you with
@@ -437,7 +446,8 @@ improves resource management by isolating each instance’s file system
 access. Although the impact of <code>DynamicUsers</code> on a service’s
 exposure score is low, it is a very handy directive that you might
 consider if root privileges are not necessary for oyur service.</p>
-<h5 id="systemcallfilter">SystemCallFilter</h5>
+<h5 id="systemcallfilter"
+id="systemcallfilter">SystemCallFilter <a href="#systemcallfilter" class="anchor-link">🔗</a></h5>
 <p>One noteworthy directive is <code>SystemCallFilter</code>. As its
 name indicates, this Directive allows restricting syscalls that a
 service can call. This is very tricky to work with, and you can get out
@@ -449,7 +459,8 @@ groups of system calls, all prepended with <code>@</code>.</p>
 more detailed explanation <a
 href="https://linux-audit.com/systemd/settings/units/systemcallfilter/">on
 linux-audit.com</a></p>
-<h5 id="ip-accounting">IP Accounting</h5>
+<h5 id="ip-accounting" id="ip-accounting">IP
+Accounting <a href="#ip-accounting" class="anchor-link">🔗</a></h5>
 <p>With Systemd 235, Systemd was granted ability to track network
 traffic statistics for individual services or units. It allows
 administrators to monitor bandwidth usage, packet counts, and other
@@ -464,7 +475,8 @@ its control. Network security is a little out of my scope today, but I
 encourage you to read the <a
 href="https://0pointer.net/blog/ip-accounting-and-access-lists-with-systemd.html">awesome
 article on IP accounting</a></p>
-<h4 id="application">Application</h4>
+<h4 id="application"
+id="application">Application <a href="#application" class="anchor-link">🔗</a></h4>
 <p>From the previous section, you should have a basic understanding of
 directives we will be using to harden services. Now let’s take a look at
 the application of those directives.</p>
@@ -518,7 +530,8 @@ over each and every service that you find to be vulnerable. Keep in mind
 that it is crucial that you keep at least <em>one</em> stable generation
 on your system, as hardening can mess with even your user accounts, or
 TTYs as they are <em>also</em> managed by Systemd.</p>
-<h4 id="examples">Examples</h4>
+<h4 id="examples"
+id="examples">Examples <a href="#examples" class="anchor-link">🔗</a></h4>
 <p>There are many services that score high in Systemd’s exposure
 analysis, but it is impossible for me to provide configuration options
 for each service. Instead, I’ll provide some examples for you to base
@@ -554,7 +567,8 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#c
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>This is based on the example I have shown above, and should serve as
 a good base for <em>most</em> services.</p>
-<h2 id="journal-hardening">Journal Hardening</h2>
+<h2 id="journal-hardening" id="journal-hardening">Journal
+Hardening <a href="#journal-hardening" class="anchor-link">🔗</a></h2>
 <p>It is no secret that Systemd services run with very lax permissions.
 One thing that is less often talked about is the Systemd journal,
 Journald.</p>
@@ -591,14 +605,16 @@ options you may consider setting through
 your system out of resources by filling your journal (e.g., if service
 output is forwarded to the journal) with bogus logs. In which case
 <code>SystemMaxUse</code> is a very useful option to set.</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion"
+id="conclusion">Conclusion <a href="#conclusion" class="anchor-link">🔗</a></h2>
 <p>Remember that no amount of service hardening constitutes a
 bullet-proof security layer. Also remember that those scores assigned by
 Systemd are arbitrary. A service can be “safe” in the oblivious eyes of
 Systemd, but may risk security or privacy in other ways. While hardening
 services, consider the needs and attack vectors of each service that you
 are looking at.</p>
-<h2 id="resources">Resources</h2>
+<h2 id="resources"
+id="resources">Resources <a href="#resources" class="anchor-link">🔗</a></h2>
 <p>I am leaving here the resources I have consulted in the past. This
 post aims to serve as a digestible summary of those resources as well as
 a guide to hardening your system, but do feel free to consult them at

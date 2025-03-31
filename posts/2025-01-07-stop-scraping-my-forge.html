@@ -184,9 +184,9 @@
       <nav class="secondary-buttons">
         <ul>
           <li>
-            <a class="nav-button" href="/pages/posts.html"> Posts </a>
-            <a class="nav-button" href="/pages/about.html"> About </a>
-            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
           </li>
         </ul>
       </nav>
@@ -200,6 +200,9 @@
       <!-- Table of Contents, if enabled -->
        <h1 id="stop-scraping-my-git-forge">Stop Scraping my Git
 Forge!</h1>
+<div class="reading-time">
+<p>4 minute read</p>
+</div>
 <p>Not so long ago, while performing maintenance on my VPS and setting
 up Prometheus, Grafana, and related tools, I noticed something
 unexpected yet not entirely surprising. My Nginx instance was under
@@ -207,7 +210,8 @@ constant bombardment of requests from a specific subnet. Public-facing
 servers are no strangers to port scans, but the intensity and
 specificity of these requests caught my attention and prompted me to
 investigate further.</p>
-<h2 id="hello-old-friend">Hello, Old Friend</h2>
+<h2 id="hello-old-friend" id="hello-old-friend">Hello, Old
+Friend <a href="#hello-old-friend" class="anchor-link">🔗</a></h2>
 <p>I have parted ways with Facebook before its acquisition of Instagram.
 I hate both of those platforms and the constant infringement of privacy
 they curse us with. You understand my surprise when I looked at my Nginx
@@ -286,7 +290,8 @@ thousands of requests to people’s servers <em>is malicious</em>.</li>
 <li>To my demise, banning each and every single one of those subnets
 would take too long, and block possibly legitimate traffic.</li>
 </ol>
-<h2 id="get-out-of-my-lawn">Get Out of My Lawn</h2>
+<h2 id="get-out-of-my-lawn" id="get-out-of-my-lawn">Get Out of My
+Lawn <a href="#get-out-of-my-lawn" class="anchor-link">🔗</a></h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fl">57.141.0.16</span> <span class="op">-</span> <span class="op">-</span> [<span class="dv">22</span><span class="op">/</span>Nov<span class="op">/</span><span class="dv">2024</span><span class="op">:</span><span class="dv">00</span><span class="op">:</span><span class="dv">36</span><span class="op">:</span><span class="dv">29</span> <span class="op">+</span><span class="bn">0300</span>] <span class="st">&quot;GET /NotAShelf/nyx/commits/commit/4c82e5ee05fabd315a6e5c656fd72e11c93c4cfd/homes/notashelf/services/wayland/hyprpaper HTTP/2.0&quot;</span> <span class="dv">403</span> <span class="dv">146</span> <span class="st">&quot;-&quot;</span> <span class="st">&quot;meta-externalagent/1.1 (+https://developers.facebook.com/docs/sharing/webmasters/crawler)&quot;</span></span></code></pre></div>
 <p>Here is an example of a request from my webserver logs. Take a look
 at the body. They are scraping my <em>NixOS configuration</em> that is
@@ -318,7 +323,8 @@ post.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fl">57.141.0.17</span> <span class="op">-</span> <span class="op">-</span> [<span class="bn">07</span><span class="op">/</span>Jan<span class="op">/</span><span class="dv">2025</span><span class="op">:</span><span class="dv">13</span><span class="op">:</span><span class="dv">12</span><span class="op">:</span><span class="bn">06</span> <span class="op">+</span><span class="bn">0300</span>] <span class="st">&quot;GET /NotAShelf/nyx/raw/commit/93d16a3edbaa8177c76ed84c4c5b489649faa609/modules/common/options/default.nix HTTP/2.0&quot;</span> <span class="dv">403</span> <span class="dv">146</span> <span class="st">&quot;-&quot;</span> <span class="st">&quot;meta-externalagent/1.1 (+https://developers.facebook.com/docs/sharing/webmasters/crawler)&quot;</span></span></code></pre></div>
 <p>At this point, I am not sure if this incompetence or plain
 stupidity.</p>
-<h2 id="ban-them-all">Ban Them All</h2>
+<h2 id="ban-them-all" id="ban-them-all">Ban Them
+All <a href="#ban-them-all" class="anchor-link">🔗</a></h2>
 <p>This has been <del>yet another</del> a technical rant and a gentle
 nudge to you that you should check <em>your</em> webserver logs to see
 if your content is being scraped for, well, as long as it has been

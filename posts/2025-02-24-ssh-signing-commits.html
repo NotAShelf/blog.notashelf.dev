@@ -184,9 +184,9 @@
       <nav class="secondary-buttons">
         <ul>
           <li>
-            <a class="nav-button" href="/pages/posts.html"> Posts </a>
-            <a class="nav-button" href="/pages/about.html"> About </a>
-            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
           </li>
         </ul>
       </nav>
@@ -200,13 +200,19 @@
       <!-- Table of Contents, if enabled -->
        <h1 id="signing-git-commits-with-ssh-keys">Signing Git commits
 with SSH keys</h1>
-<h2 id="resources">Resources</h2>
+<div class="reading-time">
+<p>3 minute read</p>
+</div>
+<h2 id="resources"
+id="resources">Resources <a href="#resources" class="anchor-link">🔗</a></h2>
 <ul>
 <li><a
 href="https://blog.gitbutler.com/git-tips-and-tricks/">https://blog.gitbutler.com/git-tips-and-tricks/</a></li>
 </ul>
-<h2 id="setting-up-ssh-signing-for-git-commits">Setting up SSH signing
-for Git commits</h2>
+<h2 id="setting-up-ssh-signing-for-git-commits"
+id="setting-up-ssh-signing-for-git-commits">Setting up SSH signing for
+Git
+commits <a href="#setting-up-ssh-signing-for-git-commits" class="anchor-link">🔗</a></h2>
 <p>For the longest of times, I have been running an obscure GPG setup
 using Yubikeys that requires me to go back to my notes every time I wish
 to replicate it on a new machine or a friend’s machine to help them set
@@ -222,7 +228,8 @@ href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/ad
 Documentation</a> on SSH keys shows you how to set that up, and I
 imagine other platforms are not that more complicated.</p>
 </blockquote>
-<h3 id="traditional-distros">Traditional Distros</h3>
+<h3 id="traditional-distros" id="traditional-distros">Traditional
+Distros <a href="#traditional-distros" class="anchor-link">🔗</a></h3>
 <p>If you are using a traditional distribution like Fedora or Arch<a
 href="#fn2" class="footnote-ref" id="fnref2"
 role="doc-noteref"><sup>2</sup></a> then the setup consists of two
@@ -253,7 +260,8 @@ also sign selected tags with <code>git tag -s</code>. To sign
 <em>all</em> git tags, you must run
 <code>git config --global tag.gpgsign true</code>, or the same command
 without <code>--global</code> to sign tags in a local repository.</p>
-<h3 id="on-nixos">On NixOS</h3>
+<h3 id="on-nixos" id="on-nixos">On
+NixOS <a href="#on-nixos" class="anchor-link">🔗</a></h3>
 <p>In typical NixOS fashion, such a trivial process is mind-numbingly
 easy. You will want to configure <code>programs.git</code> under either
 NixOS or Home-Manager module systems. As Git is rather a userspace

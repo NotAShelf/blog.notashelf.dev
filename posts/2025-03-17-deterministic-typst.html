@@ -184,9 +184,9 @@
       <nav class="secondary-buttons">
         <ul>
           <li>
-            <a class="nav-button" href="/pages/posts.html"> Posts </a>
-            <a class="nav-button" href="/pages/about.html"> About </a>
-            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
           </li>
         </ul>
       </nav>
@@ -200,6 +200,9 @@
       <!-- Table of Contents, if enabled -->
        <h1 id="building-deterministic-typst-packages-with-nix">Building
 Deterministic Typst Packages with Nix</h1>
+<div class="reading-time">
+<p>2 minute read</p>
+</div>
 <p>Recently, I encountered a <a
 href="https://github.com/NixOS/nixpkgs/pull/369283">Typst Builder PR</a>
 in Nixpkgs that implements a Typst builder, similar to other
@@ -259,7 +262,8 @@ Typst’s search path via the <code>TYPST_PACKAGE_CACHE_PATH</code>
 variable set to, e.g.,
 <code>/nix/store/02pgr69nc5lczi9rrh2xd40s1mzqrvkl-typst-0.13.1-env/lib/typst/packages</code>,
 populated with the packages in your scope.</p>
-<h2 id="closing-thoughts">Closing Thoughts</h2>
+<h2 id="closing-thoughts" id="closing-thoughts">Closing
+Thoughts <a href="#closing-thoughts" class="anchor-link">🔗</a></h2>
 <p>I encourage you to review the <a
 href="https://github.com/NixOS/nixpkgs/pull/369283">Typst Builder
 PR</a>. It seems nearly ready and will likely be included in nixpkgs

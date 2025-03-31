@@ -184,9 +184,9 @@
       <nav class="secondary-buttons">
         <ul>
           <li>
-            <a class="nav-button" href="/pages/posts.html"> Posts </a>
-            <a class="nav-button" href="/pages/about.html"> About </a>
-            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
           </li>
         </ul>
       </nav>
@@ -199,6 +199,9 @@
 
       <!-- Table of Contents, if enabled -->
        <h1 id="impermanence-on-nixos">Impermanence on NixOS</h1>
+<div class="reading-time">
+<p>9 minute read</p>
+</div>
 <p>Impermanence is an interesting concept. Aside from its philosophical
 aspect, it has strange but pleasant implications on a NixOS system. Not
 only is it a display of sheer flexibility of NixOS as an operating
@@ -211,7 +214,8 @@ linking appropriate devices and blocks during the boot process and
 deleting all state that programs may have left over my system. The end
 result, for me, was a fully encrypted that uses BTRFS snapshots to
 restore <code>/</code> to its original state on each boot.</p>
-<h2 id="resources">Resources</h2>
+<h2 id="resources"
+id="resources">Resources <a href="#resources" class="anchor-link">🔗</a></h2>
 <p>This post is based on, and inspired by several resources. I tried to
 cover everything you might need to set up a stateless NixOS system on
 your machines.</p>
@@ -229,7 +233,8 @@ post</a></li>
 href="https://mt-caret.github.io/blog/posts/2020-06-29-optin-state.html">And
 this post that the previous post is based on</a></li>
 </ul>
-<h2 id="reproduction-steps">Reproduction steps</h2>
+<h2 id="reproduction-steps" id="reproduction-steps">Reproduction
+steps <a href="#reproduction-steps" class="anchor-link">🔗</a></h2>
 <p>I’ve had to go through a few guides before I could figure out a set
 up that I really like. The final decision was that I would have an
 encrypted disk that restores itself to its former state during boot. Is
@@ -239,7 +244,8 @@ fires shortly after the disk is encrypted but before the root is
 actually mounted. That way, we can unlock the disk, restore the disk to
 its pristine state using the snapshot we have taken during installation
 and mount the root to go on with our day.</p>
-<h3 id="partitioning">Partitioning</h3>
+<h3 id="partitioning"
+id="partitioning">Partitioning <a href="#partitioning" class="anchor-link">🔗</a></h3>
 <p>First you want to format your disk. If you are really comfortable
 with bringing parted to your pre-formatted disks, by all means feel free
 to skip this section. I, however, choose to format a fresh disk. It is
@@ -313,7 +319,8 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure to unmount, otherwise nixos-rebuild will try to remove /mnt</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># and fail</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">umount</span> /mnt</span></code></pre></div>
-<h3 id="mounting">Mounting</h3>
+<h3 id="mounting"
+id="mounting">Mounting <a href="#mounting" class="anchor-link">🔗</a></h3>
 <p>After the subvolumes are created, we mount them with the options that
 we want. Ideally, on NixOS, you want the <code>noatime</code><a
 href="#fn2" class="footnote-ref" id="fnref2"
@@ -429,7 +436,8 @@ subvolume that you have created in
 <code>hardware-configuration.nix</code>. You can simply add them in the
 <code>options = [ ]</code> list in quotation marks. I recommend adding
 at least zstd compression, and optionally <code>noatime</code>.</p>
-<h3 id="installing">Installing</h3>
+<h3 id="installing"
+id="installing">Installing <a href="#installing" class="anchor-link">🔗</a></h3>
 <p>And that should be all. By this point you are pretty much ready to
 install with your existing config. I generally use my configuration
 flake to boot, so there is no need to make any revisions. If you are
@@ -442,7 +450,8 @@ prompted for the root password and after that you can reboot. Now you
 are running NixOS on an encrypted disk. Nice!</p>
 <p>Next up, if you are feeling <em>really</em> fancy today, is to
 configure disk erasure and impermanence.</p>
-<h3 id="impermanence">Impermanence</h3>
+<h3 id="impermanence"
+id="impermanence">Impermanence <a href="#impermanence" class="anchor-link">🔗</a></h3>
 <p>To handle BTRFS snapshots and automatic rollbacks, I use a systemd
 service. This requires systemd to be enabled in stage1. You may enable
 it with <code>boot.initrd.systemd.enable = true;</code>. The schema for
@@ -511,7 +520,9 @@ postDeviceCommands, we would be sticking some bash code haphazardly in
 the stage-1 script, with a systemd service we will be holding granular
 control over the service ordedr.</p>
 </blockquote>
-<h3 id="implications--workarounds">Implications &amp; Workarounds</h3>
+<h3 id="implications--workarounds"
+id="implications--workarounds">Implications &amp;
+Workarounds <a href="#implications--workarounds" class="anchor-link">🔗</a></h3>
 <p>An impermanent setup has certain implications, for example, some
 files such as saved networks for network-manager will be deleted on each
 reboot. While a little clunky, <a
@@ -556,7 +567,8 @@ be telling your friends about your new system boasting full disk
 encryption <em>and</em> root rollbacks. They, in turn, should be looking
 at you like cavemen. Arch users could never. May they bask in their
 supreme glory.</p>
-<h2 id="closing-notes">Closing Notes</h2>
+<h2 id="closing-notes" id="closing-notes">Closing
+Notes <a href="#closing-notes" class="anchor-link">🔗</a></h2>
 <p>As interesting as Impermanence is, it is also a little risky. The
 constant new changes Nixpkgs receives on a daily basis might that a
 service may suddenly stop using the state directory that you have
@@ -565,13 +577,15 @@ persisted. While running such a set up, you must make sure to pay close
 attention to your system and back up everything accordingly. Make sure
 to persist important directories, and have backups ready in case
 something changes without your knowledge.</p>
-<h3 id="home-impermanence">Home Impermanence</h3>
+<h3 id="home-impermanence" id="home-impermanence">Home
+Impermanence <a href="#home-impermanence" class="anchor-link">🔗</a></h3>
 <p>Silly. <code>$HOME</code> is where state belongs. I will not cover
 this, and I do not encourage that you make your home directory
 impermanent. If you insist on setting it up, you may use a similar
 systemd service in <code>systemd.services</code> and Impermanence’s
 Home-Manager module.</p>
-<h3 id="why">Why?</h3>
+<h3 id="why"
+id="why">Why? <a href="#why" class="anchor-link">🔗</a></h3>
 <p>Honestly, why not?</p>
 <p>Okay real answer. All imperative distributions suffer from something
 called <em>configuration drift</em>. It is when your system constantly

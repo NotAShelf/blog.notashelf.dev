@@ -185,9 +185,9 @@ Derivations</title>
       <nav class="secondary-buttons">
         <ul>
           <li>
-            <a class="nav-button" href="/pages/posts.html"> Posts </a>
-            <a class="nav-button" href="/pages/about.html"> About </a>
-            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
           </li>
         </ul>
       </nav>
@@ -202,6 +202,9 @@ Derivations</title>
        <h1
 id="getting-remote-builders-to-build-your-nix-derivations">Getting
 Remote Builders to Build your Nix Derivations</h1>
+<div class="reading-time">
+<p>6 minute read</p>
+</div>
 <p>Nix is a package manager–nay, a <em>build tool</em><a href="#fn1"
 class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
 that is capable of scaling both vertically and horizontally through its
@@ -233,7 +236,8 @@ them from <code>https://cache.nixos.org</code>. All things considered,
 the binary caches are distributed (and load balanced) for global reach.
 <a href="#fn4" class="footnote-ref" id="fnref4"
 role="doc-noteref"><sup>4</sup></a></p>
-<h2 id="remote-builders">Remote Builders</h2>
+<h2 id="remote-builders" id="remote-builders">Remote
+Builders <a href="#remote-builders" class="anchor-link">🔗</a></h2>
 <p>The topic I wanted to talk about today is <strong>Remote
 Builders</strong>, a less frequently employed method for scaling. Remote
 builders require additional setup, as they execute builds on an
@@ -250,7 +254,8 @@ the process.</p>
 </ol>
 <p>There is no limit to how many machines you may distribute your builds
 upon.</p>
-<h3 id="remote-machine">Remote Machine</h3>
+<h3 id="remote-machine" id="remote-machine">Remote
+Machine <a href="#remote-machine" class="anchor-link">🔗</a></h3>
 <p>For the sake of simplicity, let us assume that there is one remote
 builders that you would like to utilize for your builds. Nix utilizes
 remote builders by opening SSH connection to the target machine, so you
@@ -280,7 +285,8 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nix</span> build nixpkgs#hello <span class="at">--rebuild</span> <span class="at">--builders</span> <span class="st">&quot;ssh://builder@ssh.example.tld&quot;</span></span></code></pre></div>
 <p>Would open a connection over port <code>2222</code> instead of the
 default <code>22</code>.</p>
-<h3 id="local-machine">Local Machine</h3>
+<h3 id="local-machine" id="local-machine">Local
+Machine <a href="#local-machine" class="anchor-link">🔗</a></h3>
 <p>This is a good time to warn you that sometimes, especially if your
 connection is shaky, adding remote builders to the mix might slow things
 down. Remember that everything built on the server will have to be sent
@@ -353,7 +359,8 @@ you can specify them in the <code>--builders</code> flag, separated by
 spaces.</p>
 <div class="sourceCode" id="cb8"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix</span> build nixpkgs#hello <span class="at">--rebuild</span> <span class="at">--builders</span> <span class="st">&quot;ssh://remote-builder1 ssh://remote-builder2&quot;</span></span></code></pre></div>
-<h2 id="closing-thoughts">Closing Thoughts</h2>
+<h2 id="closing-thoughts" id="closing-thoughts">Closing
+Thoughts <a href="#closing-thoughts" class="anchor-link">🔗</a></h2>
 <p>That should be everything you need to configure remote builders on
 your system. If you have a Tailnet, via Tailscale, you may utilize
 MagicDNS or something similar to simply query builders by hostname and

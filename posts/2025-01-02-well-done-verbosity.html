@@ -185,9 +185,9 @@ Messages</title>
       <nav class="secondary-buttons">
         <ul>
           <li>
-            <a class="nav-button" href="/pages/posts.html"> Posts </a>
-            <a class="nav-button" href="/pages/about.html"> About </a>
-            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
           </li>
         </ul>
       </nav>
@@ -201,6 +201,9 @@ Messages</title>
       <!-- Table of Contents, if enabled -->
        <h1 id="enter-beginners-guide-to-writing-error-messages">Enter:
 Beginner’s guide to Writing Error Messages</h1>
+<div class="reading-time">
+<p>6 minute read</p>
+</div>
 <p>Programs fail, even the best-written ones. You know it; you’ve
 experienced it. You wish you could avoid it, but you can’t. Computers
 are far from perfect. As a beginner programmer, you quickly learn that
@@ -217,7 +220,8 @@ the correct solution is to provide <em>both</em>—rut under different
 circumstances. This is where verbosity comes into play. Too much
 information can be overwhelming; too little can be useless. So, what’s
 the perfect middle ground?</p>
-<h2 id="who-asked">Who asked?</h2>
+<h2 id="who-asked" id="who-asked">Who
+asked? <a href="#who-asked" class="anchor-link">🔗</a></h2>
 <p>When I visit your website and your backend is down (unbeknownst to
 me), I <em>really</em> don’t care to see your unhandled error message in
 full detail. The end user, who <em>likely</em> has no idea what the
@@ -236,7 +240,9 @@ them in a way that’s accessible only to those who need them. Ensure that
 anyone actively troubleshooting can easily find this detailed
 information, while those who don’t need it remain blissfully
 unaware.</p>
-<h2 id="the-good-the-bad-and-nix">The Good, The Bad, and Nix</h2>
+<h2 id="the-good-the-bad-and-nix" id="the-good-the-bad-and-nix">The
+Good, The Bad, and
+Nix <a href="#the-good-the-bad-and-nix" class="anchor-link">🔗</a></h2>
 <p>This is a Nix blog, so of course, I’m going to complain about it. Nix
 has a very <em>unique</em> (for the lack of a better word) way of
 reporting errors. If the author of whatever project you are consuming is
@@ -259,8 +265,9 @@ be resolved…</p>
 2.20</a> has made… some attempts to improve this situation, but the
 language remains fundamentally flawed, and such errors are,
 unfortunately, still unavoidable.</p>
-<h3 id="all-your-error-are-belong-to-us">All your error are belong to
-us</h3>
+<h3 id="all-your-error-are-belong-to-us"
+id="all-your-error-are-belong-to-us">All your error are belong to
+us <a href="#all-your-error-are-belong-to-us" class="anchor-link">🔗</a></h3>
 <p>Here is an example of how I would like to approach errors.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> express <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;express&quot;</span>)<span class="op">;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;fs&quot;</span>)<span class="op">;</span></span>
@@ -322,8 +329,10 @@ technical information to the frontend is simply poor design.</p>
 <p>This, I think, is the golden spot. Easy to maintain, not awful and
 more importantly <em>not</em> a thousand lines of meaningless,
 unintelligible text.</p>
-<h3 id="404-according-to-all-known-laws-of-aviation">404: According to
-all known laws of aviation…</h3>
+<h3 id="404-according-to-all-known-laws-of-aviation"
+id="404-according-to-all-known-laws-of-aviation">404: According to all
+known laws of
+aviation… <a href="#404-according-to-all-known-laws-of-aviation" class="anchor-link">🔗</a></h3>
 <p>Now lets consider a bad example. No, a <em>horrible</em> example.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> express <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;express&quot;</span>)<span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> app <span class="op">=</span> <span class="fu">express</span>()<span class="op">;</span></span>
@@ -370,8 +379,10 @@ to this website?</p>
 <p>If you take anything away from this, let it be that error handling
 should always prioritize clarity, security and proper
 compartmentalization.</p>
-<h3 id="final-thoughts-verbosity-as-a-tool-not-a-burden">Final Thoughts:
-Verbosity as a Tool, Not a Burden</h3>
+<h3 id="final-thoughts-verbosity-as-a-tool-not-a-burden"
+id="final-thoughts-verbosity-as-a-tool-not-a-burden">Final Thoughts:
+Verbosity as a Tool, Not a
+Burden <a href="#final-thoughts-verbosity-as-a-tool-not-a-burden" class="anchor-link">🔗</a></h3>
 <p>This has been translated from a far less technical rant I’ve dropped
 earlier today on some painful case of error handling<a href="#fn1"
 class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.

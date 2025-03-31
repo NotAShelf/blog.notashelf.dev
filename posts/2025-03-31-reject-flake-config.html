@@ -184,9 +184,9 @@
       <nav class="secondary-buttons">
         <ul>
           <li>
-            <a class="nav-button" href="/pages/posts.html"> Posts </a>
-            <a class="nav-button" href="/pages/about.html"> About </a>
-            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
           </li>
         </ul>
       </nav>
@@ -200,6 +200,9 @@
       <!-- Table of Contents, if enabled -->
        <h1 id="what-is-nixconfig-and-should-you-trust-it">What is
 nixConfig, and Should You Trust It?</h1>
+<div class="reading-time">
+<p>4 minute read</p>
+</div>
 <p>Those of you who have been a part of the Nix ecosystem, more
 specifically the community that often deals with flakes,<a href="#fn1"
 class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
@@ -228,7 +231,8 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb1-1"><a href="#c
 object, saying they will know the changes being made to their system.
 They are not wrong, but if that is their argument, then they are
 incredibly dense.</p>
-<h2 id="security-implications">Security Implications</h2>
+<h2 id="security-implications" id="security-implications">Security
+Implications <a href="#security-implications" class="anchor-link">🔗</a></h2>
 <p>You should be fully aware that changes made through
 <code>nixConfig</code> will affect all Nix operations within the flake,
 possibly increasing the attack surface through the introduction of
@@ -297,7 +301,8 @@ class="sourceCode diff"><code class="sourceCode diff"><span id="cb2-1"><a href="
 <p>Give it a try if you are running Lix and don’t mind the rebuilds.
 This will reject the flake config, skipping the prompt to accept the
 values set in <code>nixConfig</code>.</p>
-<h2 id="looking-into-nixconfig">Looking into nixConfig</h2>
+<h2 id="looking-into-nixconfig" id="looking-into-nixconfig">Looking into
+nixConfig <a href="#looking-into-nixconfig" class="anchor-link">🔗</a></h2>
 <p>Now that the ultimatum is out of the way, let’s take a look at what
 <code>nixConfig</code> is and what it really does. As mentioned above,
 it is <em>an attribute set of values that reflect the values given to
@@ -317,7 +322,8 @@ the full path of Nix’s data directory (one of
 <p>Nice. Now we know where to look if we <em>accidentally</em> accept
 the prompt or ever want to retract our blind trust in a flake’s
 author.</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion"
+id="conclusion">Conclusion <a href="#conclusion" class="anchor-link">🔗</a></h2>
 <p>Other than this path, there is not much to <code>nixConfig</code>.
 Your system does not interact with it until you enter the directory of a
 flake and run a command that triggers evaluation, in which case <a

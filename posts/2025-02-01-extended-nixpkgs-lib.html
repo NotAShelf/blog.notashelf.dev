@@ -185,9 +185,9 @@ Library</title>
       <nav class="secondary-buttons">
         <ul>
           <li>
-            <a class="nav-button" href="/pages/posts.html"> Posts </a>
-            <a class="nav-button" href="/pages/about.html"> About </a>
-            <a class="nav-button" href="/pages/privacy.html"> Privacy </a>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
           </li>
         </ul>
       </nav>
@@ -202,12 +202,16 @@ Library</title>
        <h1
 id="when-why-and-how-to-extend-nixpkgs-standard-library">When, Why and
 How to Extend Nixpkgs Standard Library</h1>
+<div class="reading-time">
+<p>3 minute read</p>
+</div>
 <p>In plenty of cases, you might need to write your own custom functions
 and store them somewhere. While it is conceptually possible and easy to
 define them inside an argument you might want to stick in for example
 <code>specialArgs</code> in the context of a NixOS configuration, there
 are easier and more ergonomic ways of doing so.</p>
-<h2 id="what-is-nixpkgslib">What is <code>nixpkgs.lib</code></h2>
+<h2 id="what-is-nixpkgslib" id="what-is-nixpkgslib">What is
+<code>nixpkgs.lib</code> <a href="#what-is-nixpkgslib" class="anchor-link">🔗</a></h2>
 <p>In the context of Nix/OS, <code>nixpkgs.lib</code> refers to a module
 within the Nixpkgs repository that acts as a collection of helpful
 functions and other utilities designed around usage in Nixpkgs and by
@@ -220,8 +224,10 @@ as a top-level attribute as <code>nixpkgs.lib</code>, but also inside
 role="doc-noteref"><sup>1</sup></a> so that you can add it to the
 argument set (i.e. the line that goes <code>{pkgs, lib, ...}</code> at
 the top of a file) in your NixOS configuration easily.</p>
-<h2 id="why-would-you-need-to-extend-nixpkgslib">Why would you need to
-extend <code>nixpkgs.lib</code></h2>
+<h2 id="why-would-you-need-to-extend-nixpkgslib"
+id="why-would-you-need-to-extend-nixpkgslib">Why would you need to
+extend
+<code>nixpkgs.lib</code> <a href="#why-would-you-need-to-extend-nixpkgslib" class="anchor-link">🔗</a></h2>
 <p>While the library functions provided by nixpkgs is quite extensive
 and usually suits my needs, I sometimes feel the need to define my own
 function or wrap an existing function to complete a task. Normally we
@@ -231,7 +237,8 @@ function across your configuration file. In such times, you might want
 to either write your own lib and inherit it at the source of your
 <code>flake.nix</code> to then inherit them across your
 configuration.</p>
-<h2 id="extending-nixpkgslib">Extending <code>nixpkgs.lib</code></h2>
+<h2 id="extending-nixpkgslib" id="extending-nixpkgslib">Extending
+<code>nixpkgs.lib</code> <a href="#extending-nixpkgslib" class="anchor-link">🔗</a></h2>
 <p>I find the easiest way of extending nixpkgs.lib to be using an
 “overlay”, enabled by <code>makeExtensible</code>. <a href="#fn2"
 class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
@@ -281,7 +288,8 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb3-1"><a href="#c
 <p>Now any and all new functions defined in the extended library will
 become available in any files called by <code>modules</code>, thanks to
 <code>specialArgs</code>.</p>
-<h2 id="caveats">Caveats</h2>
+<h2 id="caveats"
+id="caveats">Caveats <a href="#caveats" class="anchor-link">🔗</a></h2>
 <p>The problem with this approach is that it may be confusing for other
 people reviewing your configuration. With this approach,
 <code>lib.customFunction</code> looks identical to any lib function,
@@ -307,7 +315,8 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb5-1"><a href="#c
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span><span class="va">nixpkgs</span><span class="op">,</span> <span class="op">...}</span>: <span class="op">{</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Define your functions here as you would do in an extension</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h2 id="example-implementations">Example Implementations</h2>
+<h2 id="example-implementations" id="example-implementations">Example
+Implementations <a href="#example-implementations" class="anchor-link">🔗</a></h2>
 <p>If you have defined your own custom library based on this post, feel
 free to add a project or your configuration as an example here.</p>
 <ul>
