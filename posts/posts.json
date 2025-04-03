@@ -95,6 +95,14 @@
       "description": "A quick look into Nix’s ‘controversial’ nixConfig settings",
       "date": "2025-03-31",
       "path": "/posts/2025-03-31-reject-flake-config.html"
+    },
+    {
+      "name": "2025-04-03-my-new-stack.md",
+      "url": "https://blog.notashelf.dev/posts/2025-04-03-my-new-stack.html",
+      "title": "My New Tech Stack",
+      "description": "From Javascript, to Golang and Rust",
+      "date": "2025-04-03",
+      "path": "/posts/2025-04-03-my-new-stack.html"
     }
   ]
 }
