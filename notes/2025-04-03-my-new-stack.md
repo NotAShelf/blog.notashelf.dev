@@ -62,13 +62,13 @@ around "memory safety" as if it's the only thing that matters was a turnoff. But
 Rust kept solving real problems I hit when working in Go and C, to the point
 where using anything else felt like unnecessary friction. It emerged as a
 _natural next step_. It is widely used, and even more widely shilled. While I
-was using Go, I had experimented with Rust several times but the extreme build
-times alongside the complex type system. Eventually I accepted those as a cost
-for correctness, and began migrating to Rust. The Rust book was extremely
-unhelpful, especially in the pacing department, but eventually and through the
-help of many web searches I accepted Rust. It brings several improvements that
-address the limitations I experienced with Golang, which I would like to go
-over.
+was using Go, I had experimented with Rust several times but extremely long
+build times---alongside the complex type system---drove me off each time.
+Eventually I accepted those as a cost for correctness, and began migrating to
+Rust. Although, it was a slow process. The Rust book was extremely unhelpful,
+especially in the pacing department, but eventually and through the help of many
+web searches I accepted Rust. It brings several improvements that address the
+limitations I experienced with Golang, which I would like to go over.
 
 ### 1. Memory Safety without Performance Penalties
 
