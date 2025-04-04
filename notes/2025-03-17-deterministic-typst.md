@@ -13,8 +13,8 @@ Recently, I encountered a [Typst Builder PR] in Nixpkgs that implements a Typst
 builder, similar to other language-specific builders you might be familiar with.
 
 While I still use Pandoc and Markdown for many tasks (including this blog), I've
-been using Typst extensively recently, and that got me excited to explore the
-new builder(s).
+been using [Typst](https://typst.app) extensively recently, and that got me
+excited to explore the new builder(s).
 
 To test them, and possibly demonstrate their functionality, I've prepared the
 following `flake.nix`:
