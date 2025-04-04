@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="/assets/apple-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="/assets/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="/assets/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/assets/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/assets/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/assets/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/assets/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/assets/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/assets/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+         <meta name="dcterms.date" content="2025-04-03" />
+          <meta name="description" content="Introduction to the NixOS testing framework with flakes" />
+        <title>NixOS Testing Framework I: On VM Tests</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      /* The extra [class] is a hack that increases specificity enough to
+         override a similar rule in reveal.js */
+      ul.task-list[class]{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        font-size: inherit;
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1.6em;
+        vertical-align: middle;
+      }
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+          background-color: #1a1c1f;
+          color: #6a6c6d;
+        }
+      pre.numberSource { margin-left: 3em; border-left: 1px solid #6a6c6d;  padding-left: 4px; }
+      div.sourceCode
+        { color: #d8d8cc;  }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span { color: #d8d8cc; } /* Normal */
+      code span.al { color: #85ca3c; background-color: #401a1f; font-weight: bold; } /* Alert */
+      code span.an { color: #307048; } /* Annotation */
+      code span.at { color: #1a70a9; } /* Attribute */
+      code span.bn { color: #e06500; } /* BaseN */
+      code span.bu { color: #6f7c7d; } /* BuiltIn */
+      code span.cf { color: #edb036; font-weight: bold; } /* ControlFlow */
+      code span.ch { color: #2d9ed9; } /* Char */
+      code span.cn { color: #1a9e9e; font-weight: bold; } /* Constant */
+      code span.co { color: #6a6c6d; } /* Comment */
+      code span.cv { color: #6f7c7d; } /* CommentVar */
+      code span.do { color: #942330; } /* Documentation */
+      code span.dt { color: #1a70a9; } /* DataType */
+      code span.dv { color: #e06500; } /* DecVal */
+      code span.er { color: #c03443; text-decoration: underline; } /* Error */
+      code span.ex { color: #0080d9; font-weight: bold; } /* Extension */
+      code span.fl { color: #e06500; } /* Float */
+      code span.fu { color: #7c34a0; } /* Function */
+      code span.im { color: #20a050; } /* Import */
+      code span.in { color: #b54800; } /* Information */
+      code span.kw { color: #d8d8cc; font-weight: bold; } /* Keyword */
+      code span.op { color: #d8d8cc; } /* Operator */
+      code span.ot { color: #20a050; } /* Other */
+      code span.pp { color: #20a050; } /* Preprocessor */
+      code span.re { color: #1a70a9; background-color: #0d2030; } /* RegionMarker */
+      code span.sc { color: #2d9ed9; } /* SpecialChar */
+      code span.ss { color: #c03443; } /* SpecialString */
+      code span.st { color: #e83c3c; } /* String */
+      code span.va { color: #1a9e9e; } /* Variable */
+      code span.vs { color: #c03443; } /* VerbatimString */
+      code span.wa { color: #c03443; } /* Warning */
+    </style>
+        <link rel="stylesheet" href="/style.css" />
+        <!-- Begin Lineicons import -->
+    <link rel="stylesheet" href="https://cdn.lineicons.com/5.0/lineicons.css" />
+    <!-- End Lineicons import-->
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="shortcut icon"
+      href="/assets/favicon-96x96.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header class="page-navigation">
+      <nav class="primary-buttons">
+        <ul>
+          <li><a class="nav-button" href="/">Index</a></li>
+        </ul>
+      </nav>
+      <nav class="secondary-buttons">
+        <ul>
+          <li>
+            <a class="nav-button" href="/posts"> Posts </a>
+            <a class="nav-button" href="/about.html"> About </a>
+            <a class="nav-button" href="/privacy.html"> Privacy </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <hr class="nav-border">
+
+    <main>
+      <!-- Keywords, if any. -->
+      
+
+      <!-- Table of Contents, if enabled -->
+       <h1 id="integration-tests-with-nixos-vm-tests">Integration tests
+with NixOS VM Tests</h1>
+<div class="reading-time">
+<p>7 minute read</p>
+</div>
+<p>One of the things that convinced me to <em>stay on NixOS</em> was how
+easy it is to write integration tests for my existing infrastructure.
+Unlike traditional testing setups, which often require complex tooling,
+manual configuration, or fragile dependencies, NixOS makes testing
+nearly effortless. In fact, Nixpkgs itself contains tests for even the
+most trivial cases—proving just how seamless the process can be. If
+you’ve ever struggled with testing your services in other environments,
+where dependencies shift and system configurations break unpredictably,
+then this post might convince you to give NixOS a second look.</p>
+<p>Today’s article walks you through setting up your own integration
+tests outside the context of Nixpkgs. I’ll also briefly touch on how
+tests are executed within Nixpkgs itself. Not long ago, the testing
+framework underwent some internal changes, and now that
+<code>testers.runNixOSTest</code> is stable, I believe it’s the perfect
+time to explore how you can leverage it for your own projects.##
+Obtaining Nixpkgs</p>
+<h2 id="obtaining-nixpkgs" id="obtaining-nixpkgs">Obtaining
+Nixpkgs <a href="#obtaining-nixpkgs" class="anchor-link">🔗</a></h2>
+<p>We must first obtain the testers from somewhere. That somewhere is—
+naturally—Nixpkgs.</p>
+<p>Testers are <code>system</code> dependent, and they are dependant on
+<code>pkgs</code>. I don’t think this is a surprise to anyone since we
+will be interacting with, well, packages but the caller for
+<code>runNixOSTest</code> <a
+href="https://github.com/NixOS/nixpkgs/blob/230479874c95697578c56179905e4acf97d23e4d/pkgs/build-support/testers/default.nix#L168">especially
+sets hostPkgs</a>.</p>
+<p>That said, we will need to instantiate <code>pkgs</code> somewhere.
+Usually in Nixpkgs you are already in a scope that provides testers, but
+since we are working <em>outside</em> Nixpkgs for the purposes of this
+post, let’s get <code>pkgs</code> rolling. While I’m at it, I’ll also
+provide a self-contained <code>flake.nix</code> that fetches and locks a
+Nixpkgs instance for us.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># flake.nix</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">inputs</span>.<span class="va">nixpkgs</span>.<span class="va">url</span> <span class="op">=</span> <span class="st">&quot;github:nixos/nixpkgs?ref=nixpkgs-unstable&quot;</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">outputs</span> <span class="op">=</span> <span class="va">inputs</span><span class="op">:</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># No import required unless you want to propagate `inputs` to the module</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">nixosModules</span>.<span class="va">default</span> <span class="op">=</span> <span class="ss">./your-service.nix</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Let’s assume for the purposes of this post that you have a small
+NixOS module that you want to execute tests for. This can be a short and
+simple Python script for a webserver, a VPN mesh controller, or anything
+that you might have expressed in a simple NixOS module. Let’s also
+assume that whatever this service might be, it serves a HTML page with…
+healthcheck information over at port <code>3000</code>. Got anything in
+your mind yet?</p>
+<h2 id="writing-the-test" id="writing-the-test">Writing the
+Test <a href="#writing-the-test" class="anchor-link">🔗</a></h2>
+<p>One of the many handy features of flakes is that you can define
+<em>checks</em> that will be built on <code>nix flake check</code>
+unless <code>--no-build</code> is passed. While I’m testing outside
+resource constrained environments, I prefer to execute my VM tests
+directly on check because that is two birds with one stone.</p>
+<p>Let’s extend the <code>flake.nix</code> from above with a check that
+will be built on <code>nix flake check</code> or manually with
+<code>nix build .#checks.&lt;system&gt;.your-check</code>. Since this is
+meant to serve as an example, I have omitted the system abstractions and
+we will be testing for a single system only. You may change this however
+as you see fit. The key point here is to define a ‘package’ using
+<code>runNixOSTest</code> that will be executed in a way that you see
+fit.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">inputs</span>.<span class="va">nixpkgs</span>.<span class="va">url</span> <span class="op">=</span> <span class="st">&quot;github:nixos/nixpkgs?ref=nixpkgs-unstable&quot;</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">outputs</span> <span class="op">=</span> <span class="va">inputs</span><span class="op">:</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">nixosModules</span>.<span class="va">default</span> <span class="op">=</span> <span class="ss">./your-service.nix</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">checks</span> <span class="op">=</span> <span class="kw">let</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="va">system</span> <span class="op">=</span> <span class="st">&quot;x86_64-linux&quot;</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="va">pkgs</span> <span class="op">=</span> inputs.nixpkgs.legacyPackages.$<span class="op">{</span><span class="va">system</span><span class="op">};</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span> <span class="op">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;</span><span class="sc">${</span>system<span class="sc">}</span><span class="st">&quot;</span>.<span class="va">default</span> <span class="op">=</span> pkgs.testers.runNixOSTest <span class="op">{</span> <span class="co">/*...*/</span> <span class="op">};</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="er">}</span><span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Here is how our flake will look like, for now. I want to explain the
+potential arguments to <code>runNixOSTest</code> to give you an idea
+before I write the rest of the test to give you an idea before I write
+the rest of the test.</p>
+<h2 id="anatomy-of-runnixostest" id="anatomy-of-runnixostest">Anatomy of
+<code>runNixOSTest</code> <a href="#anatomy-of-runnixostest" class="anchor-link">🔗</a></h2>
+<p><code>runNixOSTest</code> is a wrapper function around
+<code>runTest</code> from Nix_OS_ (not nix_pkgs_) library, defined in <a
+href="https://github.com/NixOS/nixpkgs/tree/7d5cd42fece2ae9b065b00c08696b439a864401f/nixos/lib">nixos/lib</a>.
+It imports <code>nixos/lib/default.nix</code> and wraps the
+<code>runTest</code> function that is defined in NixOS library, which is
+<em>inherited from the testing library inside the NixOS library inside
+nixpkgs…</em> Ugh.</p>
+<p>Regardless, and in the spirit of <code>runTest</code>, there are a
+few paramaters that you can pass to <code>runNixOSTest</code>. I will
+not be covering <em>all</em> of them, but here are those that you
+<em>want</em> to pass for a functional test.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>runNixOSTest <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># First, the &#39;name&#39; parameter. This will determine the name of the package</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># that you will be building, but from what I can tell, not much else. For</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># example a test with the name &quot;my-test&quot; would result in &quot;vm-test-run-my-test&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># being built.</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="va">name</span> <span class="op">=</span> <span class="st">&quot;my-test&quot;</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Next up is nodes. This is where it gets interesting, because you can define</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># as many nodes as you deem necessary in this set. More importantly, those</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># nodes are allowed to interact with each other inside the texting context.</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="va">nodes</span> <span class="op">=</span> <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">};</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Last but not least, the test script. The test script is what I would call</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a *flavored* Python script, where you get access to a few special machine</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># objects as a part of Nixpkgs, and the documentation describes it as a </span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># &quot;...sequence of Python statements that perform various actions, such as</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># starting VMs, executing commands in the VMs and so on.&quot;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="va">testScript</span> <span class="op">=</span> <span class="st">&quot;&quot;</span><span class="op">;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>There are a few other parameters that you can use, such as
+<code>extraPythonPackages</code> that you can use to add additional
+Python libraries in the script. Though I’m getting ahead of myself,
+we’re here to talk about writing tests.</p>
+<h2 id="writing-the-test-continued"
+id="writing-the-test-continued">Writing the Test:
+Continued <a href="#writing-the-test-continued" class="anchor-link">🔗</a></h2>
+<p>As I was saying. Now that we know how a test looks like, lets write
+it for real this time.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">inputs</span>.<span class="va">nixpkgs</span>.<span class="va">url</span> <span class="op">=</span> <span class="st">&quot;github:nixos/nixpkgs?ref=nixpkgs-unstable&quot;</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">outputs</span> <span class="op">=</span> <span class="va">inputs</span><span class="op">:</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">nixosModules</span>.<span class="va">default</span> <span class="op">=</span> <span class="ss">./your-service.nix</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">checks</span> <span class="op">=</span> <span class="kw">let</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="va">system</span> <span class="op">=</span> <span class="st">&quot;x86_64-linux&quot;</span><span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="va">pkgs</span> <span class="op">=</span> inputs.nixpkgs.legacyPackages.$<span class="op">{</span><span class="va">system</span><span class="op">};</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span> <span class="op">{</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;</span><span class="sc">${</span>system<span class="sc">}</span><span class="st">&quot;</span>.<span class="va">default</span> <span class="op">=</span> pkgs.testers.runNixOSTest <span class="op">{</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># This can be anything. I like giving my test special</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># codenames. Yes, I&#39;m quirky like that.</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">name</span> <span class="op">=</span> <span class="st">&quot;narwals-are-awesome&quot;</span><span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Let&#39;s go with a single-node test, for now. I&#39;m going to add an example</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># at the end of this post to give you an idea of multi-node tests.</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">nodes</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>          <span class="co"># Names of the nodes are up to you as well. They expose the same</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>          <span class="co"># objects regardless of names, though &#39;machine&#39; is mostly standard, so</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>          <span class="co"># I will go with that for now. As a bonus, you can read this with the</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>          <span class="co"># voice of Gianni Matragrano, who is said to voice anyone for a</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>          <span class="co"># chicken nugget.</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>          <span class="va">machine</span> <span class="op">=</span> <span class="op">{</span><span class="va">pkgs</span><span class="op">,</span> <span class="op">...}</span>: <span class="op">{</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>            <span class="va">imports</span> <span class="op">=</span> <span class="op">[</span> inputs.self.nixosModules.default <span class="op">];</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            <span class="va">environment</span>.<span class="va">systemPackages</span> <span class="op">=</span> <span class="op">[</span> pkgs.curl <span class="op">];</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Enable the service. This does not exist in Nixpkgs and</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            <span class="co"># is added by our nixosModule. You can enable anything defined in</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>            <span class="co"># nixpkgs inside a machine&#39;s configuration *and* extend them with</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>            <span class="co"># your own NixOS modules.</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>            <span class="va">services</span>.<span class="va">syshc</span>.<span class="va">enable</span> <span class="op">=</span> <span class="cn">true</span><span class="op">;</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>          <span class="op">};</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        <span class="op">};</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Now the test script. You can add a comment like /* python */ before</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># the body of this string to provide syntax highlighting via Treesitter</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># if your editor is Neovim. Neat!</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The script will start all available nodes, wait for the service to</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># start, and then the port. Lastly it will query the / endpoint to look</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># for a specific value that indicates success. Your test cases may be</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        <span class="co"># more complex than this, in which case you can write a more detailed </span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Python script.</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">testScript</span> <span class="op">=</span> <span class="co">/* python */</span> <span class="st">&#39;&#39;</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="st">          # Function to start *all* nodes at once. This can be used as an</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="st">          # alternative to &lt;nodename&gt;.start() (e.g. `machine.start()`) when</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="st">          # you have multiple nodes.</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="st">          start_all()</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="st">          </span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="st">          # wait_for_unit is a special object that will wait for a Systemd</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="st">          # unit to get into &quot;active&quot; state. Throws exceptions on &quot;failed&quot;</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="st">          # and &quot;inactive&quot; states as well as after timing out.</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="st">          machine.wait_for_unit(&quot;python-server&quot;)</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="st">          # Also wait for an open port on the node. In my script the service</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="st">          # binds to port 3000, so we must wait for it to open.</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="st">          machine.wait_for_open_port(3000)</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="st">          # Finally lets log the output from the service. In my example the</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="st">          # server logs health information directly in /, but you may get the</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="st">          # information from anywhere.</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="st">          status = machine.succeed(&quot;curl --fail localhost:3000&quot;)</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="st">          </span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="st">          # Check if our server returns the expected result.</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="st">          assert &quot;Healthy&quot; in status, f&quot;&#39;{status}&#39; is not healthy! Check failed.&quot;</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="st">        &#39;&#39;</span><span class="op">;</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>      <span class="op">};</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>  <span class="op">};</span></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="running-your-test" id="running-your-test">Running Your
+Test <a href="#running-your-test" class="anchor-link">🔗</a></h2>
+<p>Now lets build the check with some verbosity. <code>-L</code> will
+tell the tester to print all logs from the test, and <code>v</code> adds
+some verbosity to the Nix builder.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix</span> flake check <span class="at">-Lv</span></span></code></pre></div>
+<p>And this will print a lot of logs. Let’s isolate the output that we
+really care about.</p>
+<pre class="console"><code>vm-test-run-narwals-are-awesome&gt; (finished: waiting for TCP port 3000 on localhost, in 18
+vm-test-run-narwals-are-awesome&gt; machine: must succeed: curl --fail http://localhost:3000
+vm-test-run-narwals-are-awesome&gt; machine #   % Total    % Received % Xferd  Average Speed
+vm-test-run-narwals-are-awesome&gt; machine #                                  Dload  Upload
+vm-test-run-narwals-are-awesome&gt; machine #   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0[   34.854829] syshc[637]: 127.0.0.1 - - [04/Apr/2025 09:49:17] &quot;GET
+ / HTTP/1.1&quot; 200 -
+vm-test-run-narwals-are-awesome&gt; machine # 100   115  100   115    0     0    108      0  0:00:01  0:00:01 --:--:--   108100   115  100   115    0     0    107      0  0:00:01  0:00:01 --:-
+-:--   107
+vm-test-run-narwals-are-awesome&gt; (finished: must succeed: curl --fail http://localhost:3000, in 1.43 seconds)
+vm-test-run-narwals-are-awesome&gt; (finished: run the VM test script, in 36.99 seconds)
+vm-test-run-narwals-are-awesome&gt; test script finished in 37.09s
+vm-test-run-narwals-are-awesome&gt; cleanup</code></pre>
+<p>And there it is. This waits for port 3000, curls it, gets the result
+and parses it. Since the server returned “Healthy”, the check has
+completed successfully. Nice.</p>
+<h2 id="closing-thoughts" id="closing-thoughts">Closing
+Thoughts <a href="#closing-thoughts" class="anchor-link">🔗</a></h2>
+<p>Hope this article has served to give you an idea of how you may
+utilize NixOS testing framework for your projects. At least a very basic
+idea, enough to help get you started. Though there is much more to this
+framework, and more conditions that you might want to be aware of.</p>
+<p>As such, I invite you to reach out to me and let me know of any
+additional cases that you want me to cover. I am happy to help clarify
+testing with NixOS, as I think it should be done more often outside of
+Nixpkgs. Moreover, this is not the end of this topic. I would like to
+cover the aforementioned special objects, and more complex cases
+surrounding multi-machine test scenarios. I also want to go over
+<em>interactive</em> tests, but that will have to be for another post.
+Cheers</p> 
+    </main>
+    <footer>
+      <div class="footer-divider"></div>
+      <p>&copy; <span id="copyright"></span> NotAShelf</p>
+      <div class="footer-icons">
+        <a href="https://github.com/notashelf">
+          <i class="lni lni-github" title="GitHub"></i>
+        </a>
+      </div>
+    </footer>
+    <script defer src="/static/scripts/copyright.js"</script>
+    <script
+        defer
+      data-domain="blog.notashelf.dev"
+      src="https://pl.notashelf.dev/js/script.file-downloads.hash.outbound-links.tagged-events.js"
+    ></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (window.plausible.q = window.plausible.q || []).push(arguments);
+        };
+    </script>
+
+        </body>
+</html>

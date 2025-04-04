@@ -103,6 +103,14 @@
       "description": "From Javascript, to Golang and Rust",
       "date": "2025-04-03",
       "path": "/posts/2025-04-03-my-new-stack.html"
+    },
+    {
+      "name": "2025-04-04-nixos-testing-i.md",
+      "url": "https://blog.notashelf.dev/posts/2025-04-04-nixos-testing-i.html",
+      "title": "NixOS Testing Framework I: On VM Tests",
+      "description": "Introduction to the NixOS testing framework with flakes",
+      "date": "2025-04-03",
+      "path": "/posts/2025-04-04-nixos-testing-i.html"
     }
   ]
 }
