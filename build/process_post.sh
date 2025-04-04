@@ -43,6 +43,7 @@ pandoc --from gfm+smart --to html \
   -L "${FILTER_DIR}"/anchor.lua \
   --template "${TEMPLATE_DIR}/html/page.html" \
   --css "/style.css" \
+  --highlight-style "${TEMPLATE_DIR}/pandoc/custom.theme" \
   --metadata "title=${TITLE}" \
   --metadata "description=${DESCRIPTION}" \
   --metadata "date=${DATE}" \
