@@ -220,8 +220,7 @@ tests outside the context of Nixpkgs. I’ll also briefly touch on how
 tests are executed within Nixpkgs itself. Not long ago, the testing
 framework underwent some internal changes, and now that
 <code>testers.runNixOSTest</code> is stable, I believe it’s the perfect
-time to explore how you can leverage it for your own projects.##
-Obtaining Nixpkgs</p>
+time to explore how you can leverage it for your own projects.</p>
 <h2 id="obtaining-nixpkgs" id="obtaining-nixpkgs">Obtaining
 Nixpkgs <a href="#obtaining-nixpkgs" class="anchor-link">🔗</a></h2>
 <p>We must first obtain the testers from somewhere. That somewhere is—
@@ -315,7 +314,7 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb3-1"><a href="#c
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Last but not least, the test script. The test script is what I would call</span></span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a *flavored* Python script, where you get access to a few special machine</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># objects as a part of Nixpkgs, and the documentation describes it as a </span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># objects as a part of Nixpkgs, and the documentation describes it as a</span></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># &quot;...sequence of Python statements that perform various actions, such as</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># starting VMs, executing commands in the VMs and so on.&quot;</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="va">testScript</span> <span class="op">=</span> <span class="st">&quot;&quot;</span><span class="op">;</span></span>
@@ -339,7 +338,7 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#c
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="va">system</span> <span class="op">=</span> <span class="st">&quot;x86_64-linux&quot;</span><span class="op">;</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="va">pkgs</span> <span class="op">=</span> inputs.nixpkgs.legacyPackages.$<span class="op">{</span><span class="va">system</span><span class="op">};</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span> <span class="op">{</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;</span><span class="sc">${</span>system<span class="sc">}</span><span class="st">&quot;</span>.<span class="va">default</span> <span class="op">=</span> pkgs.testers.runNixOSTest <span class="op">{</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;</span><span class="sc">${</span>system<span class="sc">}</span><span class="st">&quot;</span>.<span class="va">default</span> <span class="op">=</span> pkgs.testers.runNixOSTest <span class="op">{</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># This can be anything. I like giving my test special</span></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># codenames. Yes, I&#39;m quirky like that.</span></span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">name</span> <span class="op">=</span> <span class="st">&quot;narwals-are-awesome&quot;</span><span class="op">;</span></span>
@@ -371,14 +370,14 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#c
 <span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># The script will start all available nodes, wait for the service to</span></span>
 <span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># start, and then the port. Lastly it will query the / endpoint to look</span></span>
 <span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># for a specific value that indicates success. Your test cases may be</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        <span class="co"># more complex than this, in which case you can write a more detailed </span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        <span class="co"># more complex than this, in which case you can write a more detailed</span></span>
 <span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Python script.</span></span>
 <span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">testScript</span> <span class="op">=</span> <span class="co">/* python */</span> <span class="st">&#39;&#39;</span></span>
 <span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="st">          # Function to start *all* nodes at once. This can be used as an</span></span>
 <span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="st">          # alternative to &lt;nodename&gt;.start() (e.g. `machine.start()`) when</span></span>
 <span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="st">          # you have multiple nodes.</span></span>
 <span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="st">          start_all()</span></span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="st">          </span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="st">          # wait_for_unit is a special object that will wait for a Systemd</span></span>
 <span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="st">          # unit to get into &quot;active&quot; state. Throws exceptions on &quot;failed&quot;</span></span>
 <span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="st">          # and &quot;inactive&quot; states as well as after timing out.</span></span>
@@ -392,7 +391,7 @@ class="sourceCode nix"><code class="sourceCode nix"><span id="cb4-1"><a href="#c
 <span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="st">          # server logs health information directly in /, but you may get the</span></span>
 <span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="st">          # information from anywhere.</span></span>
 <span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="st">          status = machine.succeed(&quot;curl --fail localhost:3000&quot;)</span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="st">          </span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="st">          # Check if our server returns the expected result.</span></span>
 <span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="st">          assert &quot;Healthy&quot; in status, f&quot;&#39;{status}&#39; is not healthy! Check failed.&quot;</span></span>
 <span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="st">        &#39;&#39;</span><span class="op">;</span></span>
