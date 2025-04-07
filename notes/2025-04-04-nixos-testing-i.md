@@ -20,8 +20,7 @@ Today's article walks you through setting up your own integration tests outside
 the context of Nixpkgs. I'll also briefly touch on how tests are executed within
 Nixpkgs itself. Not long ago, the testing framework underwent some internal
 changes, and now that `testers.runNixOSTest` is stable, I believe it's the
-perfect time to explore how you can leverage it for your own projects.##
-Obtaining Nixpkgs
+perfect time to explore how you can leverage it for your own projects.
 
 ## Obtaining Nixpkgs
 
@@ -119,7 +118,7 @@ runNixOSTest {
 
   # Last but not least, the test script. The test script is what I would call
   # a *flavored* Python script, where you get access to a few special machine
-  # objects as a part of Nixpkgs, and the documentation describes it as a 
+  # objects as a part of Nixpkgs, and the documentation describes it as a
   # "...sequence of Python statements that perform various actions, such as
   # starting VMs, executing commands in the VMs and so on."
   testScript = "";
@@ -145,7 +144,7 @@ this time.
       system = "x86_64-linux";
       pkgs = inputs.nixpkgs.legacyPackages.${system};
     in {
-      "${system}".default = pkgs.testers.runNixOSTest { 
+      "${system}".default = pkgs.testers.runNixOSTest {
         # This can be anything. I like giving my test special
         # codenames. Yes, I'm quirky like that.
         name = "narwals-are-awesome";
@@ -177,14 +176,14 @@ this time.
         # The script will start all available nodes, wait for the service to
         # start, and then the port. Lastly it will query the / endpoint to look
         # for a specific value that indicates success. Your test cases may be
-        # more complex than this, in which case you can write a more detailed 
+        # more complex than this, in which case you can write a more detailed
         # Python script.
         testScript = /* python */ ''
           # Function to start *all* nodes at once. This can be used as an
           # alternative to <nodename>.start() (e.g. `machine.start()`) when
           # you have multiple nodes.
           start_all()
-          
+
           # wait_for_unit is a special object that will wait for a Systemd
           # unit to get into "active" state. Throws exceptions on "failed"
           # and "inactive" states as well as after timing out.
@@ -198,7 +197,7 @@ this time.
           # server logs health information directly in /, but you may get the
           # information from anywhere.
           status = machine.succeed("curl --fail localhost:3000")
-          
+
           # Check if our server returns the expected result.
           assert "Healthy" in status, f"'{status}' is not healthy! Check failed."
         '';
