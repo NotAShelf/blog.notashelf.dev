@@ -111,6 +111,14 @@
       "description": "Introduction to the NixOS testing framework with flakes",
       "date": "2025-04-03",
       "path": "/posts/2025-04-04-nixos-testing-i.html"
+    },
+    {
+      "name": "2025-04-07-considerations.md",
+      "url": "https://blog.notashelf.dev/posts/2025-04-07-considerations.html",
+      "title": "Considerations",
+      "description": "Yet another heart-to-heart for no reason other than to empty my head",
+      "date": "2025-04-07",
+      "path": "/posts/2025-04-07-considerations.html"
     }
   ]
 }
