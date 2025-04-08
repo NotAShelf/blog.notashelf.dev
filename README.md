@@ -34,7 +34,7 @@ available in `out/posts/posts.json`.
 For development purposes, the built static pages can be served via Python's
 `http` module. Or you may spin up your own webserver through another means. It
 is also possible to open your any browser and visit the `out/` directory in the
-"search" tab. I disable `$HOME` access for good measure, but it is an optionn.
+"search" tab. I disable `$HOME` access for good measure, but it is an option.
 
 ## Using
 

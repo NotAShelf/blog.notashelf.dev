@@ -75,7 +75,7 @@ limitations I experienced with Golang, which I would like to go over.
 First advantage I'm quite fond of is Rust's **memory safety without the need for
 a garbage collector**. Rust's ownership model ensures memory safety at compile
 time without relying on a garbage collector. This allows for predictable
-performance, a very crucial factor that affected my decision The borrow checker,
+performance, a very crucial factor that affected my decision. The borrow checker,
 while initially imposing a learning curve, provides a safety net that prevents
 data races and dangling pointers. Unlike Go, where garbage collection kicks in
 unpredictably, Rust's compile-time borrow checker also ensures that memory is
