@@ -18,7 +18,7 @@ point, you have two options:
    and offering debugging steps, if applicable.
 
 While you might feel inclined to favor only one of these approaches, the correct
-solution is to provide _both_---rut under different circumstances. This is where
+solution is to provide _both_---but under different circumstances. This is where
 verbosity comes into play. Too much information can be overwhelming; too little
 can be useless. So, what's the perfect middle ground?
 
