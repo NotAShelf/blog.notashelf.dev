@@ -2,17 +2,11 @@ name: Serve Static Notes
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
-    paths:
-      - "notes/**"
-      - ".github/workflows/deploy.yaml"
-      - "tools"
-      - "templates"
-      - "filters"
-      - "flake.nix"
+    branches: ["main"]
+
 permissions:
   contents: write
+
 jobs:
   serve-notes:
     # don't run for forks
@@ -22,38 +16,8 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
-      - name: "Install Nix"
-        uses: DeterminateSystems/nix-installer-action@main
-        with:
-          logger: pretty
-
-      - name: "Generate Static Webpage"
-        shell: bash
-        run: |
-          # Execute generation script
-          # If the script fails, we should abort here.
-          nix build .#build-site \
-            -o link || exit 1
-
-          # We can't write the feed inside a symlinked directory
-          cp -Lr link/ out && chmod 777 out
-
-          # Generate feed
-          nix run .#json2rss -- \
-            --metadata tools/meta.json --posts_path out/posts/posts.json --feed_path out/feed.xml || exit 1
-
-
-          # Check if the feed has been generated successfully
-          file="out/feed.xml"
-          if [ ! -f "$file" ]; then
-            echo "Error: The file $file is missing!"
-            exit 1
-          else
-            echo "The file $file exists."
-          fi
-
       - name: "Deploy to GitHub Pages"
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: out
+          folder: src
