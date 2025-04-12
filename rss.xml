@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>NotAShelf's Blog</title>
+    <link>https://notashelf.dev/blog</link>
+    <description>My blog is now under notashelf.dev/blog, please update your feed readers!</description>
+    <item>
+      <title>Redirect</title>
+      <link>https://notashelf.dev/rss.xml</link>
+      <description>URL to the new feed</description>
+    </item>
+  </channel>
+</rss>
+
